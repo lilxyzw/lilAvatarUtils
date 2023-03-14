@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering;
 using Object = UnityEngine.Object;
 
 namespace lilAvatarUtils.MainWindow
@@ -21,9 +20,10 @@ namespace lilAvatarUtils.MainWindow
         private List<GameObject> gameObjectSubLights = new List<GameObject>();
         private GameObject gameObjectCube = null;
 
-        internal HashSet<GameObject> sceneObjects;
         private PreviewRenderUtility preview = null;
+        #if !UNITY_2020_1_OR_NEWER
         private RenderTexture previewRenderTexture = null;
+        #endif
         private float intensityCopy = 1.0f;
         private Material skyboxCopy;
 
@@ -250,18 +250,14 @@ namespace lilAvatarUtils.MainWindow
 
             RenderSettings.reflectionIntensity = intensityCopy;
             RenderSettings.skybox = skyboxCopy;
-
-            //window.Repaint();
         }
 
         internal void OnDisable()
         {
             if(preview != null) preview.Cleanup();
-            if(previewRenderTexture != null)
-            {
-                Object.DestroyImmediate(previewRenderTexture);
-                previewRenderTexture = null;
-            }
+            #if !UNITY_2020_1_OR_NEWER
+            SafeDestroy(previewRenderTexture);
+            #endif
         }
 
         internal void Set(bool forceUpdate)
@@ -271,19 +267,19 @@ namespace lilAvatarUtils.MainWindow
 
                 prevGameObject = gameObject;
                 InitializePreviewScene();
-                if(renderedGameObject != null) Object.DestroyImmediate(renderedGameObject);
+                SafeDestroy(renderedGameObject);
                 renderedGameObject = Object.Instantiate(gameObject);
                 preview.AddSingleGO(renderedGameObject);
 
                 #if LIL_VRCSDK3_AVATARS
-                if(renderedSafetyGameObject != null) Object.DestroyImmediate(renderedSafetyGameObject);
+                SafeDestroy(renderedSafetyGameObject);
                 renderedSafetyGameObject = Object.Instantiate(gameObject);
                 preview.AddSingleGO(renderedSafetyGameObject);
                 SetSafetyMaterial(renderedSafetyGameObject);
                 if(isSafetyOn) renderedGameObject.SetActive(false);
                 else           renderedSafetyGameObject.SetActive(false);
-                Object.DestroyImmediate(renderedGameObject.GetComponent<VRC.SDK3.Avatars.Components.VRCAvatarDescriptor>());
-                Object.DestroyImmediate(renderedSafetyGameObject.GetComponent<VRC.SDK3.Avatars.Components.VRCAvatarDescriptor>());
+                SafeDestroy(renderedGameObject.GetComponent<VRC.SDK3.Avatars.Components.VRCAvatarDescriptor>());
+                SafeDestroy(renderedSafetyGameObject.GetComponent<VRC.SDK3.Avatars.Components.VRCAvatarDescriptor>());
                 #endif
             }
         }
@@ -304,21 +300,18 @@ namespace lilAvatarUtils.MainWindow
             preview.BeginPreview(rect, GUIStyle.none);
             foreach(var light in preview.lights) light.enabled = false;
 
-            float scale = preview.GetScaleFactor(rect.width, rect.height);
-            int width = (int)(rect.width * scale);
-            int height = (int)(rect.height * scale);
+            #if !UNITY_2020_1_OR_NEWER
+            var rt = preview.camera.targetTexture; // targetTexture is initialized at BeginPreview()
+            int width = rt.width;
+            int height = rt.height;
             if(previewRenderTexture == null || previewRenderTexture.width != width || previewRenderTexture.height != height)
             {
-                if(previewRenderTexture != null)
-                {
-                    Object.DestroyImmediate(previewRenderTexture);
-                    previewRenderTexture = null;
-                }
-                var format = preview.camera.allowHDR ? GraphicsFormat.R16G16B16A16_SFloat : GraphicsFormat.R8G8B8A8_UNorm;
-                previewRenderTexture = new RenderTexture(width, height, 32, format);
+                SafeDestroy(previewRenderTexture);
+                previewRenderTexture = new RenderTexture(width, height, 32, rt.format);
                 previewRenderTexture.hideFlags = HideFlags.HideAndDontSave;
                 preview.camera.targetTexture = previewRenderTexture;
             }
+            #endif
         }
 
         private void InitializeSpotLight(Light light)
@@ -335,11 +328,12 @@ namespace lilAvatarUtils.MainWindow
 
         private void DrawLightPreview(Rect rect, string label)
         {
+            #if !UNITY_2020_1_OR_NEWER
             preview.EndPreview();
-            if(previewRenderTexture != null)
-            {
-                GUI.DrawTexture(rect, previewRenderTexture, ScaleMode.ScaleToFit, false);
-            }
+            if(previewRenderTexture != null) GUI.DrawTexture(rect, previewRenderTexture, ScaleMode.ScaleToFit, false);
+            #else
+            GUI.DrawTexture(rect, preview.EndPreview(), ScaleMode.ScaleToFit, false);
+            #endif
             DrawHeader(rect, label);
         }
 
@@ -382,6 +376,11 @@ namespace lilAvatarUtils.MainWindow
                     isMenuOpened = false;
                 }
             }
+        }
+
+        private void SafeDestroy(Object obj)
+        {
+            if(obj != null) Object.DestroyImmediate(obj);
         }
 
         #if LIL_VRCSDK3_AVATARS
