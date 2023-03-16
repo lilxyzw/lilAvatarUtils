@@ -142,7 +142,11 @@ namespace lilAvatarUtils.MainWindow
                 }
                 if(GUILayout.Button("Remove Missing Components"))
                 {
-                    int count = GameObjectUtility.RemoveMonoBehavioursWithMissingScript(gameObject);
+                    int count = 0;
+                    foreach(var t in gameObject.GetComponentsInChildren<Transform>())
+                    {
+                        count += GameObjectUtility.RemoveMonoBehavioursWithMissingScript(t.gameObject);
+                    }
                     EditorUtility.DisplayDialog(
                         "AvatarUtils",
                         $"Removed {count} missing components.",
