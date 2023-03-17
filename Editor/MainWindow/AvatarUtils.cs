@@ -59,7 +59,8 @@ namespace lilAvatarUtils.MainWindow
         [MenuItem("Window/_lil/AvatarUtils")]
         internal static void Init()
         {
-            var window = (AvatarUtilsWindow)GetWindow(typeof(AvatarUtilsWindow), false, TEXT_WINDOW_NAME);
+            string windowName = $"{TEXT_WINDOW_NAME} {PackageJsonReader.GetVersion()}";
+            var window = (AvatarUtilsWindow)GetWindow(typeof(AvatarUtilsWindow), false, windowName);
             window.Show();
         }
 
