@@ -1,10 +1,10 @@
 {
   "name": "jp.lilxyzw.avatar-utils",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "displayName": "lilAvatarUtils",
   "description": "Utilities for avatar modification.",
   "unity": "2019.4",
   "license": "MIT",
-  "url" : "https://github.com/lilxyzw/lilAvatarUtils/releases/download/1.0.1/jp.lilxyzw.avatar-utils-1.0.1.zip?",
+  "url" : "https://github.com/lilxyzw/lilAvatarUtils/releases/download/1.0.2/jp.lilxyzw.avatar-utils-1.0.2.zip?",
   "repo" : "https://lilxyzw.github.io/vpm-repos/vpm.json"
 }

@@ -409,6 +409,7 @@ namespace lilAvatarUtils.MainWindow
 
             var materialFallback = new Material(TagToSafetyShader(tag));
             materialFallback.CopyPropertiesFromMaterial(material);
+            materialFallback.renderQueue = materialFallback.shader.renderQueue;
             if(tag.Contains("DoubleSided")) materialFallback.SetInt("_Cull", 0);
             else                            materialFallback.SetInt("_Cull", 2);
 
