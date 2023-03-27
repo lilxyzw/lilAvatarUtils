@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Incorrect render queue for fallback material (#5)
+- `Remove Missing Components` ignores inactive transforms (#6)
 
 ## [1.0.1] - 2023-03-17
 
