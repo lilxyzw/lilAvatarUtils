@@ -15,6 +15,11 @@
             "name": "com.vrchat.avatars",
             "expression": "",
             "define": "LIL_VRCSDK3_AVATARS"
+        },
+        {
+            "name": "com.vrchat.avatars",
+            "expression": "3.1.12",
+            "define": "LIL_VRCSDK3_AVATARS_1_3_12_OR_NEWER"
         }
     ],
     "noEngineReferences": false

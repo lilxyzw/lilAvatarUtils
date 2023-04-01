@@ -61,6 +61,13 @@ namespace lilAvatarUtils.MainWindow
             isModified = false;
             var mcLabs = Enum.GetNames(typeof(VRCPhysBoneBase.MultiChildType));
             var imTypeLabs = Enum.GetNames(typeof(VRCPhysBoneBase.ImmobileType));
+
+            #if LIL_VRCSDK3_AVATARS_1_3_12_OR_NEWER
+            string[] abTypeLabs = Enum.GetNames(typeof(VRCPhysBoneBase.AdvancedBool));
+            #else
+            string[] abTypeLabs = null;
+            #endif
+
             var transType = typeof(Transform);
             //                                   items               label               rect                 isEdit type       scene  isMask emp           labs        empGUI empCon mainGUI
             var names      = new TableProperties(new List<object>(), "Name"            , new Rect(0,0,200,0), false, null     , false, false, empName     , null      , null,  null,  null);
@@ -71,9 +78,9 @@ namespace lilAvatarUtils.MainWindow
             var colliders  = new TableProperties(new List<object>(), "Colliders"       , new Rect(0,0, 50,0), false, null     , false, false, empColliders, null      , null,  null,  null);
             var collisions = new TableProperties(new List<object>(), "Collision"       , new Rect(0,0, 50,0), false, null     , false, false, empCollision, null      , null,  null,  null);
             var imTypes    = new TableProperties(new List<object>(), "Immobile Type"   , new Rect(0,0, 90,0), true , null     , false, true , empImType   , imTypeLabs, null,  null,  null);
-            var allows     = new TableProperties(new List<object>(), "Allow Collision" , new Rect(0,0, 90,0), true , null     , false, true , empAllow    , null      , null,  null,  null);
-            var grabs      = new TableProperties(new List<object>(), "Grabbing"        , new Rect(0,0, 60,0), true , null     , false, true , empGrab     , null      , null,  null,  null);
-            var poses      = new TableProperties(new List<object>(), "Posing"          , new Rect(0,0, 40,0), true , null     , false, true , empPose     , null      , null,  null,  null);
+            var allows     = new TableProperties(new List<object>(), "Allow Collision" , new Rect(0,0, 90,0), true , null     , false, true , empAllow    , abTypeLabs, null,  null,  null);
+            var grabs      = new TableProperties(new List<object>(), "Grabbing"        , new Rect(0,0, 60,0), true , null     , false, true , empGrab     , abTypeLabs, null,  null,  null);
+            var poses      = new TableProperties(new List<object>(), "Posing"          , new Rect(0,0, 40,0), true , null     , false, true , empPose     , abTypeLabs, null,  null,  null);
 
             Sort();
             foreach(var pb in pbs)
@@ -141,9 +148,16 @@ namespace lilAvatarUtils.MainWindow
                 pb.rootTransform  = (Transform                     )libs[indRoot  ].items[count];
                 pb.multiChildType = (VRCPhysBoneBase.MultiChildType)libs[indMCType].items[count];
                 pb.immobileType   = (VRCPhysBoneBase.ImmobileType  )libs[indImType].items[count];
+
+                #if LIL_VRCSDK3_AVATARS_1_3_12_OR_NEWER
+                pb.allowCollision = (VRCPhysBoneBase.AdvancedBool  )libs[indAllow ].items[count];
+                pb.allowGrabbing  = (VRCPhysBoneBase.AdvancedBool  )libs[indGrab  ].items[count];
+                pb.allowPosing    = (VRCPhysBoneBase.AdvancedBool  )libs[indPose  ].items[count];
+                #else
                 pb.allowCollision = (bool                          )libs[indAllow ].items[count];
                 pb.allowGrabbing  = (bool                          )libs[indGrab  ].items[count];
                 pb.allowPosing    = (bool                          )libs[indPose  ].items[count];
+                #endif
             }
         }
 
