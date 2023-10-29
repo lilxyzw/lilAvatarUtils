@@ -9,6 +9,9 @@ using UnityEngine;
 #if LIL_VRCSDK3_AVATARS
 using VRCAvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
 #endif
+#if LIL_MODULAR_AVATAR
+using ModularAvatarMergeAnimator = nadena.dev.modular_avatar.core.ModularAvatarMergeAnimator;
+#endif
 
 namespace lilAvatarUtils.MainWindow
 {
@@ -133,6 +136,10 @@ namespace lilAvatarUtils.MainWindow
                         controllers.UnionWith(descriptor.specialAnimationLayers.Select(layer => layer.animatorController).Where(ac => ac != null));
                         controllers.UnionWith(descriptor.baseAnimationLayers.Select(layer => layer.animatorController).Where(ac => ac != null));
                     }
+                    #endif
+
+                    #if LIL_MODULAR_AVATAR
+                    controllers.UnionWith(gameObject.GetBuildComponents<ModularAvatarMergeAnimator>().Select(ma => ma.animator).Where(ac => ac != null));
                     #endif
                     var cleanedControllers = SubAssetCleaner.RemoveUnusedSubAssets(controllers);
                     EditorUtility.DisplayDialog(
