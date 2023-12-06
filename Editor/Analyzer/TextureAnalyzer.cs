@@ -7,6 +7,9 @@ using UnityEngine.Profiling;
 #if LIL_VRCSDK3_AVATARS
 using VRCAvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
 #endif
+#if LIL_MODULAR_AVATAR
+using ModularAvatarMergeAnimator = nadena.dev.modular_avatar.core.ModularAvatarMergeAnimator;
+#endif
 
 namespace lilAvatarUtils.Analyzer
 {
@@ -127,6 +130,13 @@ namespace lilAvatarUtils.Analyzer
                         AddAnimationClipData(acds, layer.animatorController, descriptor.gameObject);
                     }
                 }
+            }
+            #endif
+
+            #if LIL_MODULAR_AVATAR
+            foreach(var ma in gameObject.GetBuildComponents<ModularAvatarMergeAnimator>())
+            {
+                AddAnimationClipData(acds, ma.animator, ma.gameObject);
             }
             #endif
 
