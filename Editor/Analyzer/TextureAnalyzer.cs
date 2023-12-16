@@ -29,7 +29,15 @@ namespace lilAvatarUtils.Analyzer
             foreach(KeyValuePair<Material, MaterialData> md in mds)
             {
                 Material m = md.Key;
+
+                #if UNITY_2022_1_OR_NEWER
+                var flattened = new Material(m);
+                flattened.parent = null;
+                var so = new SerializedObject(flattened);
+                #else
                 var so = new SerializedObject(md.Key);
+                #endif
+
                 var props = so.FindProperty("m_SavedProperties").FindPropertyRelative("m_TexEnvs");
                 for(int i = 0; i < props.arraySize; i++)
                 {
@@ -86,6 +94,10 @@ namespace lilAvatarUtils.Analyzer
                         tds[t] = td;
                     }
                 }
+
+                #if UNITY_2022_1_OR_NEWER
+                Object.DestroyImmediate(flattened);
+                #endif
             }
         }
 

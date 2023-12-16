@@ -112,18 +112,7 @@ namespace lilAvatarUtils.MainWindow
                     foreach(KeyValuePair<Material, MaterialData> md in td.mds)
                     {
                         if(md.Key == null) continue;
-                        var so = new SerializedObject(md.Key);
-                        so.Update();
-                        var props = so.FindProperty("m_SavedProperties").FindPropertyRelative("m_TexEnvs");
-                        for(int i = 0; i < props.arraySize; i++)
-                        {
-                            var texprop = props.GetArrayElementAtIndex(i).FindPropertyRelative("second").FindPropertyRelative("m_Texture");
-                            if(texprop.objectReferenceValue == tex)
-                            {
-                                texprop.objectReferenceValue = null;
-                            }
-                        }
-                        so.ApplyModifiedProperties();
+                        RemoveTextureReference(md.Key, tex);
                     }
                     TextureAnalyzer.Analyze(gameObject, out tds);
                     Set();
@@ -131,6 +120,29 @@ namespace lilAvatarUtils.MainWindow
                 GUILayout.EndVertical();
                 GUILayout.EndHorizontal();
             }
+        }
+
+        private void RemoveTextureReference(Material m, Texture tex)
+        {
+            var so = new SerializedObject(m);
+            so.Update();
+            var props = so.FindProperty("m_SavedProperties").FindPropertyRelative("m_TexEnvs");
+            for(int i = 0; i < props.arraySize; i++)
+            {
+                var texprop = props.GetArrayElementAtIndex(i).FindPropertyRelative("second").FindPropertyRelative("m_Texture");
+                if(texprop.objectReferenceValue == tex)
+                {
+                    texprop.objectReferenceValue = null;
+                }
+            }
+            so.ApplyModifiedProperties();
+
+            #if UNITY_2022_1_OR_NEWER
+            if(m.parent != null)
+            {
+                RemoveTextureReference(m.parent, tex);
+            }
+            #endif
         }
 
         internal override void Set()
