@@ -15,12 +15,12 @@ namespace lilAvatarUtils.Utils
             var cleanedMaterials = new HashSet<Material>();
             foreach(var material in materials)
             {
-                if(RemoveUnusedProperties(material)) cleanedMaterials.Add(material);
+                RemoveUnusedProperties(material, cleanedMaterials);
             }
             return cleanedMaterials;
         }
 
-        private static bool RemoveUnusedProperties(Material material)
+        private static void RemoveUnusedProperties(Material material, HashSet<Material> cleanedMaterials)
         {
             // https://light11.hatenadiary.com/entry/2018/12/04/224253
             var so = new SerializedObject(material);
@@ -49,9 +49,15 @@ namespace lilAvatarUtils.Utils
             {
                 so.ApplyModifiedProperties();
                 if(isCleaned) Debug.Log($"[AvatarUtils] Clean up {material.name}", material);
-                return true;
+                cleanedMaterials.Add(material);
             }
-            return false;
+
+            #if UNITY_2022_1_OR_NEWER
+            if(material.parent != null)
+            {
+                RemoveUnusedProperties(material.parent, cleanedMaterials);
+            }
+            #endif
         }
 
         private static bool DeleteUnused(SerializedProperty props, Material material)
