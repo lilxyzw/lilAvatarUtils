@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Added
 - Support for ModularAvatarMergeAnimator (#9)
+- Show asset extension (#8)
 
 ### Fixed
 - Support for material variant (#11)

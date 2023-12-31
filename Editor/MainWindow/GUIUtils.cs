@@ -1,5 +1,6 @@
 ﻿#if UNITY_EDITOR
 using System;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -161,6 +162,7 @@ namespace lilAvatarUtils.MainWindow
             else        style = EditorStyles.label;
             GUIContent content = EditorGUIUtility.ObjectContent(obj, obj.GetType());
             content.tooltip = AssetDatabase.GetAssetPath(obj);
+            if(!string.IsNullOrEmpty(content.tooltip)) content.text = Path.GetFileName(content.tooltip);
 
             var sizeCopy = EditorGUIUtility.GetIconSize();
             EditorGUIUtility.SetIconSize(new Vector2(rect.height-2, rect.height-2));
