@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 using Object = UnityEngine.Object;
 
 namespace lilAvatarUtils.MainWindow
@@ -24,6 +25,8 @@ namespace lilAvatarUtils.MainWindow
         #if !UNITY_2020_1_OR_NEWER
         private RenderTexture previewRenderTexture = null;
         #endif
+        private AmbientMode ambientModeCopy;
+        private Color ambientLightCopy;
         private float intensityCopy = 1.0f;
         private Material skyboxCopy;
 
@@ -69,6 +72,8 @@ namespace lilAvatarUtils.MainWindow
                 new Rect(rect.x+width*2+8, rect.y+height+4, width, height)
             };
 
+            ambientModeCopy = RenderSettings.ambientMode;
+            ambientLightCopy = RenderSettings.ambientLight;
             intensityCopy = RenderSettings.reflectionIntensity;
             skyboxCopy = RenderSettings.skybox;
 
@@ -171,7 +176,7 @@ namespace lilAvatarUtils.MainWindow
             subLight0.enabled = false;
             subLight1.enabled = false;
             subLight2.enabled = false;
-            RenderSettings.reflectionIntensity = 0;
+            SetPreviewRenderSettings();
             preview.camera.Render();
             DrawLightPreview(rects[0], "No light");
 
@@ -185,7 +190,7 @@ namespace lilAvatarUtils.MainWindow
             subLight1.enabled = false;
             subLight2.enabled = false;
             mainLight.shadows = LightShadows.None;
-            RenderSettings.reflectionIntensity = 1;
+            SetPreviewRenderSettings();
             preview.camera.Render();
             DrawLightPreview(rects[1], "Overexposure");
 
@@ -199,7 +204,7 @@ namespace lilAvatarUtils.MainWindow
             subLight1.enabled = false;
             subLight2.enabled = false;
             mainLight.shadows = LightShadows.Soft;
-            RenderSettings.reflectionIntensity = 1;
+            SetPreviewRenderSettings();
             preview.camera.Render();
             DrawLightPreview(rects[2], "In Shadow");
 
@@ -212,7 +217,7 @@ namespace lilAvatarUtils.MainWindow
             subLight0.enabled = false;
             subLight1.enabled = false;
             subLight2.enabled = true;
-            RenderSettings.reflectionIntensity = 0;
+            SetPreviewRenderSettings();
             preview.camera.Render();
             DrawLightPreview(rects[3], "Spot Light");
 
@@ -225,7 +230,7 @@ namespace lilAvatarUtils.MainWindow
             subLight0.enabled = true;
             subLight1.enabled = true;
             subLight2.enabled = true;
-            RenderSettings.reflectionIntensity = 0;
+            SetPreviewRenderSettings();
             preview.camera.Render();
             DrawLightPreview(rects[4], "3 Spot Lights");
 
@@ -242,12 +247,14 @@ namespace lilAvatarUtils.MainWindow
             subLight0.color = colorSpot0;
             subLight1.color = colorSpot1;
             subLight2.color = colorSpot2;
-            RenderSettings.reflectionIntensity = reflectionIntensity;
+            SetPreviewRenderSettings();
             mainLight.shadows = lightShadows;
             preview.camera.Render();
             DrawLightPreview(rects[5], "Custom");
             DrawCustomSettings(rects[5]);
 
+            RenderSettings.ambientMode = ambientModeCopy;
+            RenderSettings.ambientLight = ambientLightCopy;
             RenderSettings.reflectionIntensity = intensityCopy;
             RenderSettings.skybox = skyboxCopy;
         }
@@ -381,6 +388,13 @@ namespace lilAvatarUtils.MainWindow
         private void SafeDestroy(Object obj)
         {
             if(obj != null) Object.DestroyImmediate(obj);
+        }
+
+        private void SetPreviewRenderSettings()
+        {
+            RenderSettings.reflectionIntensity = reflectionIntensity;
+            RenderSettings.ambientMode = AmbientMode.Flat;
+            RenderSettings.ambientLight = preview.ambientColor;
         }
 
         #if LIL_VRCSDK3_AVATARS
