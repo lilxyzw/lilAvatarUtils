@@ -427,6 +427,11 @@ namespace lilAvatarUtils.MainWindow
             if(tag.Contains("DoubleSided")) materialFallback.SetInt("_Cull", 0);
             else                            materialFallback.SetInt("_Cull", 2);
 
+            foreach (var pass in new string[] { "Always", "ForwardBase", "ForwardAdd", "Deferred", "ShadowCaster", "MotionVectors", "Vertex", "VertexLMRGBM", "VertexLM", "Meta" })
+            {
+                materialFallback.SetShaderPassEnabled(pass, true);
+            }
+
             return materialFallback;
         }
 
