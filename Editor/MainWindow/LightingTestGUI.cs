@@ -82,6 +82,7 @@ namespace lilAvatarUtils.MainWindow
             if(gameObjectCube == null)
             {
                 gameObjectCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                gameObjectCube.transform.position = gameObject.transform.position;
                 gameObjectCube.transform.localScale = new Vector3(500,500,500);
                 preview.AddSingleGO(gameObjectCube);
             }
@@ -90,7 +91,7 @@ namespace lilAvatarUtils.MainWindow
             {
                 gameObjectMainLight = new GameObject("Main Light", typeof(Light));
                 var mainLightComponent = gameObjectMainLight.GetComponent<Light>();
-                mainLightComponent.transform.position = new Vector3(0,3,0);
+                mainLightComponent.transform.position = gameObject.transform.position + new Vector3(0,3,0);
                 mainLightComponent.transform.rotation = Quaternion.Euler(50,-120,0);
                 mainLightComponent.type = LightType.Directional;
                 mainLightComponent.useColorTemperature = false;
@@ -115,21 +116,21 @@ namespace lilAvatarUtils.MainWindow
                 preview.AddSingleGO(gameObjectSubLights[0]);
                 var subLight0Component = gameObjectSubLights[0].GetComponent<Light>();
                 InitializeSpotLight(subLight0Component);
-                subLight0Component.transform.position = new Vector3(-4.5f, 5f, -3.5f);
+                subLight0Component.transform.position = gameObject.transform.position + new Vector3(-4.5f, 5f, -3.5f);
                 subLight0Component.transform.rotation = Quaternion.Euler(43,50,0);
 
                 gameObjectSubLights.Add(new GameObject("Spot Light 1", typeof(Light)));
                 preview.AddSingleGO(gameObjectSubLights[1]);
                 var subLight1Component = gameObjectSubLights[1].GetComponent<Light>();
                 InitializeSpotLight(subLight1Component);
-                subLight1Component.transform.position = new Vector3(4.5f, 5f, -3.5f);
+                subLight1Component.transform.position = gameObject.transform.position + new Vector3(4.5f, 5f, -3.5f);
                 subLight1Component.transform.rotation = Quaternion.Euler(43,-50,0);
 
                 gameObjectSubLights.Add(new GameObject("Spot Light 2", typeof(Light)));
                 preview.AddSingleGO(gameObjectSubLights[2]);
                 var subLight2Component = gameObjectSubLights[2].GetComponent<Light>();
                 InitializeSpotLight(subLight2Component);
-                subLight2Component.transform.position = new Vector3(0f, 5f, 4f);
+                subLight2Component.transform.position = gameObject.transform.position + new Vector3(0f, 5f, 4f);
                 subLight2Component.transform.rotation = Quaternion.Euler(130,0,0);
             }
 
@@ -298,6 +299,7 @@ namespace lilAvatarUtils.MainWindow
                 preview = new PreviewRenderUtility();
 
                 var plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
+                plane.transform.position = gameObject.transform.position;
                 preview.AddSingleGO(plane);
             }
         }
