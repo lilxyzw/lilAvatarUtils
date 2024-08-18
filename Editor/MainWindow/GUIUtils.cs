@@ -163,6 +163,7 @@ namespace lilAvatarUtils.MainWindow
             GUIContent content = EditorGUIUtility.ObjectContent(obj, obj.GetType());
             content.tooltip = AssetDatabase.GetAssetPath(obj);
             if(!string.IsNullOrEmpty(content.tooltip)) content.text = Path.GetFileName(content.tooltip);
+            if(AssetDatabase.IsSubAsset(obj)) content.text = obj.name;
 
             var sizeCopy = EditorGUIUtility.GetIconSize();
             EditorGUIUtility.SetIconSize(new Vector2(rect.height-2, rect.height-2));
