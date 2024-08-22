@@ -5,6 +5,7 @@ using System.Linq;
 using lilAvatarUtils.Analyzer;
 using lilAvatarUtils.Utils;
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEngine;
 #if LIL_VRCSDK3_AVATARS
 using VRCAvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
@@ -127,21 +128,21 @@ namespace lilAvatarUtils.MainWindow
                 if(GUILayout.Button("Clean up AnimatorControllers"))
                 {
                     var controllers = new HashSet<RuntimeAnimatorController>(
-                        gameObject.GetBuildComponents<Animator>().Select(a => a.runtimeAnimatorController).Where(ac => ac != null)
+                        gameObject.GetBuildComponents<Animator>().Select(a => a.runtimeAnimatorController)
                     );
 
                     #if LIL_VRCSDK3_AVATARS
                     foreach(var descriptor in gameObject.GetBuildComponents<VRCAvatarDescriptor>())
                     {
-                        controllers.UnionWith(descriptor.specialAnimationLayers.Select(layer => layer.animatorController).Where(ac => ac != null));
-                        controllers.UnionWith(descriptor.baseAnimationLayers.Select(layer => layer.animatorController).Where(ac => ac != null));
+                        controllers.UnionWith(descriptor.specialAnimationLayers.Select(layer => layer.animatorController));
+                        controllers.UnionWith(descriptor.baseAnimationLayers.Select(layer => layer.animatorController));
                     }
                     #endif
 
                     #if LIL_MODULAR_AVATAR
-                    controllers.UnionWith(gameObject.GetBuildComponents<ModularAvatarMergeAnimator>().Select(ma => ma.animator).Where(ac => ac != null));
+                    controllers.UnionWith(gameObject.GetBuildComponents<ModularAvatarMergeAnimator>().Select(ma => ma.animator));
                     #endif
-                    var cleanedControllers = SubAssetCleaner.RemoveUnusedSubAssets(controllers);
+                    var cleanedControllers = SubAssetCleaner.RemoveUnusedSubAssets(controllers.Where(ac => ac is AnimatorController));
                     EditorUtility.DisplayDialog(
                         "AvatarUtils",
                         $"Removed unused sub-assets in {cleanedControllers.Count} AnimatorControllers.",
