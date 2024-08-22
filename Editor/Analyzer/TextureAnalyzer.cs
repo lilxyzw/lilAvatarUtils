@@ -57,13 +57,13 @@ namespace lilAvatarUtils.Analyzer
                         long vramSize = 0;
                         switch(t)
                         {
-                            case Texture2D o           : type = TextureType.Texture2D          ; format = o.format;   vramSize = MathHelper.ComputeVRAMSize(t, o.format); break;
-                            case Cubemap o             : type = TextureType.Cubemap            ; format = o.format;   vramSize = MathHelper.ComputeVRAMSize(t, o.format); break;
-                            case Texture3D o           : type = TextureType.Texture3D          ; format = o.format;   vramSize = MathHelper.ComputeVRAMSize(t, o.format); break;
-                            case Texture2DArray o      : type = TextureType.Texture2DArray     ; format = o.format;   vramSize = MathHelper.ComputeVRAMSize(t, o.format); break;
-                            case CubemapArray o        : type = TextureType.CubemapArray       ; format = o.format;   vramSize = MathHelper.ComputeVRAMSize(t, o.format); break;
-                            case CustomRenderTexture o : type = TextureType.CustomRenderTexture; rtformat = o.format; vramSize = MathHelper.ComputeVRAMSize(t, o.format, o.depth); break;
-                            case RenderTexture o       : type = TextureType.RenderTexture      ; rtformat = o.format; vramSize = MathHelper.ComputeVRAMSize(t, o.format, o.depth); break;
+                            case Texture2D o           : type = TextureType.Texture2D          ; format = o.format;   vramSize = MathHelper.ComputeVRAMSize(o, o.format); break;
+                            case Cubemap o             : type = TextureType.Cubemap            ; format = o.format;   vramSize = MathHelper.ComputeVRAMSize(o, o.format); break;
+                            case Texture3D o           : type = TextureType.Texture3D          ; format = o.format;   vramSize = MathHelper.ComputeVRAMSize(o, o.format); break;
+                            case Texture2DArray o      : type = TextureType.Texture2DArray     ; format = o.format;   vramSize = MathHelper.ComputeVRAMSize(o, o.format); break;
+                            case CubemapArray o        : type = TextureType.CubemapArray       ; format = o.format;   vramSize = MathHelper.ComputeVRAMSize(o, o.format); break;
+                            case CustomRenderTexture o : type = TextureType.CustomRenderTexture; rtformat = o.format; vramSize = MathHelper.ComputeVRAMSize(o, o.format); break;
+                            case RenderTexture o       : type = TextureType.RenderTexture      ; rtformat = o.format; vramSize = MathHelper.ComputeVRAMSize(o, o.format); break;
                         }
 
                         var td = new TextureData(){

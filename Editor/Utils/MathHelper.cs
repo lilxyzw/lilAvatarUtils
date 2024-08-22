@@ -1,5 +1,8 @@
 ﻿#if UNITY_EDITOR
 using UnityEngine;
+#if UNITY_2022_3_OR_NEWER
+using UnityEngine.Experimental.Rendering;
+#endif
 
 namespace lilAvatarUtils.Utils
 {
@@ -42,9 +45,10 @@ namespace lilAvatarUtils.Utils
             return ComputeVRAMSize(t, FormatToBPP(format, true));
         }
 
-        internal static long ComputeVRAMSize(Texture t, RenderTextureFormat format, int depthBPP)
+        internal static long ComputeVRAMSize(RenderTexture t, RenderTextureFormat format)
         {
-            return ComputeVRAMSize(t, FormatToBPP(format, true) + depthBPP);
+            int aaScale = t.antiAliasing == 1 ? 1 : t.antiAliasing + 1;
+            return ComputeVRAMSize(t, FormatToBPP(format, true) * aaScale + FormatToBPPDepthStencil(t) * t.antiAliasing);
         }
 
         internal static double FormatToBPP(TextureFormat format, bool isVRAM = false)
@@ -151,6 +155,23 @@ namespace lilAvatarUtils.Utils
                 default: return 0;
             }
             return bit;
+        }
+
+        internal static long FormatToBPPDepthStencil(RenderTexture t)
+        {
+            #if UNITY_2022_3_OR_NEWER
+            switch(t.depthStencilFormat)
+            {
+                case GraphicsFormat.D16_UNorm: return 16;
+                case GraphicsFormat.D16_UNorm_S8_UInt: return 32;
+                case GraphicsFormat.D24_UNorm: return 32;
+                case GraphicsFormat.D24_UNorm_S8_UInt: return 32;
+                case GraphicsFormat.D32_SFloat: return 32;
+                case GraphicsFormat.D32_SFloat_S8_UInt: return 64;
+                case GraphicsFormat.S8_UInt: return 8;
+            }
+            #endif
+            return 0;
         }
     }
 }
