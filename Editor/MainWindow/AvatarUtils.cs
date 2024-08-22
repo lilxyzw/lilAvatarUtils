@@ -131,17 +131,9 @@ namespace lilAvatarUtils.MainWindow
                         gameObject.GetBuildComponents<Animator>().Select(a => a.runtimeAnimatorController)
                     );
 
-                    #if LIL_VRCSDK3_AVATARS
-                    foreach(var descriptor in gameObject.GetBuildComponents<VRCAvatarDescriptor>())
-                    {
-                        controllers.UnionWith(descriptor.specialAnimationLayers.Select(layer => layer.animatorController));
-                        controllers.UnionWith(descriptor.baseAnimationLayers.Select(layer => layer.animatorController));
-                    }
-                    #endif
+                    var scaned = new HashSet<UnityEngine.Object>();
+                    controllers.UnionWith(gameObject.GetComponentsInChildren<MonoBehaviour>(true).SelectMany(c => ObjectHelper.GetReferenceFromObject<RuntimeAnimatorController>(scaned, c)));
 
-                    #if LIL_MODULAR_AVATAR
-                    controllers.UnionWith(gameObject.GetBuildComponents<ModularAvatarMergeAnimator>().Select(ma => ma.animator));
-                    #endif
                     var cleanedControllers = SubAssetCleaner.RemoveUnusedSubAssets(controllers.Where(ac => ac is AnimatorController));
                     EditorUtility.DisplayDialog(
                         "AvatarUtils",

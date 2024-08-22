@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -41,6 +42,32 @@ namespace lilAvatarUtils.Utils
         internal static IEnumerable<T> GetBuildComponents<T>(this GameObject obj)
         {
             return obj.GetComponentsInChildren<T>(true).Where(c => !(c as Component).IsEditorOnly());
+        }
+
+        internal static IEnumerable<T> GetReferenceFromObject<T>(HashSet<Object> scaned, Object obj) where T : Object
+        {
+            return GetReferenceFromObject(scaned, obj).Where(o => o is T).Select(o => o as T);
+        }
+
+        internal static IEnumerable<Object> GetReferenceFromObject(HashSet<Object> scaned, Object obj)
+        {
+            if(!obj || scaned.Contains(obj)) yield break;
+            scaned.Add(obj);
+            var so = new SerializedObject(obj);
+            var iter = so.GetIterator();
+            var enterChildren = true;
+            while(iter.Next(enterChildren))
+            {
+                enterChildren = iter.propertyType != SerializedPropertyType.String;
+                if(iter.propertyType == SerializedPropertyType.ObjectReference && iter.objectReferenceValue)
+                {
+                    yield return iter.objectReferenceValue;
+
+                    // This is better, but slow
+                    //foreach(var o in GetReferenceFromObject(scaned, iter.objectReferenceValue)) 
+                    //    yield return o;
+                }
+            }
         }
 
         // Sort

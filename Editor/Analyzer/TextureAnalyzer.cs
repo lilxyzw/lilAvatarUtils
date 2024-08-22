@@ -4,12 +4,6 @@ using lilAvatarUtils.Utils;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Profiling;
-#if LIL_VRCSDK3_AVATARS
-using VRCAvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
-#endif
-#if LIL_MODULAR_AVATAR
-using ModularAvatarMergeAnimator = nadena.dev.modular_avatar.core.ModularAvatarMergeAnimator;
-#endif
 
 namespace lilAvatarUtils.Analyzer
 {
@@ -110,12 +104,13 @@ namespace lilAvatarUtils.Analyzer
         {
             var mds = new Dictionary<Material, MaterialData>();
             foreach(var renderer in gameObject.GetBuildComponents<Renderer>())
-            {
                 foreach(Material m in renderer.sharedMaterials)
-                {
                     AddMaterialData(mds, m, renderer.gameObject);
-                }
-            }
+
+            var scaned = new HashSet<Object>();
+            foreach(var c in gameObject.GetComponentsInChildren<MonoBehaviour>(true))
+                foreach(Material m in ObjectHelper.GetReferenceFromObject<Material>(scaned, c))
+                    AddMaterialData(mds, m, c.gameObject);
             return mds;
         }
 
@@ -124,33 +119,17 @@ namespace lilAvatarUtils.Analyzer
             var acds = new Dictionary<AnimationClip, AnimationClipData>();
 
             foreach(var animator in gameObject.GetBuildComponents<Animator>())
-            {
                 AddAnimationClipData(acds, animator.runtimeAnimatorController, animator.gameObject);
-            }
 
-            #if LIL_VRCSDK3_AVATARS
-            foreach(var descriptor in gameObject.GetBuildComponents<VRCAvatarDescriptor>())
+            var scaned = new HashSet<Object>();
+            foreach(var mb in gameObject.GetComponentsInChildren<MonoBehaviour>(true))
             {
-                foreach(var layer in descriptor.specialAnimationLayers)
+                foreach(var obj in ObjectHelper.GetReferenceFromObject(scaned, mb))
                 {
-                    AddAnimationClipData(acds, layer.animatorController, descriptor.gameObject);
-                }
-                if(descriptor.customizeAnimationLayers)
-                {
-                    foreach(var layer in descriptor.baseAnimationLayers)
-                    {
-                        AddAnimationClipData(acds, layer.animatorController, descriptor.gameObject);
-                    }
+                    if(obj is AnimationClip c) AddAnimationClipData(acds, c, mb.gameObject);
+                    else if(obj is RuntimeAnimatorController ac) AddAnimationClipData(acds, ac, mb.gameObject);
                 }
             }
-            #endif
-
-            #if LIL_MODULAR_AVATAR
-            foreach(var ma in gameObject.GetBuildComponents<ModularAvatarMergeAnimator>())
-            {
-                AddAnimationClipData(acds, ma.animator, ma.gameObject);
-            }
-            #endif
 
             return acds;
         }
@@ -158,15 +137,9 @@ namespace lilAvatarUtils.Analyzer
         private static void GetMaterialDataFromAnimationClipData(Dictionary<Material, MaterialData> mds, Dictionary<AnimationClip, AnimationClipData> acds)
         {
             foreach(KeyValuePair<AnimationClip, AnimationClipData> acd in acds)
-            {
                 foreach(EditorCurveBinding binding in AnimationUtility.GetObjectReferenceCurveBindings(acd.Key))
-                {
                     foreach(ObjectReferenceKeyframe frame in AnimationUtility.GetObjectReferenceCurve(acd.Key, binding))
-                    {
                         if(frame.value is Material m) AddMaterialData(mds, m, acd.Key, acd.Value);
-                    }
-                }
-            }
         }
 
         private static void AddMaterialData(Dictionary<Material, MaterialData> mds, Material m, GameObject gameObject)
@@ -217,6 +190,17 @@ namespace lilAvatarUtils.Analyzer
 
                 acds[c].ads[controller] = new AnimatorData(){
                     gameObjects = new HashSet<GameObject>(){gameObject}
+                };
+            }
+        }
+
+        // TODO: support clip in component
+        private static void AddAnimationClipData(Dictionary<AnimationClip, AnimationClipData> acds, AnimationClip clip, GameObject gameObject)
+        {
+            if(!acds.ContainsKey(clip))
+            {
+                acds[clip] = new AnimationClipData(){
+                    ads = new Dictionary<RuntimeAnimatorController, AnimatorData>()
                 };
             }
         }
