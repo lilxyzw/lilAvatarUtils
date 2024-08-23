@@ -46,6 +46,7 @@ namespace lilAvatarUtils.MainWindow
         public GameObject gameObject;
         public TexturesGUI texturesGUI = new TexturesGUI();
         public MaterialsGUI materialsGUI = new MaterialsGUI();
+        public AnimationClipGUI animationClipGUI = new AnimationClipGUI();
         public RenderersGUI renderersGUI = new RenderersGUI();
         #if LIL_VRCSDK3_AVATARS
         public PhysBonesGUI physBonesGUI = new PhysBonesGUI();
@@ -74,17 +75,7 @@ namespace lilAvatarUtils.MainWindow
 
             GameObjectSelectionGUI();
 
-            string[] sEditorModeList =
-            {
-                "Textures",
-                "Materials",
-                "Renderers",
-                #if LIL_VRCSDK3_AVATARS
-                "PhysBones",
-                #endif
-                "Lighting",
-                "Utils"
-            };
+            string[] sEditorModeList = Enum.GetNames(typeof(EditorMode));
             editorMode = (EditorMode)GUILayout.Toolbar((int)editorMode, sEditorModeList);
             if(editorMode == EditorMode.Textures)
             {
@@ -94,6 +85,11 @@ namespace lilAvatarUtils.MainWindow
             if(editorMode == EditorMode.Materials)
             {
                 materialsGUI.Draw(this);
+                return;
+            }
+            if(editorMode == EditorMode.Animations)
+            {
+                animationClipGUI.Draw(this);
                 return;
             }
             if(editorMode == EditorMode.Renderers)
@@ -200,11 +196,13 @@ namespace lilAvatarUtils.MainWindow
         internal void Analyze()
         {
             SetGameObject();
-            TextureAnalyzer.Analyze(gameObject, out texturesGUI.tds, out materialsGUI.mds);
+            TextureAnalyzer.Analyze(gameObject, out texturesGUI.tds, out materialsGUI.mds, out animationClipGUI.acds);
             RendererAnalyzer.Analyze(gameObject, out renderersGUI.smrs, out renderersGUI.mrs, out renderersGUI.psrs);
+            AnimationAnalyzer.Analyze(animationClipGUI.acds);
 
             texturesGUI.Set();
             materialsGUI.Set();
+            animationClipGUI.Set();
             renderersGUI.Set();
             lightingTestGUI.Set(true);
 
@@ -218,6 +216,7 @@ namespace lilAvatarUtils.MainWindow
         {
             texturesGUI.gameObject = gameObject;
             materialsGUI.gameObject = gameObject;
+            animationClipGUI.gameObject = gameObject;
             renderersGUI.gameObject = gameObject;
             lightingTestGUI.gameObject = gameObject;
             #if LIL_VRCSDK3_AVATARS
@@ -234,6 +233,7 @@ namespace lilAvatarUtils.MainWindow
         {
             Textures,
             Materials,
+            Animations,
             Renderers,
             #if LIL_VRCSDK3_AVATARS
             PhysBones,

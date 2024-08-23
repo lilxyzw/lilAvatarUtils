@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using lilAvatarUtils.Utils;
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.Profiling;
 
@@ -12,12 +13,13 @@ namespace lilAvatarUtils.Analyzer
         internal static void Analyze(
             GameObject gameObject,
             out Dictionary<Texture, TextureData> tds,
-            out Dictionary<Material, MaterialData> mds
+            out Dictionary<Material, MaterialData> mds,
+            out Dictionary<AnimationClip, AnimationClipData> acds
         )
         {
             tds = new Dictionary<Texture, TextureData>();
             mds = GetMaterialDataFromGameObject(gameObject);
-            var acds = GetAnimationClipDataFromGameObject(gameObject);
+            acds = GetAnimationClipDataFromGameObject(gameObject);
             GetMaterialDataFromAnimationClipData(mds, acds);
 
             foreach(KeyValuePair<Material, MaterialData> md in mds)
@@ -97,7 +99,7 @@ namespace lilAvatarUtils.Analyzer
 
         internal static void Analyze(GameObject gameObject, out Dictionary<Texture, TextureData> tds)
         {
-            Analyze(gameObject, out tds, out _);
+            Analyze(gameObject, out tds, out _, out _);
         }
 
         private static Dictionary<Material, MaterialData> GetMaterialDataFromGameObject(GameObject gameObject)
@@ -189,7 +191,8 @@ namespace lilAvatarUtils.Analyzer
                 }
 
                 acds[c].ads[controller] = new AnimatorData(){
-                    gameObjects = new HashSet<GameObject>(){gameObject}
+                    gameObjects = new HashSet<GameObject>(){gameObject},
+                    states = new HashSet<(AnimatorState,AnimatorControllerLayer)>()
                 };
             }
         }

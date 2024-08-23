@@ -1,11 +1,12 @@
 ﻿#if UNITY_EDITOR
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEngine;
 
 namespace lilAvatarUtils
 {
-    internal struct TextureData
+    internal class TextureData
     {
         internal Dictionary<Material, MaterialData> mds;
         internal TextureType type;
@@ -39,20 +40,29 @@ namespace lilAvatarUtils
         CustomRenderTexture
     }
 
-    internal struct MaterialData
+    internal class MaterialData
     {
         internal HashSet<GameObject> gameObjects;
         internal Dictionary<AnimationClip, AnimationClipData> acds;
     }
 
-    internal struct AnimationClipData
+    internal class AnimationClipData
     {
         internal Dictionary<RuntimeAnimatorController, AnimatorData> ads;
+        internal bool hasHumanoid = false;
+        internal bool hasBlendShape = false;
+        internal bool hasToggleActive = false;
+        internal bool hasToggleEnabled = false;
+        internal bool hasTransform = false;
+        internal bool hasMaterialReplace = false;
+        internal bool hasMaterialProperty = false;
+        internal bool hasOther = false;
     }
 
-    internal struct AnimatorData
+    internal class AnimatorData
     {
         internal HashSet<GameObject> gameObjects;
+        internal HashSet<(AnimatorState,AnimatorControllerLayer)> states;
     }
 }
 #endif
