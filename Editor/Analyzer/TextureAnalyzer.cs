@@ -1,5 +1,4 @@
-﻿#if UNITY_EDITOR
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using lilAvatarUtils.Utils;
 using UnityEditor;
 using UnityEditor.Animations;
@@ -209,4 +208,3 @@ namespace lilAvatarUtils.Analyzer
         }
     }
 }
-#endif

@@ -1,5 +1,4 @@
-﻿#if UNITY_EDITOR
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using lilAvatarUtils.Analyzer;
@@ -7,12 +6,6 @@ using lilAvatarUtils.Utils;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
-#if LIL_VRCSDK3_AVATARS
-using VRCAvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
-#endif
-#if LIL_MODULAR_AVATAR
-using ModularAvatarMergeAnimator = nadena.dev.modular_avatar.core.ModularAvatarMergeAnimator;
-#endif
 
 namespace lilAvatarUtils.MainWindow
 {
@@ -243,4 +236,3 @@ namespace lilAvatarUtils.MainWindow
         }
     }
 }
-#endif

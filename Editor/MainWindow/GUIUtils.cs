@@ -1,5 +1,4 @@
-﻿#if UNITY_EDITOR
-using System;
+﻿using System;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -311,4 +310,3 @@ namespace lilAvatarUtils.MainWindow
         }
     }
 }
-#endif

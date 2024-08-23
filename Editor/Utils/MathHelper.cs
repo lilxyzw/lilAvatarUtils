@@ -1,5 +1,4 @@
-﻿#if UNITY_EDITOR
-using UnityEngine;
+﻿using UnityEngine;
 #if UNITY_2022_3_OR_NEWER
 using UnityEngine.Experimental.Rendering;
 #endif
@@ -175,4 +174,3 @@ namespace lilAvatarUtils.Utils
         }
     }
 }
-#endif

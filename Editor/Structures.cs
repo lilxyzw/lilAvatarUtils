@@ -1,5 +1,4 @@
-﻿#if UNITY_EDITOR
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -65,4 +64,3 @@ namespace lilAvatarUtils
         internal HashSet<(AnimatorState,AnimatorControllerLayer)> states;
     }
 }
-#endif

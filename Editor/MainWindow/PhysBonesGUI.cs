@@ -1,4 +1,4 @@
-﻿#if UNITY_EDITOR && LIL_VRCSDK3_AVATARS
+﻿#if LIL_VRCSDK3_AVATARS
 using System;
 using System.Collections.Generic;
 using System.Linq;
