@@ -5,9 +5,9 @@ lilAvatarUtils
 
 Please install by **one** of the following methods.
 
-### Unitypackage
+### VPM
 
-Download the unitypackage from [releases](https://github.com/lilxyzw/lilAvatarUtils/releases) and import it in Unity.
+Add my [repos](https://github.com/lilxyzw/vpm-repos) and add `jp.lilxyzw.avatar-utils` to your project.
 
 ### UPM
 
@@ -15,14 +15,6 @@ Import the following Git URL in UPM.
 
 ```
 https://github.com/lilxyzw/lilAvatarUtils.git
-```
-
-### VPM CLI
-
-Add my [repos](https://github.com/lilxyzw/vpm-repos) and type the following commands.
-
-```
-vpm add package jp.lilxyzw.avatar-utils
 ```
 
 ## Window
@@ -46,6 +38,10 @@ Textures used in the avatar. Open the foldout to see materials that reference te
 ### Materials
 
 Materials used by the avatar. After changing materials, you can press `Apply` to replace materials. Open the foldout to see the `Renderer`s and `AnimationClip`s that reference textures.
+
+### Animations
+
+Animations used by the avatar.
 
 ### Renderers
 
