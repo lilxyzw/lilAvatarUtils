@@ -65,33 +65,5 @@ namespace lilAvatarUtils.Analyzer
             var states = machine.stateMachines.SelectMany(s => AnalyzeStateMachine(clip, s.stateMachine));
             return states.Union(machine.states.Select(s => s.state).Where(s => s.motion == clip));
         }
-
-        [MenuItem("Tools/Test")]
-        private static void Test()
-        {
-            var clip = Selection.activeObject as AnimationClip;
-            Debug.Log("AnimationUtility.GetCurveBindings");
-            foreach(var b in AnimationUtility.GetCurveBindings(clip))
-            {
-                Debug.Log(b.path + "\r\n" +
-                    $"isPPtrCurve: {b.isPPtrCurve}" + "\r\n" +
-                    $"isDiscreteCurve: {b.isDiscreteCurve}" + "\r\n" +
-                    $"isSerializeReferenceCurve: {b.isSerializeReferenceCurve}" + "\r\n" +
-                    $"propertyName: {b.propertyName}" + "\r\n" +
-                    $"type: {b.type}" + "\r\n"
-                );
-            }
-            Debug.Log("AnimationUtility.GetObjectReferenceCurveBindings");
-            foreach(var b in AnimationUtility.GetObjectReferenceCurveBindings(clip))
-            {
-                Debug.Log(b.path + "\r\n" +
-                    $"isPPtrCurve: {b.isPPtrCurve}" + "\r\n" +
-                    $"isDiscreteCurve: {b.isDiscreteCurve}" + "\r\n" +
-                    $"isSerializeReferenceCurve: {b.isSerializeReferenceCurve}" + "\r\n" +
-                    $"propertyName: {b.propertyName}" + "\r\n" +
-                    $"type: {b.type}" + "\r\n"
-                );
-            }
-        }
     }
 }
