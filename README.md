@@ -51,6 +51,10 @@ Renderers in the avatar.
 
 PhysBones in the avatar.
 
+### PBColliders
+
+PhysBoneColliders in the avatar.
+
 ### Lighting
 
 This tab is for checking avatar lighting. You can also see what it looks like when the shader is blocked by VRChat's safety.
