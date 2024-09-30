@@ -26,7 +26,7 @@ namespace lilAvatarUtils.MainWindow
         public int empPose = 0;         private const int indPose      = 10;
 
         internal HashSet<VRCPhysBone> pbs = new HashSet<VRCPhysBone>();
-        internal HashSet<VRCPhysBoneCollider> pbcs = new HashSet<VRCPhysBoneCollider>();
+        internal Dictionary<VRCPhysBoneCollider, VRCPhysBone[]> pbcs = new Dictionary<VRCPhysBoneCollider, VRCPhysBone[]>();
 
         internal override void Draw(EditorWindow window)
         {

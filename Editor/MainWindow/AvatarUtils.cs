@@ -43,6 +43,7 @@ namespace lilAvatarUtils.MainWindow
         public RenderersGUI renderersGUI = new RenderersGUI();
         #if LIL_VRCSDK3_AVATARS
         public PhysBonesGUI physBonesGUI = new PhysBonesGUI();
+        public PhysBoneCollidersGUI physBoneCollidersGUI = new PhysBoneCollidersGUI();
         #endif
         public LightingTestGUI lightingTestGUI = new LightingTestGUI();
 
@@ -94,6 +95,11 @@ namespace lilAvatarUtils.MainWindow
             if(editorMode == EditorMode.PhysBones)
             {
                 physBonesGUI.Draw(this);
+                return;
+            }
+            if(editorMode == EditorMode.PBColliders)
+            {
+                physBoneCollidersGUI.Draw(this);
                 return;
             }
             #endif
@@ -201,7 +207,9 @@ namespace lilAvatarUtils.MainWindow
 
             #if LIL_VRCSDK3_AVATARS
             PhysBonesAnalyzer.Analyze(gameObject, out physBonesGUI.pbs, out physBonesGUI.pbcs);
+            physBoneCollidersGUI.pbcs = physBonesGUI.pbcs;
             physBonesGUI.Set();
+            physBoneCollidersGUI.Set();
             #endif
         }
 
@@ -214,6 +222,7 @@ namespace lilAvatarUtils.MainWindow
             lightingTestGUI.gameObject = gameObject;
             #if LIL_VRCSDK3_AVATARS
             physBonesGUI.gameObject = gameObject;
+            physBoneCollidersGUI.gameObject = gameObject;
             #endif
         }
 
@@ -230,6 +239,7 @@ namespace lilAvatarUtils.MainWindow
             Renderers,
             #if LIL_VRCSDK3_AVATARS
             PhysBones,
+            PBColliders,
             #endif
             Lighting,
             Utils
