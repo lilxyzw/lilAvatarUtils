@@ -12,20 +12,21 @@ namespace lilAvatarUtils.MainWindow
     internal class TexturesGUI : AbstractTabelGUI
     {
         public string empNames   = "";      private const int indNames   =  0;
-        public int    empTypes   = 0;       private const int indTypes   =  1;
-        public float  empVrams   = 10f;     private const int indVrams   =  2;
-        public int    empRess    = 4096;    private const int indRess    =  3;
-        public int    empResMaxs = 4096;    private const int indResMaxs =  4;
-        public int    empComps   = 0;       private const int indComps   =  5;
-        public string empFormats = "";      private const int indFormats =  6;
-        public int    empCrunchs = 0;       private const int indCrunchs =  7;
-        public int    empCompQs  = 100;     private const int indCompQs  =  8;
-        public int    empSrgbs   = 0;       private const int indSrgbs   =  9;
-        public int    empASrcs   = 0;       private const int indASrcs   = 10;
-        public int    empAlphas  = 0;       private const int indAlphas  = 11;
-        public int    empMips    = 0;       private const int indMips    = 12;
-        public int    empStreams = 0;       private const int indStreams = 13;
-        public int    empReads   = 0;       private const int indReads   = 14;
+        public string empReps    = "";      private const int indReps    =  1;
+        public int    empTypes   = 0;       private const int indTypes   =  2;
+        public float  empVrams   = 10f;     private const int indVrams   =  3;
+        public int    empRess    = 4096;    private const int indRess    =  4;
+        public int    empResMaxs = 4096;    private const int indResMaxs =  5;
+        public int    empComps   = 0;       private const int indComps   =  6;
+        public string empFormats = "";      private const int indFormats =  7;
+        public int    empCrunchs = 0;       private const int indCrunchs =  8;
+        public int    empCompQs  = 100;     private const int indCompQs  =  9;
+        public int    empSrgbs   = 0;       private const int indSrgbs   = 10;
+        public int    empASrcs   = 0;       private const int indASrcs   = 11;
+        public int    empAlphas  = 0;       private const int indAlphas  = 12;
+        public int    empMips    = 0;       private const int indMips    = 13;
+        public int    empStreams = 0;       private const int indStreams = 14;
+        public int    empReads   = 0;       private const int indReads   = 15;
 
         internal bool[] showReferences = {false};
         internal Dictionary<Texture, TextureData> tds = new Dictionary<Texture, TextureData>();
@@ -45,6 +46,7 @@ namespace lilAvatarUtils.MainWindow
             if(labelMasks[indVrams]) GUIUtils.LabelField(rectTotal[indVrams], EditorUtility.FormatBytes(sumVRAM), false);
 
             empNames   = (string)libs[indNames  ].emphasize;
+            //empReps    = (string)libs[indReps   ].emphasize;
             empTypes   = (int   )libs[indTypes  ].emphasize;
             empVrams   = (float )libs[indVrams  ].emphasize;
             empRess    = (int   )libs[indRess   ].emphasize;
@@ -147,6 +149,7 @@ namespace lilAvatarUtils.MainWindow
         internal override void Set()
         {
             isModified = false;
+            var typeTex = typeof(Texture);
             var typeLabs = Enum.GetNames(typeof(TextureType));
             var asrcLabs = Enum.GetNames(typeof(TextureImporterAlphaSource));
             var maxLabs = new[]{"32","64","128","256","512","1024","2048","4096","8192"};
@@ -154,6 +157,7 @@ namespace lilAvatarUtils.MainWindow
 
             //                                items               label                    rect                 isEdit type  scene  isMask emp         labs      empGUI      empCon      mainGUI
             var names   = new TableProperties(new List<object>(), "Name"                 , new Rect(0,0,200,0), false, null, false, false, empNames  , null    , null      , null      , null);
+            var reps    = new TableProperties(new List<object>(), "Replace"              , new Rect(0,0,200,0), true , typeTex, false, false, null   , null    , null      , EmpConReps, null);
             var types   = new TableProperties(new List<object>(), "Type"                 , new Rect(0,0,100,0), false, null, false, true , empTypes  , typeLabs, null      , null      , null);
             var vrams   = new TableProperties(new List<object>(), "VRAM Size"            , new Rect(0,0, 70,0), false, null, false, false, empVrams  , null    , EmpGUIVRAM, EmpConVRAM, MainGUIVRAM);
             var ress    = new TableProperties(new List<object>(), "Resolution"           , new Rect(0,0, 80,0), false, null, false, false, empRess   , null    , null      , EmpConRes , MainGUIRes);
@@ -184,6 +188,7 @@ namespace lilAvatarUtils.MainWindow
                     case Texture _            : formats.items.Add(null); break;
                 }
                 names.items.Add(td.Key);
+                reps.items.Add(td.Key);
                 types.items.Add(td.Value.type);
                 vrams.items.Add(td.Value.vramSize);
                 ress.items.Add((td.Key.width, td.Key.height));
@@ -224,6 +229,7 @@ namespace lilAvatarUtils.MainWindow
 
             libs = new []{
                 names  ,
+                reps   ,
                 types  ,
                 vrams  ,
                 ress   ,
@@ -252,6 +258,7 @@ namespace lilAvatarUtils.MainWindow
             switch(sortIndex)
             {
                 case indNames  : tds = tds.Sort(td => td.Key.name                 , isDescending); break;
+                case indReps   : tds = tds.Sort(td => td.Key.name                 , isDescending); break;
                 case indTypes  : tds = tds.Sort(td => td.Value.type.ToString()    , isDescending); break;
                 case indVrams  : tds = tds.Sort(td => td.Value.vramSize           , isDescending); break;
                 case indRess   : tds = tds.Sort(td => td.Key.width * td.Key.height, isDescending); break;
@@ -278,8 +285,9 @@ namespace lilAvatarUtils.MainWindow
         {
             for(int count = 0; count < libs[indNames].items.Count; count++)
             {
-                if(libs[indNames].items[count] == null) continue;
-                string path = AssetDatabase.GetAssetPath((Texture)libs[indNames].items[count]);
+                var tex = libs[indNames].items[count] as Texture;
+                if(!tex) continue;
+                string path = AssetDatabase.GetAssetPath(tex);
                 var textureImporter = AssetImporter.GetAtPath(path);
                 if(textureImporter is TextureImporter ti)
                 {
@@ -297,6 +305,29 @@ namespace lilAvatarUtils.MainWindow
                     if(isChanged)
                     {
                         ti.SaveAndReimport();
+                    }
+                }
+
+                var rep = libs[indReps].items[count] as Texture;
+                if(tex != rep)
+                {
+                    var td = tds[tex];
+                    foreach(var material in td.mds.Keys)
+                    using(var so = new SerializedObject(material))
+                    using(var iter = so.FindProperty("m_SavedProperties").FindPropertyRelative("m_TexEnvs"))
+                    using(var end = iter.Copy())
+                    {
+                        end.Next(false);
+                        var enterChildren = true;
+                        while(iter.Next(enterChildren) && !SerializedProperty.EqualContents(iter, end))
+                        {
+                            enterChildren = iter.propertyType != SerializedPropertyType.String;
+                            if(iter.propertyType == SerializedPropertyType.ObjectReference && iter.objectReferenceValue && iter.objectReferenceValue == tex)
+                            {
+                                iter.objectReferenceValue = rep;
+                            }
+                        }
+                        so.ApplyModifiedProperties();
                     }
                 }
             }
@@ -500,6 +531,11 @@ namespace lilAvatarUtils.MainWindow
                 case RenderTextureFormat f: return $"{f} ({MathHelper.FormatToBPP(f,true)} bpp)";
                 default                   : return format.ToString();
             }
+        }
+
+        private bool EmpConReps(int i, int count)
+        {
+            return libs[i].items[count] != libs[indNames].items[count];
         }
     }
 }
