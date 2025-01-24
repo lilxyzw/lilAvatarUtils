@@ -28,7 +28,7 @@ namespace lilAvatarUtils.MainWindow
         internal HashSet<VRCPhysBone> pbs = new HashSet<VRCPhysBone>();
         internal Dictionary<VRCPhysBoneCollider, VRCPhysBone[]> pbcs = new Dictionary<VRCPhysBoneCollider, VRCPhysBone[]>();
 
-        internal override void Draw(EditorWindow window)
+        internal override void Draw(AvatarUtilsWindow window)
         {
             if(IsEmptyLibs()) return;
             base.Draw(window);

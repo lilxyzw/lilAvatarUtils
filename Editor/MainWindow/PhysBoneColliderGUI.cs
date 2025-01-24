@@ -27,7 +27,7 @@ namespace lilAvatarUtils.MainWindow
         internal bool[] showReferences = {false};
         internal Dictionary<VRCPhysBoneCollider, VRCPhysBone[]> pbcs = new Dictionary<VRCPhysBoneCollider, VRCPhysBone[]>();
 
-        internal override void Draw(EditorWindow window)
+        internal override void Draw(AvatarUtilsWindow window)
         {
             if(IsEmptyLibs()) return;
 

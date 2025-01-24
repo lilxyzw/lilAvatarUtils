@@ -25,7 +25,7 @@ namespace lilAvatarUtils.MainWindow
         public bool[] showReferences = {false};
         internal Dictionary<AnimationClip, AnimationClipData> acds = new Dictionary<AnimationClip, AnimationClipData>();
 
-        internal override void Draw(EditorWindow window)
+        internal override void Draw(AvatarUtilsWindow window)
         {
             if(IsEmptyLibs()) return;
 

@@ -17,7 +17,7 @@ namespace lilAvatarUtils.MainWindow
         public bool[] showReferences = {false};
         internal Dictionary<Material, MaterialData> mds = new Dictionary<Material, MaterialData>();
 
-        internal override void Draw(EditorWindow window)
+        internal override void Draw(AvatarUtilsWindow window)
         {
             if(IsEmptyLibs()) return;
 

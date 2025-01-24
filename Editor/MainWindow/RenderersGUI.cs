@@ -34,7 +34,7 @@ namespace lilAvatarUtils.MainWindow
         internal HashSet<ParticleSystemRenderer> psrs = new HashSet<ParticleSystemRenderer>();
         private int assetType = -1;
 
-        internal override void Draw(EditorWindow window)
+        internal override void Draw(AvatarUtilsWindow window)
         {
             if(IsEmptyLibs()) return;
             assetType = -1;

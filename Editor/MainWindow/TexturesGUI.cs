@@ -31,7 +31,7 @@ namespace lilAvatarUtils.MainWindow
         internal bool[] showReferences = {false};
         internal Dictionary<Texture, TextureData> tds = new Dictionary<Texture, TextureData>();
 
-        internal override void Draw(EditorWindow window)
+        internal override void Draw(AvatarUtilsWindow window)
         {
             if(IsEmptyLibs()) return;
 

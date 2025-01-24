@@ -31,12 +31,12 @@ namespace lilAvatarUtils.MainWindow
 
         private int rectModifyIndex = -1;
         private Event m_event;
-        private EditorWindow m_window;
+        private AvatarUtilsWindow m_window;
         private float tableWidth = 0;
         private bool isScrolling = false;
         private int selectedLine = -1;
 
-        internal virtual void Draw(EditorWindow window)
+        internal virtual void Draw(AvatarUtilsWindow window)
         {
             if(IsEmptyLibs()) return;
             m_event = Event.current;
@@ -66,6 +66,7 @@ namespace lilAvatarUtils.MainWindow
             {
                 ApplyModification();
                 Set();
+                m_window.Analyze();
             }
             if(GUI.Button(rectButton2, "Revert"))
             {
