@@ -205,41 +205,41 @@ namespace lilAvatarUtils.MainWindow
         {
             switch(sortIndex)
             {
-                case indNames     : smrs = smrs.Sort(smr => smr.name                       , isDescending); break;
-                case indAnchors   : smrs = smrs.Sort(smr => smr.probeAnchor.GetName()      , isDescending); break;
-                case indRootBones : smrs = smrs.Sort(smr => smr.rootBone.GetName()         , isDescending); break;
-                case indBounds    : smrs = smrs.Sort(smr => smr.bounds.ToString()          , isDescending); break;
-                case indShapes    : smrs = smrs.Sort(smr => smr.sharedMesh.blendShapeCount , isDescending); break;
-                case indSlots     : smrs = smrs.Sort(smr => smr.sharedMaterials.Length     , isDescending); break;
-                case indPolys     : smrs = smrs.Sort(smr => smr.sharedMesh.triangles.Length, isDescending); break;
-                case indVerts     : smrs = smrs.Sort(smr => smr.sharedMesh.vertexCount     , isDescending); break;
-                case indQualitys  : smrs = smrs.Sort(smr => smr.quality                    , isDescending); break;
-                case indUpdates   : smrs = smrs.Sort(smr => smr.updateWhenOffscreen        , isDescending); break;
-                case indCasts     : smrs = smrs.Sort(smr => smr.shadowCastingMode          , isDescending); break;
-                case indReceives  : smrs = smrs.Sort(smr => smr.receiveShadows             , isDescending); break;
-                case indLPs       : smrs = smrs.Sort(smr => smr.lightProbeUsage            , isDescending); break;
-                case indRPs       : smrs = smrs.Sort(smr => smr.reflectionProbeUsage       , isDescending); break;
-                case indVectors   : smrs = smrs.Sort(smr => smr.skinnedMotionVectors       , isDescending); break;
-                case indOcclusions: smrs = smrs.Sort(smr => smr.allowOcclusionWhenDynamic  , isDescending); break;
+                case indNames     : smrs = smrs.Sort(smr => smr.name                        , isDescending); break;
+                case indAnchors   : smrs = smrs.Sort(smr => smr.probeAnchor.GetName()       , isDescending); break;
+                case indRootBones : smrs = smrs.Sort(smr => smr.rootBone.GetName()          , isDescending); break;
+                case indBounds    : smrs = smrs.Sort(smr => smr.bounds.ToString()           , isDescending); break;
+                case indShapes    : smrs = smrs.Sort(smr => smr.sharedMesh?.blendShapeCount , isDescending); break;
+                case indSlots     : smrs = smrs.Sort(smr => smr.sharedMaterials.Length      , isDescending); break;
+                case indPolys     : smrs = smrs.Sort(smr => smr.sharedMesh?.triangles.Length, isDescending); break;
+                case indVerts     : smrs = smrs.Sort(smr => smr.sharedMesh?.vertexCount     , isDescending); break;
+                case indQualitys  : smrs = smrs.Sort(smr => smr.quality                     , isDescending); break;
+                case indUpdates   : smrs = smrs.Sort(smr => smr.updateWhenOffscreen         , isDescending); break;
+                case indCasts     : smrs = smrs.Sort(smr => smr.shadowCastingMode           , isDescending); break;
+                case indReceives  : smrs = smrs.Sort(smr => smr.receiveShadows              , isDescending); break;
+                case indLPs       : smrs = smrs.Sort(smr => smr.lightProbeUsage             , isDescending); break;
+                case indRPs       : smrs = smrs.Sort(smr => smr.reflectionProbeUsage        , isDescending); break;
+                case indVectors   : smrs = smrs.Sort(smr => smr.skinnedMotionVectors        , isDescending); break;
+                case indOcclusions: smrs = smrs.Sort(smr => smr.allowOcclusionWhenDynamic   , isDescending); break;
             }
             switch(sortIndex)
             {
-                case indNames     : mrs = mrs.Sort(mr => mr.Item1.name                       , isDescending); break;
-                case indAnchors   : mrs = mrs.Sort(mr => mr.Item1.probeAnchor.GetName()      , isDescending); break;
-                //case indRootBones : mrs = mrs.Sort(mr => mr.Item1.rootBone.GetName()         , isDescending); break;
-                case indBounds    : mrs = mrs.Sort(mr => mr.Item1.bounds.ToString()          , isDescending); break;
-                case indShapes    : mrs = mrs.Sort(mr => mr.Item2.sharedMesh.blendShapeCount , isDescending); break;
-                case indSlots     : mrs = mrs.Sort(mr => mr.Item1.sharedMaterials.Length     , isDescending); break;
-                case indPolys     : mrs = mrs.Sort(mr => mr.Item2.sharedMesh.triangles.Length, isDescending); break;
-                case indVerts     : mrs = mrs.Sort(mr => mr.Item2.sharedMesh.vertexCount     , isDescending); break;
-                //case indQualitys  : mrs = mrs.Sort(mr => mr.Item1.quality                    , isDescending); break;
-                //case indUpdates   : mrs = mrs.Sort(mr => mr.Item1.updateWhenOffscreen        , isDescending); break;
-                case indCasts     : mrs = mrs.Sort(mr => mr.Item1.shadowCastingMode          , isDescending); break;
-                case indReceives  : mrs = mrs.Sort(mr => mr.Item1.receiveShadows             , isDescending); break;
-                case indLPs       : mrs = mrs.Sort(mr => mr.Item1.lightProbeUsage            , isDescending); break;
-                case indRPs       : mrs = mrs.Sort(mr => mr.Item1.reflectionProbeUsage       , isDescending); break;
-                //case indVectors   : mrs = mrs.Sort(mr => mr.Item1.skinnedMotionVectors       , isDescending); break;
-                case indOcclusions: mrs = mrs.Sort(mr => mr.Item1.allowOcclusionWhenDynamic  , isDescending); break;
+                case indNames     : mrs = mrs.Sort(mr => mr.Item1.name                        , isDescending); break;
+                case indAnchors   : mrs = mrs.Sort(mr => mr.Item1.probeAnchor.GetName()       , isDescending); break;
+                //case indRootBones : mrs = mrs.Sort(mr => mr.Item1.rootBone.GetName()          , isDescending); break;
+                case indBounds    : mrs = mrs.Sort(mr => mr.Item1.bounds.ToString()           , isDescending); break;
+                case indShapes    : mrs = mrs.Sort(mr => mr.Item2.sharedMesh?.blendShapeCount , isDescending); break;
+                case indSlots     : mrs = mrs.Sort(mr => mr.Item1.sharedMaterials.Length      , isDescending); break;
+                case indPolys     : mrs = mrs.Sort(mr => mr.Item2.sharedMesh?.triangles.Length, isDescending); break;
+                case indVerts     : mrs = mrs.Sort(mr => mr.Item2.sharedMesh?.vertexCount     , isDescending); break;
+                //case indQualitys  : mrs = mrs.Sort(mr => mr.Item1.quality                     , isDescending); break;
+                //case indUpdates   : mrs = mrs.Sort(mr => mr.Item1.updateWhenOffscreen         , isDescending); break;
+                case indCasts     : mrs = mrs.Sort(mr => mr.Item1.shadowCastingMode           , isDescending); break;
+                case indReceives  : mrs = mrs.Sort(mr => mr.Item1.receiveShadows              , isDescending); break;
+                case indLPs       : mrs = mrs.Sort(mr => mr.Item1.lightProbeUsage             , isDescending); break;
+                case indRPs       : mrs = mrs.Sort(mr => mr.Item1.reflectionProbeUsage        , isDescending); break;
+                //case indVectors   : mrs = mrs.Sort(mr => mr.Item1.skinnedMotionVectors        , isDescending); break;
+                case indOcclusions: mrs = mrs.Sort(mr => mr.Item1.allowOcclusionWhenDynamic   , isDescending); break;
             }
             switch(sortIndex)
             {
