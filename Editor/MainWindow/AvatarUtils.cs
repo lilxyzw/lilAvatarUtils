@@ -9,28 +9,6 @@ using UnityEngine;
 
 namespace lilAvatarUtils.MainWindow
 {
-    internal class AvatarUtils
-    {
-        private const string menuPathGameObject     = "GameObject/AvatarUtils/";
-        private const string menuPathAnalyzeAvatar  = menuPathGameObject + "[GameObject] Texture Report";
-        private const int menuPriorityGameObject    = 21; // This must be 21 or less
-        private const int menuPriorityAnalyzeAvatar = menuPriorityGameObject;
-        [MenuItem(menuPathAnalyzeAvatar, false, menuPriorityAnalyzeAvatar)]
-        internal static void AnalyzeAvatar()
-        {
-            var window = (AvatarUtilsWindow)EditorWindow.GetWindow(typeof(AvatarUtilsWindow), false, AvatarUtilsWindow.TEXT_WINDOW_NAME);
-            window.gameObject = Selection.activeGameObject;
-            window.Analyze();
-            window.Show();
-        }
-
-        [MenuItem(menuPathAnalyzeAvatar, true, menuPriorityAnalyzeAvatar)]
-        internal static bool CheckObject()
-        {
-            return Selection.activeGameObject != null;
-        }
-    }
-
     internal class AvatarUtilsWindow : EditorWindow
     {
         internal const string TEXT_WINDOW_NAME = "AvatarUtils";
@@ -47,7 +25,6 @@ namespace lilAvatarUtils.MainWindow
         #endif
         public LightingTestGUI lightingTestGUI = new LightingTestGUI();
 
-        
         [NonSerialized] private bool isAnalyzed = false;
         [NonSerialized] Vector3 prevPosition = Vector3.zero;
         [NonSerialized] Quaternion prevRotation = Quaternion.identity;
@@ -55,7 +32,7 @@ namespace lilAvatarUtils.MainWindow
         [NonSerialized] float prevNear = 0;
         [NonSerialized] float prevFar = 0;
 
-        [MenuItem("Window/_lil/AvatarUtils")]
+        [MenuItem("Tools/lilAvatarUtils")]
         internal static void Init()
         {
             string windowName = $"{TEXT_WINDOW_NAME} {PackageJsonReader.GetVersion()}";
