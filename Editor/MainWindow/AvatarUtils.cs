@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEditor;
-using UnityEditor.Animations;
 using UnityEngine;
 
 namespace jp.lilxyzw.avatarutils
@@ -22,6 +19,7 @@ namespace jp.lilxyzw.avatarutils
         public PhysBoneCollidersGUI physBoneCollidersGUI = new PhysBoneCollidersGUI();
         #endif
         public LightingTestGUI lightingTestGUI = new LightingTestGUI();
+        public UtilsGUI utilsGUI = new UtilsGUI();
 
         [NonSerialized] private bool isAnalyzed = false;
         [NonSerialized] Vector3 prevPosition = Vector3.zero;
@@ -58,87 +56,18 @@ namespace jp.lilxyzw.avatarutils
 
             string[] sEditorModeList = Enum.GetNames(typeof(EditorMode));
             editorMode = (EditorMode)L10n.Toolbar((int)editorMode, sEditorModeList);
-            if(editorMode == EditorMode.Textures)
+            switch (editorMode)
             {
-                texturesGUI.Draw(this);
-                return;
-            }
-            if(editorMode == EditorMode.Materials)
-            {
-                materialsGUI.Draw(this);
-                return;
-            }
-            if(editorMode == EditorMode.Animations)
-            {
-                animationClipGUI.Draw(this);
-                return;
-            }
-            if(editorMode == EditorMode.Renderers)
-            {
-                renderersGUI.Draw(this);
-                return;
-            }
-            #if LIL_VRCSDK3_AVATARS
-            if(editorMode == EditorMode.PhysBones)
-            {
-                physBonesGUI.Draw(this);
-                return;
-            }
-            if(editorMode == EditorMode.PBColliders)
-            {
-                physBoneCollidersGUI.Draw(this);
-                return;
-            }
-            #endif
-            if(editorMode == EditorMode.Lighting)
-            {
-                lightingTestGUI.Draw(this);
-                return;
-            }
-            if(editorMode == EditorMode.Utils)
-            {
-                if(gameObject == null) return;
-                if(L10n.Button("Clean up Materials"))
-                {
-                    var cleanedMaterials = MaterialCleaner.RemoveUnusedProperties(materialsGUI.mds.Keys);
-                    L10n.DisplayDialog(
-                        TEXT_WINDOW_NAME,
-                        "Removed unused properties on {0} materials.",
-                        "OK",
-                        cleanedMaterials.Count
-                    );
-                }
-                if(L10n.Button("Clean up AnimatorControllers"))
-                {
-                    var controllers = new HashSet<RuntimeAnimatorController>(
-                        gameObject.GetBuildComponents<Animator>().Select(a => a.runtimeAnimatorController)
-                    );
-
-                    var scaned = new HashSet<UnityEngine.Object>();
-                    controllers.UnionWith(gameObject.GetComponentsInChildren<MonoBehaviour>(true).SelectMany(c => ObjectHelper.GetReferenceFromObject<RuntimeAnimatorController>(scaned, c)));
-
-                    var cleanedControllers = SubAssetCleaner.RemoveUnusedSubAssets(controllers.Where(ac => ac is AnimatorController));
-                    L10n.DisplayDialog(
-                        TEXT_WINDOW_NAME,
-                        "Removed unused sub-assets in {0} AnimatorControllers.",
-                        "OK",
-                        cleanedControllers.Count
-                    );
-                }
-                if(L10n.Button("Remove Missing Components"))
-                {
-                    int count = 0;
-                    foreach(var t in gameObject.GetComponentsInChildren<Transform>(true))
-                    {
-                        count += GameObjectUtility.RemoveMonoBehavioursWithMissingScript(t.gameObject);
-                    }
-                    L10n.DisplayDialog(
-                        TEXT_WINDOW_NAME,
-                        "Removed {0} missing components.",
-                        "OK",
-                        count
-                    );
-                }
+                case EditorMode.Textures: texturesGUI.Draw(this); break;
+                case EditorMode.Materials: materialsGUI.Draw(this); break;
+                case EditorMode.Animations: animationClipGUI.Draw(this); break;
+                case EditorMode.Renderers: renderersGUI.Draw(this); break;
+                #if LIL_VRCSDK3_AVATARS
+                case EditorMode.PhysBones: physBonesGUI.Draw(this); break;
+                case EditorMode.PBColliders: physBoneCollidersGUI.Draw(this); break;
+                #endif
+                case EditorMode.Lighting: lightingTestGUI.Draw(this); break;
+                case EditorMode.Utils: utilsGUI.Draw(this); break;
             }
         }
 
@@ -210,6 +139,7 @@ namespace jp.lilxyzw.avatarutils
             animationClipGUI.gameObject = gameObject;
             renderersGUI.gameObject = gameObject;
             lightingTestGUI.gameObject = gameObject;
+            utilsGUI.gameObject = gameObject;
             #if LIL_VRCSDK3_AVATARS
             physBonesGUI.gameObject = gameObject;
             physBoneCollidersGUI.gameObject = gameObject;
