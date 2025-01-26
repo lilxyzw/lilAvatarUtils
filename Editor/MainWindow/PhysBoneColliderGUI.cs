@@ -6,9 +6,8 @@ using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Dynamics.PhysBone.Components;
 using VRC.Dynamics;
-using lilAvatarUtils.Utils;
 
-namespace lilAvatarUtils.MainWindow
+namespace jp.lilxyzw.avatarutils
 {
     [Serializable]
     internal class PhysBoneCollidersGUI : AbstractTabelGUI

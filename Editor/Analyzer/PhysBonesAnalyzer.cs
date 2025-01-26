@@ -1,11 +1,10 @@
 ﻿#if LIL_VRCSDK3_AVATARS
 using System.Collections.Generic;
 using System.Linq;
-using lilAvatarUtils.Utils;
 using UnityEngine;
 using VRC.SDK3.Dynamics.PhysBone.Components;
 
-namespace lilAvatarUtils.Analyzer
+namespace jp.lilxyzw.avatarutils
 {
     internal class PhysBonesAnalyzer
     {

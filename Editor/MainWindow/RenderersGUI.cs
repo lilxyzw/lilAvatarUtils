@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using lilAvatarUtils.Utils;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Object = UnityEngine.Object;
 
-namespace lilAvatarUtils.MainWindow
+namespace jp.lilxyzw.avatarutils
 {
     [Serializable]
     internal class RenderersGUI : AbstractTabelGUI

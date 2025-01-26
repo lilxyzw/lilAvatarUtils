@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using lilAvatarUtils.Analyzer;
-using lilAvatarUtils.Utils;
 using UnityEditor;
 using UnityEngine;
 
-namespace lilAvatarUtils.MainWindow
+namespace jp.lilxyzw.avatarutils
 {
     [Serializable]
     internal class TexturesGUI : AbstractTabelGUI
@@ -155,12 +153,10 @@ namespace lilAvatarUtils.MainWindow
             }
             so.ApplyModifiedProperties();
 
-            #if UNITY_2022_1_OR_NEWER
             if(m.parent != null)
             {
                 RemoveTextureReference(m.parent, tex);
             }
-            #endif
         }
 
         internal override void Set()

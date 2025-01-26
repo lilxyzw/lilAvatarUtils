@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace lilAvatarUtils.Utils
+namespace jp.lilxyzw.avatarutils
 {
     internal class SubAssetCleaner
     {

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using lilAvatarUtils.Utils;
 using UnityEngine;
 
-namespace lilAvatarUtils.Analyzer
+namespace jp.lilxyzw.avatarutils
 {
     internal class RendererAnalyzer
     {

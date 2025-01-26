@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using lilAvatarUtils.Utils;
 using UnityEditor;
 using UnityEngine;
 
-namespace lilAvatarUtils.MainWindow
+namespace jp.lilxyzw.avatarutils
 {
     [Serializable]
     internal class MaterialsGUI : AbstractTabelGUI

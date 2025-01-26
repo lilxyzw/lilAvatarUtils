@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace lilAvatarUtils.Utils
+namespace jp.lilxyzw.avatarutils
 {
     internal static class ObjectHelper
     {

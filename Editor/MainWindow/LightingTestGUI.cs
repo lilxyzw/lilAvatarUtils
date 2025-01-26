@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using Object = UnityEngine.Object;
 
-namespace lilAvatarUtils.MainWindow
+namespace jp.lilxyzw.avatarutils
 {
     [Serializable]
     internal class LightingTestGUI
@@ -21,9 +21,6 @@ namespace lilAvatarUtils.MainWindow
         private GameObject gameObjectCube = null;
 
         private PreviewRenderUtility preview = null;
-        #if !UNITY_2020_1_OR_NEWER
-        private RenderTexture previewRenderTexture = null;
-        #endif
         private AmbientMode ambientModeCopy;
         private Color ambientLightCopy;
         private float intensityCopy = 1.0f;
@@ -279,9 +276,6 @@ namespace lilAvatarUtils.MainWindow
         internal void OnDisable()
         {
             if(preview != null) preview.Cleanup();
-            #if !UNITY_2020_1_OR_NEWER
-            SafeDestroy(previewRenderTexture);
-            #endif
         }
 
         internal void Set(bool forceUpdate)
@@ -324,19 +318,6 @@ namespace lilAvatarUtils.MainWindow
         {
             preview.BeginPreview(rect, GUIStyle.none);
             foreach(var light in preview.lights) light.enabled = false;
-
-            #if !UNITY_2020_1_OR_NEWER
-            var rt = preview.camera.targetTexture; // targetTexture is initialized at BeginPreview()
-            int width = rt.width;
-            int height = rt.height;
-            if(previewRenderTexture == null || previewRenderTexture.width != width || previewRenderTexture.height != height)
-            {
-                SafeDestroy(previewRenderTexture);
-                previewRenderTexture = new RenderTexture(width, height, 32, rt.format);
-                previewRenderTexture.hideFlags = HideFlags.HideAndDontSave;
-                preview.camera.targetTexture = previewRenderTexture;
-            }
-            #endif
         }
 
         private void InitializeSpotLight(Light light)
@@ -353,12 +334,7 @@ namespace lilAvatarUtils.MainWindow
 
         private void DrawLightPreview(Rect rect, string[] label)
         {
-            #if !UNITY_2020_1_OR_NEWER
-            preview.EndPreview();
-            if(previewRenderTexture != null) GUI.DrawTexture(rect, previewRenderTexture, ScaleMode.ScaleToFit, false);
-            #else
             GUI.DrawTexture(rect, preview.EndPreview(), ScaleMode.ScaleToFit, false);
-            #endif
             DrawHeader(rect, label);
         }
 

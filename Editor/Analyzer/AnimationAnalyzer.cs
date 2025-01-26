@@ -4,9 +4,9 @@ using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 
-namespace lilAvatarUtils.Analyzer
+namespace jp.lilxyzw.avatarutils
 {
-    public class AnimationAnalyzer
+    internal class AnimationAnalyzer
     {
         internal static void Analyze(Dictionary<AnimationClip, AnimationClipData> acds)
         {

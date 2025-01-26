@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using lilAvatarUtils.Utils;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace lilAvatarUtils.MainWindow
+namespace jp.lilxyzw.avatarutils
 {
     internal abstract class AbstractTabelGUI
     {

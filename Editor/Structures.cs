@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 
-namespace lilAvatarUtils
+namespace jp.lilxyzw.avatarutils
 {
     internal class TextureData
     {

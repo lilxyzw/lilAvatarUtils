@@ -2,7 +2,7 @@ using System.Globalization;
 using UnityEditor;
 using UnityEngine;
 
-namespace lilAvatarUtils
+namespace jp.lilxyzw.avatarutils
 {
     [FilePath("jp.lilxyzw/avatar-utils.asset", FilePathAttribute.Location.PreferencesFolder)]
     internal class AvatarUtilsSettings : ScriptableSingleton<AvatarUtilsSettings>

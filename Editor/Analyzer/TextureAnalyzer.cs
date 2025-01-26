@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using lilAvatarUtils.Utils;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.Profiling;
 
-namespace lilAvatarUtils.Analyzer
+namespace jp.lilxyzw.avatarutils
 {
     internal class TextureAnalyzer
     {
@@ -25,13 +24,9 @@ namespace lilAvatarUtils.Analyzer
             {
                 Material m = md.Key;
 
-                #if UNITY_2022_1_OR_NEWER
                 var flattened = new Material(m);
                 flattened.parent = null;
                 var so = new SerializedObject(flattened);
-                #else
-                var so = new SerializedObject(md.Key);
-                #endif
 
                 var props = so.FindProperty("m_SavedProperties").FindPropertyRelative("m_TexEnvs");
                 for(int i = 0; i < props.arraySize; i++)
@@ -90,9 +85,7 @@ namespace lilAvatarUtils.Analyzer
                     }
                 }
 
-                #if UNITY_2022_1_OR_NEWER
                 Object.DestroyImmediate(flattened);
-                #endif
             }
         }
 

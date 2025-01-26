@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
-#if UNITY_2022_3_OR_NEWER
 using UnityEngine.Experimental.Rendering;
-#endif
 
-namespace lilAvatarUtils.Utils
+namespace jp.lilxyzw.avatarutils
 {
     internal class MathHelper
     {
@@ -158,7 +156,6 @@ namespace lilAvatarUtils.Utils
 
         internal static long FormatToBPPDepthStencil(RenderTexture t)
         {
-            #if UNITY_2022_3_OR_NEWER
             switch(t.depthStencilFormat)
             {
                 case GraphicsFormat.D16_UNorm: return 16;
@@ -169,7 +166,6 @@ namespace lilAvatarUtils.Utils
                 case GraphicsFormat.D32_SFloat_S8_UInt: return 64;
                 case GraphicsFormat.S8_UInt: return 8;
             }
-            #endif
             return 0;
         }
     }

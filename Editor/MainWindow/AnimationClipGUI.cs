@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using lilAvatarUtils.Utils;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 
-namespace lilAvatarUtils.MainWindow
+namespace jp.lilxyzw.avatarutils
 {
     [Serializable]
     internal class AnimationClipGUI : AbstractTabelGUI

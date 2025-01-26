@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace lilAvatarUtils
+namespace jp.lilxyzw.avatarutils
 {
     internal partial class L10n : ScriptableSingleton<L10n>
     {

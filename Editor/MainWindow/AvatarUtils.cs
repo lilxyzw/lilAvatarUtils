@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using lilAvatarUtils.Analyzer;
-using lilAvatarUtils.Utils;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 
-namespace lilAvatarUtils.MainWindow
+namespace jp.lilxyzw.avatarutils
 {
     internal class AvatarUtils : EditorWindow
     {

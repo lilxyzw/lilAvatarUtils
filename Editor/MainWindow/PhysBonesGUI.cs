@@ -6,9 +6,8 @@ using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Dynamics.PhysBone.Components;
 using VRC.Dynamics;
-using lilAvatarUtils.Utils;
 
-namespace lilAvatarUtils.MainWindow
+namespace jp.lilxyzw.avatarutils
 {
     [Serializable]
     internal class PhysBonesGUI : AbstractTabelGUI
@@ -73,12 +72,7 @@ namespace lilAvatarUtils.MainWindow
             isModified = false;
             var mcLabs = Enum.GetNames(typeof(VRCPhysBoneBase.MultiChildType));
             var imTypeLabs = Enum.GetNames(typeof(VRCPhysBoneBase.ImmobileType));
-
-            #if LIL_VRCSDK3_AVATARS_1_3_12_OR_NEWER
             string[] abTypeLabs = Enum.GetNames(typeof(VRCPhysBoneBase.AdvancedBool));
-            #else
-            string[] abTypeLabs = null;
-            #endif
 
             var transType = typeof(Transform);
             //                                   items               label        rect                 isEdit type       scene  isMask emp           labs        empGUI empCon mainGUI
@@ -160,16 +154,9 @@ namespace lilAvatarUtils.MainWindow
                 pb.rootTransform  = (Transform                     )libs[indRoot  ].items[count];
                 pb.multiChildType = (VRCPhysBoneBase.MultiChildType)libs[indMCType].items[count];
                 pb.immobileType   = (VRCPhysBoneBase.ImmobileType  )libs[indImType].items[count];
-
-                #if LIL_VRCSDK3_AVATARS_1_3_12_OR_NEWER
                 pb.allowCollision = (VRCPhysBoneBase.AdvancedBool  )libs[indAllow ].items[count];
                 pb.allowGrabbing  = (VRCPhysBoneBase.AdvancedBool  )libs[indGrab  ].items[count];
                 pb.allowPosing    = (VRCPhysBoneBase.AdvancedBool  )libs[indPose  ].items[count];
-                #else
-                pb.allowCollision = (bool                          )libs[indAllow ].items[count];
-                pb.allowGrabbing  = (bool                          )libs[indGrab  ].items[count];
-                pb.allowPosing    = (bool                          )libs[indPose  ].items[count];
-                #endif
             }
         }
 
