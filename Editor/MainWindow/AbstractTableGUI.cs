@@ -32,12 +32,12 @@ namespace lilAvatarUtils.MainWindow
 
         private int rectModifyIndex = -1;
         private Event m_event;
-        private AvatarUtilsWindow m_window;
+        private AvatarUtils m_window;
         private float tableWidth = 0;
         private bool isScrolling = false;
         private int selectedLine = -1;
 
-        internal virtual void Draw(AvatarUtilsWindow window)
+        internal virtual void Draw(AvatarUtils window)
         {
             if(IsEmptyLibs()) return;
             m_event = Event.current;

@@ -48,7 +48,7 @@ namespace lilAvatarUtils.MainWindow
         private static readonly string[] L_Streams = {"Mip Streaming"        , "Whether to enable Mip Streaming. This reduces VRAM consumption by loading only the mipmaps (reduced textures) required according to the camera position."};
         private static readonly string[] L_Reads   = {"Read/Write"           , "This setting allows scripts to access textures. Copying textures for script access doubles the RAM consumption, so it is recommended to turn this setting off if not required."};
 
-        internal override void Draw(AvatarUtilsWindow window)
+        internal override void Draw(AvatarUtils window)
         {
             if(IsEmptyLibs()) return;
 
@@ -125,7 +125,7 @@ namespace lilAvatarUtils.MainWindow
                     EditorGUI.indentLevel--;
                 }
 
-                if(GUIUtils.UnchangeButton(L10n.G("Remove references", "")) && L10n.DisplayDialog(AvatarUtilsWindow.TEXT_WINDOW_NAME, "Are you sure you want to remove it?", "Yes", "Cancel"))
+                if(GUIUtils.UnchangeButton(L10n.G("Remove references", "")) && L10n.DisplayDialog(AvatarUtils.TEXT_WINDOW_NAME, "Are you sure you want to remove it?", "Yes", "Cancel"))
                 {
                     foreach(KeyValuePair<Material, MaterialData> md in td.mds)
                     {

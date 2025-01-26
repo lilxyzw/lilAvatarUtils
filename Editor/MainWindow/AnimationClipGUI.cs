@@ -35,7 +35,7 @@ namespace lilAvatarUtils.MainWindow
         private static readonly string[] L_MaterialPropertys = {"Material Property", "Whether the animation includes material property manipulation."};
         private static readonly string[] L_Others            = {"Others"           , "Whether the animation includes any other actions."};
 
-        internal override void Draw(AvatarUtilsWindow window)
+        internal override void Draw(AvatarUtils window)
         {
             if(IsEmptyLibs()) return;
 

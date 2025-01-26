@@ -38,7 +38,7 @@ namespace lilAvatarUtils.MainWindow
         private static readonly string[] L_Inside = {"Inside"        , "Turning this on will act to push the PhysBone inside the collider."};
         private static readonly string[] L_AsSphr = {"As Sphere"     , "When this is turned on, the shape of the collision detection for the PhysBone itself will be calculated as a sphere instead of a capsule."};
 
-        internal override void Draw(AvatarUtilsWindow window)
+        internal override void Draw(AvatarUtils window)
         {
             if(IsEmptyLibs()) return;
 

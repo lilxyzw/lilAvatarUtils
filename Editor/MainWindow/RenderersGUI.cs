@@ -51,7 +51,7 @@ namespace lilAvatarUtils.MainWindow
         private static readonly string[] L_Vectors    = {"Motion Vector"        , "Whether to output motion vectors, used for post-processing such as motion blur."};
         private static readonly string[] L_Occlusions = {"Dynamic Occlusion"    , "If the mesh is hidden by other static objects, culling will be performed and rendering will be skipped. It is usually recommended to turn it on for better performance, but turn it off if you want to use special effects such as displaying objects hidden by walls."};
 
-        internal override void Draw(AvatarUtilsWindow window)
+        internal override void Draw(AvatarUtils window)
         {
             if(IsEmptyLibs()) return;
             assetType = -1;

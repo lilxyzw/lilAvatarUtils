@@ -56,7 +56,7 @@ namespace lilAvatarUtils.MainWindow
 
         private static readonly string[] L_SimulateSafetyEnabled = {"Simulate safety enabled", "This simulates the appearance when safety is enabled on VRChat. Since the implementation of VRChat is unknown, it may not be reproduced completely."};
 
-        internal void Draw(EditorWindow window)
+        internal void Draw(AvatarUtils window)
         {
             #if LIL_VRCSDK3_AVATARS
             if(isSafetyOn != L10n.ToggleLeft(L_SimulateSafetyEnabled, isSafetyOn))

@@ -22,7 +22,7 @@ namespace lilAvatarUtils.MainWindow
         private static readonly string[] L_Shaders = {"Shader"      , "The shader that the material is using."};
         private static readonly string[] L_Queues  = {"Render Queue", "The rendering priority of the material. Smaller values ​​are rendered first. If a material that includes transparency is set to less than 2500, rendering problems may occur when it overlaps with the skybox. If it is set to 2501 or more, the lens effect will cause the material to lose focus and it will not be able to receive shadows. If a transparent material is set to an excessively low value (such as 2450 or less), it is very likely to cause problems with other materials being erased."};
 
-        internal override void Draw(AvatarUtilsWindow window)
+        internal override void Draw(AvatarUtils window)
         {
             if(IsEmptyLibs()) return;
 

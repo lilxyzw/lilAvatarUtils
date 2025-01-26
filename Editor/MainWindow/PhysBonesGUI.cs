@@ -40,7 +40,7 @@ namespace lilAvatarUtils.MainWindow
         private static readonly string[] L_Grab      = {"Grabbing"        , "Whether or not to be able to grab PhysBone."};
         private static readonly string[] L_Pose      = {"Posing"          , "Whether the PhysBone can be posed."};
 
-        internal override void Draw(AvatarUtilsWindow window)
+        internal override void Draw(AvatarUtils window)
         {
             if(IsEmptyLibs()) return;
             base.Draw(window);

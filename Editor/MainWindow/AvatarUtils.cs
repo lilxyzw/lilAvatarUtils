@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace lilAvatarUtils.MainWindow
 {
-    internal class AvatarUtilsWindow : EditorWindow
+    internal class AvatarUtils : EditorWindow
     {
         internal const string TEXT_WINDOW_NAME = "lilAvatarUtils";
 
@@ -36,7 +36,7 @@ namespace lilAvatarUtils.MainWindow
         internal static void Init()
         {
             string windowName = $"{TEXT_WINDOW_NAME} {PackageJsonReader.GetVersion()}";
-            var window = (AvatarUtilsWindow)GetWindow(typeof(AvatarUtilsWindow), false, windowName);
+            var window = (AvatarUtils)GetWindow(typeof(AvatarUtils), false, windowName);
             window.Show();
         }
 
