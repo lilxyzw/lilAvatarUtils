@@ -31,6 +31,23 @@ namespace lilAvatarUtils.MainWindow
         internal bool[] showReferences = {false};
         internal Dictionary<Texture, TextureData> tds = new Dictionary<Texture, TextureData>();
 
+        private static readonly string[] L_Names   = {"Name"                 , "Asset name. Clicking this will select the corresponding asset in the Project window."};
+        private static readonly string[] L_Reps    = {"Replace"              , "If you specify a different texture here, you can replace that texture for all materials present on the avatar at once."};
+        private static readonly string[] L_Types   = {"Type"                 , "The type of texture. Generally, Texture2D is used."};
+        private static readonly string[] L_Vrams   = {"VRAM Size"            , "The amount of VRAM used when textures are loaded. It is desirable to adjust this value so that it is as small as possible."};
+        private static readonly string[] L_Ress    = {"Resolution"           , "The texture resolution on Unity. The smaller the resolution, the smaller the VRAM size, so it is recommended to set it as small as possible without noticeable artifacts."};
+        private static readonly string[] L_ResMaxs = {"Max Resolution"       , "The maximum vertical or horizontal size of the texture resolution. The image will be scaled down on import to be smaller than this value while preserving as much of the image's aspect ratio as possible. The resolution of the original image file is not changed, so you can revert it to a larger setting."};
+        private static readonly string[] L_Comps   = {"Compression"          , "This sets the quality of the texture after compression. The higher the setting, the clearer the texture will be at the expense of the compression rate. However, if the texture contains transparency, it will be clearer without any change in VRAM size due to the compression format."};
+        private static readonly string[] L_Formats = {"Format"               , "The texture format. This varies depending on whether transparency is enabled and the compression settings."};
+        private static readonly string[] L_Crunchs = {"Crunch Compression"   , "Whether or not to use crunch compression. For DXT or ETC formats only, crunch compression can reduce file size at the expense of image quality. However, the VRAM size does not change, so the load does not change. Also, even if you do not use crunch compression, compression is applied to the entire avatar data, so the change is not as large as it seems. If you want to reduce the avatar size, it is more effective to lower the texture resolution."};
+        private static readonly string[] L_CompQs  = {"Compression Quality"  , "Texture quality after crunch compression. The higher the setting, the more beautiful the texture will be at the expense of compression rate."};
+        private static readonly string[] L_Srgbs   = {"sRGB"                 , "This setting determines whether to apply inverse gamma correction to textures. Generally, textures with color information (such as albedo and emission) are set to sRGB, and textures with numerical information (such as smoothness and masks) are set to non-sRGB. Please set it appropriately, as the appearance will change depending on whether the project's color space is Linear or Gamma (depending on the avatar's display environment)."};
+        private static readonly string[] L_ASrcs   = {"Alpha Source"         , "This is the source from which Unity generates the alpha channel of a texture."};
+        private static readonly string[] L_Alphas  = {"Alpha Is Transparency", "Extends the color channels of transparent textures outward to avoid blackening of transparent areas. Set this to off if you want to use the color channels as is."};
+        private static readonly string[] L_Mips    = {"MipMap"               , "Whether to generate mipmaps. It is generally recommended to turn it off, but if the texture is used in the vertex shader (such as for masking outlines), turning it off can reduce VRAM size by 33%."};
+        private static readonly string[] L_Streams = {"Mip Streaming"        , "Whether to enable Mip Streaming. This reduces VRAM consumption by loading only the mipmaps (reduced textures) required according to the camera position."};
+        private static readonly string[] L_Reads   = {"Read/Write"           , "This setting allows scripts to access textures. Copying textures for script access doubles the RAM consumption, so it is recommended to turn this setting off if not required."};
+
         internal override void Draw(AvatarUtilsWindow window)
         {
             if(IsEmptyLibs()) return;
@@ -42,8 +59,8 @@ namespace lilAvatarUtils.MainWindow
             UpdateRects();
             var rectTotal = GetShiftedRects();
             long sumVRAM = libs[indVrams].items.Sum(item => (long)item);
-            if(labelMasks[indNames]) GUIUtils.LabelField(rectTotal[indNames], "Total"                           , false);
-            if(labelMasks[indVrams]) GUIUtils.LabelField(rectTotal[indVrams], EditorUtility.FormatBytes(sumVRAM), false);
+            if(labelMasks[indNames]) L10n    .LabelField(rectTotal[indNames], "Total"                           );
+            if(labelMasks[indVrams]) GUIUtils.LabelField(rectTotal[indVrams], EditorUtility.FormatBytes(sumVRAM));
 
             empNames   = (string)libs[indNames  ].emphasize;
             //empReps    = (string)libs[indReps   ].emphasize;
@@ -72,7 +89,7 @@ namespace lilAvatarUtils.MainWindow
                 GUILayout.Space(20);
 
                 EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-                EditorGUILayout.LabelField("Referenced from");
+                L10n.LabelField(L_ReferencedFrom);
                 var tex = (Texture)libs[indNames].items[count];
                 var td = tds[tex];
                 foreach(KeyValuePair<Material, MaterialData> md in td.mds)
@@ -108,7 +125,7 @@ namespace lilAvatarUtils.MainWindow
                     EditorGUI.indentLevel--;
                 }
 
-                if(GUIUtils.UnchangeButton("Remove references") && EditorUtility.DisplayDialog("AvatarUtils", "Are you sure you want to remove it?", "Yes", "Cancel"))
+                if(GUIUtils.UnchangeButton(L10n.G("Remove references", "")) && L10n.DisplayDialog(AvatarUtilsWindow.TEXT_WINDOW_NAME, "Are you sure you want to remove it?", "Yes", "Cancel"))
                 {
                     foreach(KeyValuePair<Material, MaterialData> md in td.mds)
                     {
@@ -155,23 +172,23 @@ namespace lilAvatarUtils.MainWindow
             var maxLabs = new[]{"32","64","128","256","512","1024","2048","4096","8192"};
             var compLabs = new[]{"None","Low Quality","Normal Quality","High Quality"};
 
-            //                                items               label                    rect                 isEdit type  scene  isMask emp         labs      empGUI      empCon      mainGUI
-            var names   = new TableProperties(new List<object>(), "Name"                 , new Rect(0,0,200,0), false, null, false, false, empNames  , null    , null      , null      , null);
-            var reps    = new TableProperties(new List<object>(), "Replace"              , new Rect(0,0,200,0), true , typeTex, false, false, null   , null    , null      , EmpConReps, null);
-            var types   = new TableProperties(new List<object>(), "Type"                 , new Rect(0,0,100,0), false, null, false, true , empTypes  , typeLabs, null      , null      , null);
-            var vrams   = new TableProperties(new List<object>(), "VRAM Size"            , new Rect(0,0, 70,0), false, null, false, false, empVrams  , null    , EmpGUIVRAM, EmpConVRAM, MainGUIVRAM);
-            var ress    = new TableProperties(new List<object>(), "Resolution"           , new Rect(0,0, 80,0), false, null, false, false, empRess   , null    , null      , EmpConRes , MainGUIRes);
-            var resMaxs = new TableProperties(new List<object>(), "Max Resolution"       , new Rect(0,0,100,0), true , null, false, false, empResMaxs, maxLabs , null      , null      , MainGUIResMax);
-            var comps   = new TableProperties(new List<object>(), "Compression"          , new Rect(0,0, 90,0), true , null, false, true , empComps  , compLabs, null      , EmpConComp, MainGUIComp);
-            var formats = new TableProperties(new List<object>(), "Format"               , new Rect(0,0,110,0), false, null, false, false, empFormats, null    , null      , EmpConForm, MainGUIForm);
-            var crunchs = new TableProperties(new List<object>(), "Crunch Compression"   , new Rect(0,0,120,0), true , null, false, true , empCrunchs, null    , null      , null      , MainGUICrunch);
-            var compQs  = new TableProperties(new List<object>(), "Compression Quality"  , new Rect(0,0,130,0), true , null, false, false, empCompQs , null    , null      , null      , MainGUICompQ);
-            var srgbs   = new TableProperties(new List<object>(), "sRGB"                 , new Rect(0,0, 50,0), true , null, false, true , empSrgbs  , null    , null      , null      , null);
-            var asrcs   = new TableProperties(new List<object>(), "Alpha Source"         , new Rect(0,0,130,0), true , null, false, true , empASrcs  , asrcLabs, null      , null      , null);
-            var alphas  = new TableProperties(new List<object>(), "Alpha Is Transparency", new Rect(0,0,130,0), true , null, false, true , empAlphas , null    , null      , null      , MainGUIAlpha);
-            var mips    = new TableProperties(new List<object>(), "MipMap"               , new Rect(0,0, 50,0), true , null, false, true , empMips   , null    , null      , null      , null);
-            var streams = new TableProperties(new List<object>(), "Streaming MipMaps"    , new Rect(0,0,120,0), true , null, false, true , empStreams, null    , EmpGUISM  , EmpConSM  , null);
-            var reads   = new TableProperties(new List<object>(), "Read/Write"           , new Rect(0,0, 70,0), true , null, false, true , empReads  , null    , null      , null      , null);
+            //                                items               label      rect                 isEdit type  scene  isMask emp         labs      empGUI      empCon      mainGUI
+            var names   = new TableProperties(new List<object>(), L_Names  , new Rect(0,0,200,0), false, null, false, false, empNames  , null    , null      , null      , null);
+            var reps    = new TableProperties(new List<object>(), L_Reps   , new Rect(0,0,200,0), true , typeTex, false, false, null   , null    , null      , EmpConReps, null);
+            var types   = new TableProperties(new List<object>(), L_Types  , new Rect(0,0,100,0), false, null, false, true , empTypes  , typeLabs, null      , null      , null);
+            var vrams   = new TableProperties(new List<object>(), L_Vrams  , new Rect(0,0, 70,0), false, null, false, false, empVrams  , null    , EmpGUIVRAM, EmpConVRAM, MainGUIVRAM);
+            var ress    = new TableProperties(new List<object>(), L_Ress   , new Rect(0,0, 80,0), false, null, false, false, empRess   , null    , null      , EmpConRes , MainGUIRes);
+            var resMaxs = new TableProperties(new List<object>(), L_ResMaxs, new Rect(0,0,100,0), true , null, false, false, empResMaxs, maxLabs , null      , null      , MainGUIResMax);
+            var comps   = new TableProperties(new List<object>(), L_Comps  , new Rect(0,0, 90,0), true , null, false, true , empComps  , compLabs, null      , EmpConComp, MainGUIComp);
+            var formats = new TableProperties(new List<object>(), L_Formats, new Rect(0,0,110,0), false, null, false, false, empFormats, null    , null      , EmpConForm, MainGUIForm);
+            var crunchs = new TableProperties(new List<object>(), L_Crunchs, new Rect(0,0,120,0), true , null, false, true , empCrunchs, null    , null      , null      , MainGUICrunch);
+            var compQs  = new TableProperties(new List<object>(), L_CompQs , new Rect(0,0,130,0), true , null, false, false, empCompQs , null    , null      , null      , MainGUICompQ);
+            var srgbs   = new TableProperties(new List<object>(), L_Srgbs  , new Rect(0,0, 50,0), true , null, false, true , empSrgbs  , null    , null      , null      , null);
+            var asrcs   = new TableProperties(new List<object>(), L_ASrcs  , new Rect(0,0,130,0), true , null, false, true , empASrcs  , asrcLabs, null      , null      , null);
+            var alphas  = new TableProperties(new List<object>(), L_Alphas , new Rect(0,0,130,0), true , null, false, true , empAlphas , null    , null      , null      , MainGUIAlpha);
+            var mips    = new TableProperties(new List<object>(), L_Mips   , new Rect(0,0, 50,0), true , null, false, true , empMips   , null    , null      , null      , null);
+            var streams = new TableProperties(new List<object>(), L_Streams, new Rect(0,0,120,0), true , null, false, true , empStreams, null    , EmpGUISM  , EmpConSM  , null);
+            var reads   = new TableProperties(new List<object>(), L_Reads  , new Rect(0,0, 70,0), true , null, false, true , empReads  , null    , null      , null      , null);
 
             Sort();
             foreach(var td in tds)

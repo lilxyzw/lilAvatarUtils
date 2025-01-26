@@ -14,6 +14,7 @@ namespace lilAvatarUtils.MainWindow
         private const int GUI_SPACE_WIDTH = 5;
         private const int GUI_FILTER_WIDTH = 50;
         private const int GUI_LABEL_MIN_WIDTH = 10;
+        protected static readonly string[] L_ReferencedFrom = {"Referenced from",""};
 
         public bool[] labelMasks = {};
         public float[] rectWidths = {};
@@ -62,13 +63,13 @@ namespace lilAvatarUtils.MainWindow
             var rectButtons = EditorGUILayout.GetControlRect();
             var rectButton1 = new Rect(rectButtons.x, rectButtons.y, 100, rectButtons.height);
             var rectButton2 = new Rect(rectButton1.xMax + GUI_SPACE_WIDTH, rectButton1.y, 100, rectButtons.height);
-            if(GUI.Button(rectButton1, "Apply"))
+            if(L10n.Button(rectButton1, "Apply"))
             {
                 ApplyModification();
                 Set();
                 m_window.Analyze();
             }
-            if(GUI.Button(rectButton2, "Revert"))
+            if(L10n.Button(rectButton2, "Revert"))
             {
                 Set();
             }
@@ -105,7 +106,7 @@ namespace lilAvatarUtils.MainWindow
                 for(int j = 1; j < libs.Length; j++)
                 {
                     var k = j;
-                    labelMenu.AddItem(new GUIContent(libs[k].label.Replace("/"," \u2044 ")), labelMasks[k], () => labelMasks[k] = !labelMasks[k]);
+                    labelMenu.AddItem(new GUIContent(libs[k].label[0].Replace("/"," \u2044 ")), labelMasks[k], () => labelMasks[k] = !labelMasks[k]);
                 }
                 labelMenu.ShowAsContext();
             }
@@ -139,7 +140,7 @@ namespace lilAvatarUtils.MainWindow
                 if(!labelMasks[i]) continue;
                 bool isSorted = sortIndex == i;
                 if(isSorted) EditorGUI.DrawRect(rectShift[i], new Color(0.5f, 0.5f, 0.5f, 0.2f));
-                if(GUI.Button(rectShift[i], new GUIContent(libs[i].label, libs[i].label), EditorStyles.label) && m_event.button == 0)
+                if(L10n.Button(rectShift[i], libs[i].label, EditorStyles.label) && m_event.button == 0)
                 {
                     if(isSorted) isDescending = !isDescending;
                     sortIndex = i;
@@ -163,7 +164,7 @@ namespace lilAvatarUtils.MainWindow
             {
                 var rectEmpPath      = new Rect(rectFirst.x,      rectFirst.y, GUI_FILTER_WIDTH,                 rectFirst.height);
                 var rectEmpPathField = new Rect(rectEmpPath.xMax, rectFirst.y, rectFirst.width-GUI_FILTER_WIDTH, rectFirst.height);
-                EditorGUI.LabelField(rectEmpPath, "Filters");
+                L10n.LabelField(rectEmpPath, "Filters");
                 EmphasizeField(0, rectEmpPathField);
             }
             else
@@ -183,7 +184,7 @@ namespace lilAvatarUtils.MainWindow
             {
                 LineGUI(count);
             }
-            if(UIYBuffer == libs[0].rect.y) EditorGUILayout.LabelField("Nothing found. Please turn off the filter or change the conditions.");
+            if(UIYBuffer == libs[0].rect.y) L10n.LabelField("Nothing found. Please turn off the filter or change the conditions.");
             EditorGUILayout.EndScrollView();
         }
 
@@ -386,7 +387,7 @@ namespace lilAvatarUtils.MainWindow
         public delegate bool MainGUI(int i, int count, bool emp);   // true: Draw Default GUI
 
         public List<object> items;
-        public string label;
+        public string[] label;
         public Rect rect;
 
         public bool isEditable;
@@ -402,7 +403,7 @@ namespace lilAvatarUtils.MainWindow
 
         public TableProperties(
             List<object> itemsIn,
-            string labelIn,
+            string[] labelIn,
             Rect rectIn,
             bool isEditableIn,
             Type typeIn,

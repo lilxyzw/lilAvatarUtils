@@ -39,10 +39,27 @@ namespace lilAvatarUtils.MainWindow
         public LightShadows lightShadows = LightShadows.None;
         public float reflectionIntensity = 0;
 
+        private static readonly string[] L_NoLight      = {"No light"     ,"There is no light, including ambient light."};
+        private static readonly string[] L_Overexposure = {"Overexposure" ,"It is illuminated by excessively bright directional light."};
+        private static readonly string[] L_InShadow     = {"In Shadow"    ,"The whole avatar is in shadow."};
+        private static readonly string[] L_SpotLight    = {"Spot Light"   ,"It is lit by one spotlight."};
+        private static readonly string[] L_3SpotLights  = {"3 Spot Lights","It is lit by three spotlights."};
+        private static readonly string[] L_Custom       = {"Custom"       ,"User can customize lighting."};
+
+        private static readonly string[] L_Ambient    = {"Ambient"     , ""};
+        private static readonly string[] L_MainLight  = {"Main Light"  , ""};
+        private static readonly string[] L_SpotLight0 = {"Spot Light 0", ""};
+        private static readonly string[] L_SpotLight1 = {"Spot Light 1", ""};
+        private static readonly string[] L_SpotLight2 = {"Spot Light 2", ""};
+        private static readonly string[] L_Shadows    = {"Shadows"     , ""};
+        private static readonly string[] L_Reflection = {"Reflection"  , ""};
+
+        private static readonly string[] L_SimulateSafetyEnabled = {"Simulate safety enabled", "This simulates the appearance when safety is enabled on VRChat. Since the implementation of VRChat is unknown, it may not be reproduced completely."};
+
         internal void Draw(EditorWindow window)
         {
             #if LIL_VRCSDK3_AVATARS
-            if(isSafetyOn != EditorGUILayout.Toggle("Safety On", isSafetyOn))
+            if(isSafetyOn != L10n.ToggleLeft(L_SimulateSafetyEnabled, isSafetyOn))
             {
                 isSafetyOn = !isSafetyOn;
                 if(isSafetyOn)
@@ -178,7 +195,7 @@ namespace lilAvatarUtils.MainWindow
             subLight2.enabled = false;
             SetPreviewRenderSettings();
             preview.camera.Render();
-            DrawLightPreview(rects[0], "No light");
+            DrawLightPreview(rects[0], L_NoLight);
 
             // Overexposure
             preview.ambientColor = new Color(0.21f,0.22f,0.25f,1);
@@ -192,7 +209,7 @@ namespace lilAvatarUtils.MainWindow
             mainLight.shadows = LightShadows.None;
             SetPreviewRenderSettings();
             preview.camera.Render();
-            DrawLightPreview(rects[1], "Overexposure");
+            DrawLightPreview(rects[1], L_Overexposure);
 
             // In Shadow
             preview.ambientColor = new Color(0.21f,0.22f,0.25f,1);
@@ -206,7 +223,7 @@ namespace lilAvatarUtils.MainWindow
             mainLight.shadows = LightShadows.Soft;
             SetPreviewRenderSettings();
             preview.camera.Render();
-            DrawLightPreview(rects[2], "In Shadow");
+            DrawLightPreview(rects[2], L_InShadow);
 
             // Spot Light
             preview.ambientColor = new Color(0,0,0,1);
@@ -219,7 +236,7 @@ namespace lilAvatarUtils.MainWindow
             subLight2.enabled = true;
             SetPreviewRenderSettings();
             preview.camera.Render();
-            DrawLightPreview(rects[3], "Spot Light");
+            DrawLightPreview(rects[3], L_SpotLight);
 
             // Spot Lights
             preview.ambientColor = new Color(0,0,0,1);
@@ -232,7 +249,7 @@ namespace lilAvatarUtils.MainWindow
             subLight2.enabled = true;
             SetPreviewRenderSettings();
             preview.camera.Render();
-            DrawLightPreview(rects[4], "3 Spot Lights");
+            DrawLightPreview(rects[4], L_3SpotLights);
 
             // Custom
             gameObjectCube.SetActive(false);
@@ -250,7 +267,7 @@ namespace lilAvatarUtils.MainWindow
             SetPreviewRenderSettings();
             mainLight.shadows = lightShadows;
             preview.camera.Render();
-            DrawLightPreview(rects[5], "Custom");
+            DrawLightPreview(rects[5], L_Custom);
             DrawCustomSettings(rects[5]);
 
             RenderSettings.ambientMode = ambientModeCopy;
@@ -334,7 +351,7 @@ namespace lilAvatarUtils.MainWindow
             light.range = 100;
         }
 
-        private void DrawLightPreview(Rect rect, string label)
+        private void DrawLightPreview(Rect rect, string[] label)
         {
             #if !UNITY_2020_1_OR_NEWER
             preview.EndPreview();
@@ -345,11 +362,11 @@ namespace lilAvatarUtils.MainWindow
             DrawHeader(rect, label);
         }
 
-        private void DrawHeader(Rect rect, string label)
+        private void DrawHeader(Rect rect, string[] label)
         {
             var rectHeader = new Rect(rect.x,rect.y,rect.width,16);
             EditorGUI.DrawRect(rectHeader, new Color(0.0f, 0.0f, 0.0f, 0.75f));
-            EditorGUI.LabelField(rectHeader, label, GUIUtils.styleWhiteBold);
+            L10n.LabelField(rectHeader, label, GUIUtils.styleWhiteBold);
         }
 
         private void DrawCustomSettings(Rect rect)
@@ -363,18 +380,18 @@ namespace lilAvatarUtils.MainWindow
             {
                 Rect rectSetting = new Rect(rect.xMax-80-150,rect.y+16,230,16*7);
                 EditorGUI.DrawRect(rectSetting, new Color(0.0f, 0.0f, 0.0f, 0.75f));
-                EditorGUI.LabelField(new Rect(rect.xMax-80-150,rect.y+ 16,80,16), "Ambient", GUIUtils.styleWhite);
-                EditorGUI.LabelField(new Rect(rect.xMax-80-150,rect.y+ 32,80,16), "Main Light", GUIUtils.styleWhite);
-                EditorGUI.LabelField(new Rect(rect.xMax-80-150,rect.y+ 48,80,16), "Spot Light 0", GUIUtils.styleWhite);
-                EditorGUI.LabelField(new Rect(rect.xMax-80-150,rect.y+ 64,80,16), "Spot Light 1", GUIUtils.styleWhite);
-                EditorGUI.LabelField(new Rect(rect.xMax-80-150,rect.y+ 80,80,16), "Spot Light 2", GUIUtils.styleWhite);
-                EditorGUI.LabelField(new Rect(rect.xMax-80-150,rect.y+ 96,80,16), "Shadows", GUIUtils.styleWhite);
-                EditorGUI.LabelField(new Rect(rect.xMax-80-150,rect.y+112,80,16), "Reflection", GUIUtils.styleWhite);
-                colorAmbient        = EditorGUI.ColorField(             new Rect(rect.xMax-150,rect.y+ 16,150,16), new GUIContent(""), colorAmbient    , true, false, true);
-                colorDirectional    = EditorGUI.ColorField(             new Rect(rect.xMax-150,rect.y+ 32,150,16), new GUIContent(""), colorDirectional, true, false, true);
-                colorSpot0          = EditorGUI.ColorField(             new Rect(rect.xMax-150,rect.y+ 48,150,16), new GUIContent(""), colorSpot0      , true, false, true);
-                colorSpot1          = EditorGUI.ColorField(             new Rect(rect.xMax-150,rect.y+ 64,150,16), new GUIContent(""), colorSpot1      , true, false, true);
-                colorSpot2          = EditorGUI.ColorField(             new Rect(rect.xMax-150,rect.y+ 80,150,16), new GUIContent(""), colorSpot2      , true, false, true);
+                L10n.LabelField(new Rect(rect.xMax-80-150,rect.y+ 16,80,16), L_Ambient   , GUIUtils.styleWhite);
+                L10n.LabelField(new Rect(rect.xMax-80-150,rect.y+ 32,80,16), L_MainLight , GUIUtils.styleWhite);
+                L10n.LabelField(new Rect(rect.xMax-80-150,rect.y+ 48,80,16), L_SpotLight0, GUIUtils.styleWhite);
+                L10n.LabelField(new Rect(rect.xMax-80-150,rect.y+ 64,80,16), L_SpotLight1, GUIUtils.styleWhite);
+                L10n.LabelField(new Rect(rect.xMax-80-150,rect.y+ 80,80,16), L_SpotLight2, GUIUtils.styleWhite);
+                L10n.LabelField(new Rect(rect.xMax-80-150,rect.y+ 96,80,16), L_Shadows   , GUIUtils.styleWhite);
+                L10n.LabelField(new Rect(rect.xMax-80-150,rect.y+112,80,16), L_Reflection, GUIUtils.styleWhite);
+                colorAmbient        = EditorGUI.ColorField(             new Rect(rect.xMax-150,rect.y+ 16,150,16), GUIContent.none, colorAmbient    , true, false, true);
+                colorDirectional    = EditorGUI.ColorField(             new Rect(rect.xMax-150,rect.y+ 32,150,16), GUIContent.none, colorDirectional, true, false, true);
+                colorSpot0          = EditorGUI.ColorField(             new Rect(rect.xMax-150,rect.y+ 48,150,16), GUIContent.none, colorSpot0      , true, false, true);
+                colorSpot1          = EditorGUI.ColorField(             new Rect(rect.xMax-150,rect.y+ 64,150,16), GUIContent.none, colorSpot1      , true, false, true);
+                colorSpot2          = EditorGUI.ColorField(             new Rect(rect.xMax-150,rect.y+ 80,150,16), GUIContent.none, colorSpot2      , true, false, true);
                 lightShadows        = (LightShadows)EditorGUI.EnumPopup(new Rect(rect.xMax-150,rect.y+ 96,150,16), lightShadows);
                 reflectionIntensity = EditorGUI.Slider(                 new Rect(rect.xMax-150,rect.y+112,150,16), reflectionIntensity, 0, 1);
 

@@ -17,6 +17,11 @@ namespace lilAvatarUtils.MainWindow
         public bool[] showReferences = {false};
         internal Dictionary<Material, MaterialData> mds = new Dictionary<Material, MaterialData>();
 
+        private static readonly string[] L_Mats    = {"Name"        , "Asset name. Clicking this will select the corresponding asset in the Project window."};
+        private static readonly string[] L_RepMats = {"Replace"     , "By specifying a different material here, you can replace all materials currently present on the avatar at once."};
+        private static readonly string[] L_Shaders = {"Shader"      , "The shader that the material is using."};
+        private static readonly string[] L_Queues  = {"Render Queue", "The rendering priority of the material. Smaller values ​​are rendered first. If a material that includes transparency is set to less than 2500, rendering problems may occur when it overlaps with the skybox. If it is set to 2501 or more, the lens effect will cause the material to lose focus and it will not be able to receive shadows. If a transparent material is set to an excessively low value (such as 2450 or less), it is very likely to cause problems with other materials being erased."};
+
         internal override void Draw(AvatarUtilsWindow window)
         {
             if(IsEmptyLibs()) return;
@@ -39,7 +44,7 @@ namespace lilAvatarUtils.MainWindow
                 GUILayout.Space(20);
 
                 EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-                EditorGUILayout.LabelField("Referenced from");
+                L10n.LabelField(L_ReferencedFrom);
                 var md = mds[(Material)libs[indMats].items[count]];
                 if(md.gameObjects != null)
                 {
@@ -76,11 +81,11 @@ namespace lilAvatarUtils.MainWindow
         {
             isModified = false;
             var matType = typeof(Material);
-            //                                items               label           rect                 isEdit type     scene  isMask emp         labs  empGUI empCon         mainGUI
-            var mats    = new TableProperties(new List<object>(), "Name"        , new Rect(0,0,200,0), false, null   , false, false, empMats   , null, null,  null         , null);
-            var repmats = new TableProperties(new List<object>(), "Replace"     , new Rect(0,0,200,0), true , matType, false, false, null      , null, null,  EmpConRepMats, null);
-            var shaders = new TableProperties(new List<object>(), "Shader"      , new Rect(0,0,300,0), false, null   , false, false, empShaders, null, null,  null         , null);
-            var queues  = new TableProperties(new List<object>(), "Render Queue", new Rect(0,0,100,0), true , null   , false, false, empQueues , null, null,  null         , null);
+            //                                items               label      rect                 isEdit type     scene  isMask emp         labs  empGUI empCon         mainGUI
+            var mats    = new TableProperties(new List<object>(), L_Mats   , new Rect(0,0,200,0), false, null   , false, false, empMats   , null, null,  null         , null);
+            var repmats = new TableProperties(new List<object>(), L_RepMats, new Rect(0,0,200,0), true , matType, false, false, null      , null, null,  EmpConRepMats, null);
+            var shaders = new TableProperties(new List<object>(), L_Shaders, new Rect(0,0,300,0), false, null   , false, false, empShaders, null, null,  null         , null);
+            var queues  = new TableProperties(new List<object>(), L_Queues , new Rect(0,0,100,0), true , null   , false, false, empQueues , null, null,  null         , null);
 
             Sort();
             foreach(var md in mds)

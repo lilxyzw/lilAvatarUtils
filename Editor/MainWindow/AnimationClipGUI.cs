@@ -25,6 +25,16 @@ namespace lilAvatarUtils.MainWindow
         public bool[] showReferences = {false};
         internal Dictionary<AnimationClip, AnimationClipData> acds = new Dictionary<AnimationClip, AnimationClipData>();
 
+        private static readonly string[] L_Clips             = {"Name"             , "Asset name. Clicking this will select the corresponding asset in the Project window."};
+        private static readonly string[] L_Humanoids         = {"Humanoid"         , "Whether the animation includes humanoid manipulation."};
+        private static readonly string[] L_BlendShapes       = {"BlendShape"       , "Whether the animation includes blendshape manipulation."};
+        private static readonly string[] L_ToggleActives     = {"Object Active"    , "Whether the animation includes toggling objects."};
+        private static readonly string[] L_ToggleEnableds    = {"Component Enable" , "Whether the animation includes toggling components."};
+        private static readonly string[] L_Transforms        = {"Transform"        , "Whether the animation includes transform manipulation."};
+        private static readonly string[] L_MaterialReplaces  = {"Material Replace" , "Whether the animation includes material replacement."};
+        private static readonly string[] L_MaterialPropertys = {"Material Property", "Whether the animation includes material property manipulation."};
+        private static readonly string[] L_Others            = {"Others"           , "Whether the animation includes any other actions."};
+
         internal override void Draw(AvatarUtilsWindow window)
         {
             if(IsEmptyLibs()) return;
@@ -52,7 +62,7 @@ namespace lilAvatarUtils.MainWindow
                 GUILayout.Space(20);
 
                 EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-                EditorGUILayout.LabelField("Referenced from");
+                L10n.LabelField(L_ReferencedFrom);
                 var acd = acds[(AnimationClip)libs[indClips].items[count]];
                 foreach(var ad in acd.ads)
                 {
@@ -113,16 +123,16 @@ namespace lilAvatarUtils.MainWindow
         {
             isModified = false;
             var matType = typeof(Material);
-            //                                          items               label          rect                 isEdit type     scene  isMask emp                  labs  empGUI empCon mainGUI
-            var clips              = new TableProperties(new List<object>(), "Name"       , new Rect(0,0,200,0), false, null   , false, false, empClips            , null, null,  null , null);
-            var humanoids          = new TableProperties(new List<object>(), "Humanoid"   , new Rect(0,0,80 ,0), false, null   , false, true , empHumanoids        , null, null,  null , null);
-            var blendShapes        = new TableProperties(new List<object>(), "BlendShape" , new Rect(0,0,80 ,0), false, null   , false, true , empBlendShapes      , null, null,  null , null);
-            var toggleActives      = new TableProperties(new List<object>(), "Obj Active" , new Rect(0,0,80 ,0), false, null   , false, true , empToggleActives    , null, null,  null , null);
-            var toggleEnableds     = new TableProperties(new List<object>(), "Comp Enable", new Rect(0,0,80 ,0), false, null   , false, true , empToggleEnableds   , null, null,  null , null);
-            var transforms         = new TableProperties(new List<object>(), "Transform"  , new Rect(0,0,80 ,0), false, null   , false, true , empTransforms       , null, null,  null , null);
-            var materialReplaces   = new TableProperties(new List<object>(), "Mat Replace", new Rect(0,0,80 ,0), false, null   , false, true , empMaterialReplaces , null, null,  null , null);
-            var materialPropertys  = new TableProperties(new List<object>(), "Mat Prop"   , new Rect(0,0,80 ,0), false, null   , false, true , empMaterialPropertys, null, null,  null , null);
-            var others             = new TableProperties(new List<object>(), "Others"     , new Rect(0,0,80 ,0), false, null   , false, true , empOthers           , null, null,  null , null);
+            //                                          items               label                 rect                 isEdit type     scene  isMask emp                  labs  empGUI empCon mainGUI
+            var clips              = new TableProperties(new List<object>(), L_Clips            , new Rect(0,0,200,0), false, null   , false, false, empClips            , null, null,  null , null);
+            var humanoids          = new TableProperties(new List<object>(), L_Humanoids        , new Rect(0,0,100,0), false, null   , false, true , empHumanoids        , null, null,  null , null);
+            var blendShapes        = new TableProperties(new List<object>(), L_BlendShapes      , new Rect(0,0,100,0), false, null   , false, true , empBlendShapes      , null, null,  null , null);
+            var toggleActives      = new TableProperties(new List<object>(), L_ToggleActives    , new Rect(0,0,100,0), false, null   , false, true , empToggleActives    , null, null,  null , null);
+            var toggleEnableds     = new TableProperties(new List<object>(), L_ToggleEnableds   , new Rect(0,0,100,0), false, null   , false, true , empToggleEnableds   , null, null,  null , null);
+            var transforms         = new TableProperties(new List<object>(), L_Transforms       , new Rect(0,0,100,0), false, null   , false, true , empTransforms       , null, null,  null , null);
+            var materialReplaces   = new TableProperties(new List<object>(), L_MaterialReplaces , new Rect(0,0,100,0), false, null   , false, true , empMaterialReplaces , null, null,  null , null);
+            var materialPropertys  = new TableProperties(new List<object>(), L_MaterialPropertys, new Rect(0,0,100,0), false, null   , false, true , empMaterialPropertys, null, null,  null , null);
+            var others             = new TableProperties(new List<object>(), L_Others           , new Rect(0,0,100,0), false, null   , false, true , empOthers           , null, null,  null , null);
 
             Sort();
             foreach(var acd in acds)

@@ -11,7 +11,7 @@ namespace lilAvatarUtils.MainWindow
 {
     internal class AvatarUtilsWindow : EditorWindow
     {
-        internal const string TEXT_WINDOW_NAME = "AvatarUtils";
+        internal const string TEXT_WINDOW_NAME = "lilAvatarUtils";
 
         public EditorMode editorMode = EditorMode.Textures;
         public GameObject gameObject;
@@ -44,10 +44,22 @@ namespace lilAvatarUtils.MainWindow
         {
             GUIUtils.Initialize();
 
+            // 言語設定
+            var langs = L10n.GetLanguages();
+            var names = L10n.GetLanguageNames();
+            EditorGUI.BeginChangeCheck();
+            var ind = EditorGUILayout.Popup("Language", Array.IndexOf(langs, AvatarUtilsSettings.instance.language), names);
+            if(EditorGUI.EndChangeCheck())
+            {
+                AvatarUtilsSettings.instance.language = langs[ind];
+                AvatarUtilsSettings.instance.Save();
+                L10n.Load();
+            }
+
             GameObjectSelectionGUI();
 
             string[] sEditorModeList = Enum.GetNames(typeof(EditorMode));
-            editorMode = (EditorMode)GUILayout.Toolbar((int)editorMode, sEditorModeList);
+            editorMode = (EditorMode)L10n.Toolbar((int)editorMode, sEditorModeList);
             if(editorMode == EditorMode.Textures)
             {
                 texturesGUI.Draw(this);
@@ -88,16 +100,17 @@ namespace lilAvatarUtils.MainWindow
             if(editorMode == EditorMode.Utils)
             {
                 if(gameObject == null) return;
-                if(GUILayout.Button("Clean up Materials"))
+                if(L10n.Button("Clean up Materials"))
                 {
                     var cleanedMaterials = MaterialCleaner.RemoveUnusedProperties(materialsGUI.mds.Keys);
-                    EditorUtility.DisplayDialog(
-                        "AvatarUtils",
-                        $"Removed unused properties on {cleanedMaterials.Count} materials.",
-                        "OK"
+                    L10n.DisplayDialog(
+                        TEXT_WINDOW_NAME,
+                        "Removed unused properties on {0} materials.",
+                        "OK",
+                        cleanedMaterials.Count
                     );
                 }
-                if(GUILayout.Button("Clean up AnimatorControllers"))
+                if(L10n.Button("Clean up AnimatorControllers"))
                 {
                     var controllers = new HashSet<RuntimeAnimatorController>(
                         gameObject.GetBuildComponents<Animator>().Select(a => a.runtimeAnimatorController)
@@ -107,23 +120,25 @@ namespace lilAvatarUtils.MainWindow
                     controllers.UnionWith(gameObject.GetComponentsInChildren<MonoBehaviour>(true).SelectMany(c => ObjectHelper.GetReferenceFromObject<RuntimeAnimatorController>(scaned, c)));
 
                     var cleanedControllers = SubAssetCleaner.RemoveUnusedSubAssets(controllers.Where(ac => ac is AnimatorController));
-                    EditorUtility.DisplayDialog(
-                        "AvatarUtils",
-                        $"Removed unused sub-assets in {cleanedControllers.Count} AnimatorControllers.",
-                        "OK"
+                    L10n.DisplayDialog(
+                        TEXT_WINDOW_NAME,
+                        "Removed unused sub-assets in {0} AnimatorControllers.",
+                        "OK",
+                        cleanedControllers.Count
                     );
                 }
-                if(GUILayout.Button("Remove Missing Components"))
+                if(L10n.Button("Remove Missing Components"))
                 {
                     int count = 0;
                     foreach(var t in gameObject.GetComponentsInChildren<Transform>(true))
                     {
                         count += GameObjectUtility.RemoveMonoBehavioursWithMissingScript(t.gameObject);
                     }
-                    EditorUtility.DisplayDialog(
-                        "AvatarUtils",
-                        $"Removed {count} missing components.",
-                        "OK"
+                    L10n.DisplayDialog(
+                        TEXT_WINDOW_NAME,
+                        "Removed {0} missing components.",
+                        "OK",
+                        count
                     );
                 }
             }

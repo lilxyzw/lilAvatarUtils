@@ -172,6 +172,7 @@ namespace lilAvatarUtils.MainWindow
                 EditorGUIUtility.PingObject(obj);
             }
             EditorGUIUtility.SetIconSize(sizeCopy);
+            content.tooltip = "";
         }
 
         internal static void LabelFieldWithSelection(Object obj, bool hilight = false)

@@ -34,6 +34,23 @@ namespace lilAvatarUtils.MainWindow
         internal HashSet<ParticleSystemRenderer> psrs = new HashSet<ParticleSystemRenderer>();
         private int assetType = -1;
 
+        private static readonly string[] L_Names      = {"Name"                 , "Object name. Clicking this will select the corresponding object in the Hierarchy window."};
+        private static readonly string[] L_Anchors    = {"Anchor Override"      , "This is the reference point when calculating lighting. It is recommended to set it the same for all meshes in one avatar, as it can cause different brightnesses for each mesh. It is used to calculate light probes and reflection probes."};
+        private static readonly string[] L_RootBones  = {"Root Bone"            , "The bone or transform that is the origin of the mesh. Bounds move according to this transform. It may also affect shader calculations."};
+        private static readonly string[] L_Bounds     = {"Bounds"               , "This is the volume used to determine if a mesh is outside the range of the screen or lights. If the mesh does not fit within this range, the mesh that should be in the screen may suddenly disappear or the light may suddenly become dark, so you need to set it appropriately."};
+        private static readonly string[] L_Shapes     = {"BlendShapes"          , "The number of BlendShapes for the mesh. The larger the number, the larger the mesh size will be."};
+        private static readonly string[] L_Slots      = {"Materials"            , "The number of material slots for the mesh. The larger this number is, the larger the rendering load will be."};
+        private static readonly string[] L_Polys      = {"Polys"                , "The number of polygons in the mesh. The larger this number is, the higher the load on the geometry shader and tessellation will be."};
+        private static readonly string[] L_Verts      = {"Vertices"             , "The number of vertices in the mesh. The larger this number is, the higher the load on the vertex shader and deformation by bones and blendshapes will be."};
+        private static readonly string[] L_Qualitys   = {"Quality"              , "This is the number of bones that can operate one vertex. The larger the number, the more calculations will be required, which may result in poorer performance. Basically, this is set to Auto, and if you want to limit it, it is recommended to change the model import settings."};
+        private static readonly string[] L_Updates    = {"Update When Offscreen", "If this is on, bounds will be calculated even if the mesh is off screen. This setting is off by default to reduce the load."};
+        private static readonly string[] L_Casts      = {"Cast Shadows"         , "Whether the mesh casts shadows on other objects."};
+        private static readonly string[] L_Receives   = {"Receive Shadows"      , "Whether the mesh receives shadows from other objects."};
+        private static readonly string[] L_LPs        = {"Light Probes"         , "How to calculate light probes."};
+        private static readonly string[] L_RPs        = {"Reflection Probes"    , "How to calculate reflection probes."};
+        private static readonly string[] L_Vectors    = {"Motion Vector"        , "Whether to output motion vectors, used for post-processing such as motion blur."};
+        private static readonly string[] L_Occlusions = {"Dynamic Occlusion"    , "If the mesh is hidden by other static objects, culling will be performed and rendering will be skipped. It is usually recommended to turn it on for better performance, but turn it off if you want to use special effects such as displaying objects hidden by walls."};
+
         internal override void Draw(AvatarUtilsWindow window)
         {
             if(IsEmptyLibs()) return;
@@ -46,10 +63,10 @@ namespace lilAvatarUtils.MainWindow
             var sumSlots = libs[indSlots].items.Where(item => item != null).Sum(item => (int)item);
             var sumPolys = libs[indPolys].items.Where(item => item != null).Sum(item => (int)item);
             var sumVerts = libs[indVerts].items.Where(item => item != null).Sum(item => (int)item);
-            GUIUtils.LabelField(rectTotal[indNames], "Total"              , false);
-            GUIUtils.LabelField(rectTotal[indSlots], sumSlots.ToString()  , false);
-            GUIUtils.LabelField(rectTotal[indPolys], sumPolys.ToString()  , false);
-            GUIUtils.LabelField(rectTotal[indVerts], sumVerts.ToString()  , false);
+            L10n    .LabelField(rectTotal[indNames], "Total"            );
+            GUIUtils.LabelField(rectTotal[indSlots], sumSlots.ToString());
+            GUIUtils.LabelField(rectTotal[indPolys], sumPolys.ToString());
+            GUIUtils.LabelField(rectTotal[indVerts], sumVerts.ToString());
 
             empNames      = (string)libs[indNames     ].emphasize;
             empAnchors    = (string)libs[indAnchors   ].emphasize;
@@ -100,23 +117,23 @@ namespace lilAvatarUtils.MainWindow
             var lpLabs = Enum.GetNames(typeof(LightProbeUsage));
             var rpLabs = Enum.GetNames(typeof(ReflectionProbeUsage));
             var transType = typeof(Transform);
-            //                                   items               label                    rect                 isEdit type        scene isMask emp            labs     empGUI empCon mainGUI
-            var names      = new TableProperties(new List<object>(), "Name"                 , new Rect(0,0,200,0), false, null     , false, false, empNames     , null  , null,  null,  null);
-            var anchors    = new TableProperties(new List<object>(), "Anchor Override"      , new Rect(0,0,100,0), true , transType, true , false, empAnchors   , null  , null,  null,  null);
-            var rootBones  = new TableProperties(new List<object>(), "Root Bone"            , new Rect(0,0,100,0), true , transType, true , false, empRootBones , null  , null,  null,  MainGUIRootBones);
-            var bounds     = new TableProperties(new List<object>(), "Bounds"               , new Rect(0,0,250,0), false, null     , false, false, empBounds    , null  , null,  null,  null);
-            var shapes     = new TableProperties(new List<object>(), "Shape"                , new Rect(0,0, 40,0), false, null     , false, false, empShapes    , null  , null,  null,  null);
-            var slots      = new TableProperties(new List<object>(), "Slots"                , new Rect(0,0, 40,0), false, null     , false, false, empSlots     , null  , null,  null,  null);
-            var polys      = new TableProperties(new List<object>(), "Polys"                , new Rect(0,0, 50,0), false, null     , false, false, empPolys     , null  , null,  null,  null);
-            var verts      = new TableProperties(new List<object>(), "Verts"                , new Rect(0,0, 50,0), false, null     , false, false, empVerts     , null  , null,  null,  null);
-            var qualitys   = new TableProperties(new List<object>(), "Quality"              , new Rect(0,0, 50,0), true , null     , false, true , empQualitys  , qlLabs, null,  null,  null);
-            var updates    = new TableProperties(new List<object>(), "Update When Offscreen", new Rect(0,0,140,0), true , null     , false, true , empUpdates   , null  , null,  null,  null);
-            var casts      = new TableProperties(new List<object>(), "Cast Shadows"         , new Rect(0,0, 90,0), true , null     , false, true , empCasts     , null  , null,  null,  null);
-            var receives   = new TableProperties(new List<object>(), "Receive Shadows"      , new Rect(0,0,110,0), true , null     , false, true , empReceives  , null  , null,  null,  null);
-            var lps        = new TableProperties(new List<object>(), "Light Probes"         , new Rect(0,0,110,0), true , null     , false, true , empLPs       , lpLabs, null,  null,  null);
-            var rps        = new TableProperties(new List<object>(), "Reflection Probes"    , new Rect(0,0,110,0), true , null     , false, true , empRPs       , rpLabs, null,  null,  null);
-            var vectors    = new TableProperties(new List<object>(), "Motion Vector"        , new Rect(0,0, 90,0), true , null     , false, true , empVectors   , null  , null,  null,  null);
-            var occlusions = new TableProperties(new List<object>(), "Dynamic Occlusion"    , new Rect(0,0,110,0), true , null     , false, true , empOcclusions, null  , null,  null,  null);
+            //                                   items               label         rect                 isEdit type        scene isMask emp            labs     empGUI empCon mainGUI
+            var names      = new TableProperties(new List<object>(), L_Names     , new Rect(0,0,200,0), false, null     , false, false, empNames     , null  , null,  null,  null);
+            var anchors    = new TableProperties(new List<object>(), L_Anchors   , new Rect(0,0,100,0), true , transType, true , false, empAnchors   , null  , null,  null,  null);
+            var rootBones  = new TableProperties(new List<object>(), L_RootBones , new Rect(0,0,100,0), true , transType, true , false, empRootBones , null  , null,  null,  MainGUIRootBones);
+            var bounds     = new TableProperties(new List<object>(), L_Bounds    , new Rect(0,0,250,0), false, null     , false, false, empBounds    , null  , null,  null,  null);
+            var shapes     = new TableProperties(new List<object>(), L_Shapes    , new Rect(0,0, 40,0), false, null     , false, false, empShapes    , null  , null,  null,  null);
+            var slots      = new TableProperties(new List<object>(), L_Slots     , new Rect(0,0, 40,0), false, null     , false, false, empSlots     , null  , null,  null,  null);
+            var polys      = new TableProperties(new List<object>(), L_Polys     , new Rect(0,0, 50,0), false, null     , false, false, empPolys     , null  , null,  null,  null);
+            var verts      = new TableProperties(new List<object>(), L_Verts     , new Rect(0,0, 50,0), false, null     , false, false, empVerts     , null  , null,  null,  null);
+            var qualitys   = new TableProperties(new List<object>(), L_Qualitys  , new Rect(0,0, 50,0), true , null     , false, true , empQualitys  , qlLabs, null,  null,  null);
+            var updates    = new TableProperties(new List<object>(), L_Updates   , new Rect(0,0,140,0), true , null     , false, true , empUpdates   , null  , null,  null,  null);
+            var casts      = new TableProperties(new List<object>(), L_Casts     , new Rect(0,0, 90,0), true , null     , false, true , empCasts     , null  , null,  null,  null);
+            var receives   = new TableProperties(new List<object>(), L_Receives  , new Rect(0,0,110,0), true , null     , false, true , empReceives  , null  , null,  null,  null);
+            var lps        = new TableProperties(new List<object>(), L_LPs       , new Rect(0,0,110,0), true , null     , false, true , empLPs       , lpLabs, null,  null,  null);
+            var rps        = new TableProperties(new List<object>(), L_RPs       , new Rect(0,0,110,0), true , null     , false, true , empRPs       , rpLabs, null,  null,  null);
+            var vectors    = new TableProperties(new List<object>(), L_Vectors   , new Rect(0,0, 90,0), true , null     , false, true , empVectors   , null  , null,  null,  null);
+            var occlusions = new TableProperties(new List<object>(), L_Occlusions, new Rect(0,0,110,0), true , null     , false, true , empOcclusions, null  , null,  null,  null);
 
             Sort();
             foreach(var smr in smrs)

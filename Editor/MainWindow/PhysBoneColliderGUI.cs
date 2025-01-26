@@ -27,6 +27,17 @@ namespace lilAvatarUtils.MainWindow
         internal bool[] showReferences = {false};
         internal Dictionary<VRCPhysBoneCollider, VRCPhysBone[]> pbcs = new Dictionary<VRCPhysBoneCollider, VRCPhysBone[]>();
 
+        private static readonly string[] L_Name   = {"Name"          , "Object name. Clicking this will select the corresponding object in the Hierarchy window."};
+        private static readonly string[] L_Root   = {"Root Transform", "The Transform used to calculate the collider position."};
+        private static readonly string[] L_Ref    = {"References"    , "The number of PhysBones referencing this collider."};
+        private static readonly string[] L_Shape  = {"Shape"         , "The shape of the collider."};
+        private static readonly string[] L_Radius = {"Radius"        , "The radius of the collider."};
+        private static readonly string[] L_Height = {"Height"        , "The height of the collider."};
+        private static readonly string[] L_Pos    = {"Position"      , "The offset of the collider's position from the root transform."};
+        private static readonly string[] L_Rot    = {"Rotation"      , "The amount of offset of the collider's rotation from the root bone."};
+        private static readonly string[] L_Inside = {"Inside"        , "Turning this on will act to push the PhysBone inside the collider."};
+        private static readonly string[] L_AsSphr = {"As Sphere"     , "When this is turned on, the shape of the collision detection for the PhysBone itself will be calculated as a sphere instead of a capsule."};
+
         internal override void Draw(AvatarUtilsWindow window)
         {
             if(IsEmptyLibs()) return;
@@ -58,7 +69,7 @@ namespace lilAvatarUtils.MainWindow
                 GUILayout.Space(20);
 
                 EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-                EditorGUILayout.LabelField("Referenced from");
+                L10n.LabelField(L_ReferencedFrom);
                 var pbc = (VRCPhysBoneCollider)libs[indName].items[count];
                 var pbs = pbcs[pbc];
                 foreach(var pb in pbs) GUIUtils.LabelFieldWithSelection(pb);
@@ -73,17 +84,17 @@ namespace lilAvatarUtils.MainWindow
             var shapeLabs = Enum.GetNames(typeof(VRCPhysBoneColliderBase.ShapeType));
 
             var transType = typeof(Transform);
-            //                                items               label        rect                 isEdit type       scene  isMask emp        labs       empGUI empCon mainGUI
-            var names   = new TableProperties(new List<object>(), "Name"     , new Rect(0,0,200,0), false, null     , false, false, empName  , null     , null,  null,  null);
-            var roots   = new TableProperties(new List<object>(), "Root"     , new Rect(0,0,100,0), true , transType, true , false, empRoot  , null     , null,  null,  null);
-            var refs    = new TableProperties(new List<object>(), "Refs"     , new Rect(0,0, 50,0), false, null     , false, false, empRef   , null     , null,  null,  null);
-            var shapes  = new TableProperties(new List<object>(), "Shape"    , new Rect(0,0, 70,0), true , null     , false, true , empShape , shapeLabs, null,  null,  null);
-            var radiuss = new TableProperties(new List<object>(), "Radius"   , new Rect(0,0, 50,0), true , null     , false, false, empRadius, null     , null,  null,  null);
-            var heights = new TableProperties(new List<object>(), "Height"   , new Rect(0,0, 50,0), true , null     , false, false, empHeight, null     , null,  null,  null);
-            var poss    = new TableProperties(new List<object>(), "Position" , new Rect(0,0,120,0), false, null     , false, false, empPos   , null     , null,  null,  null);
-            var rots    = new TableProperties(new List<object>(), "Rotation" , new Rect(0,0,120,0), false, null     , false, false, empRot   , null     , null,  null,  null);
-            var insides = new TableProperties(new List<object>(), "Inside"   , new Rect(0,0, 50,0), true , null     , false, true , empInside, null     , null,  null,  null);
-            var asSphrs = new TableProperties(new List<object>(), "As Sphere", new Rect(0,0, 60,0), true , null     , false, true , empAsSphr, null     , null,  null,  null);
+            //                                items               label     rect                 isEdit type       scene  isMask emp        labs       empGUI empCon mainGUI
+            var names   = new TableProperties(new List<object>(), L_Name  , new Rect(0,0,200,0), false, null     , false, false, empName  , null     , null,  null,  null);
+            var roots   = new TableProperties(new List<object>(), L_Root  , new Rect(0,0,100,0), true , transType, true , false, empRoot  , null     , null,  null,  null);
+            var refs    = new TableProperties(new List<object>(), L_Ref   , new Rect(0,0, 50,0), false, null     , false, false, empRef   , null     , null,  null,  null);
+            var shapes  = new TableProperties(new List<object>(), L_Shape , new Rect(0,0, 70,0), true , null     , false, true , empShape , shapeLabs, null,  null,  null);
+            var radiuss = new TableProperties(new List<object>(), L_Radius, new Rect(0,0, 50,0), true , null     , false, false, empRadius, null     , null,  null,  null);
+            var heights = new TableProperties(new List<object>(), L_Height, new Rect(0,0, 50,0), true , null     , false, false, empHeight, null     , null,  null,  null);
+            var poss    = new TableProperties(new List<object>(), L_Pos   , new Rect(0,0,120,0), false, null     , false, false, empPos   , null     , null,  null,  null);
+            var rots    = new TableProperties(new List<object>(), L_Rot   , new Rect(0,0,120,0), false, null     , false, false, empRot   , null     , null,  null,  null);
+            var insides = new TableProperties(new List<object>(), L_Inside, new Rect(0,0, 50,0), true , null     , false, true , empInside, null     , null,  null,  null);
+            var asSphrs = new TableProperties(new List<object>(), L_AsSphr, new Rect(0,0, 60,0), true , null     , false, true , empAsSphr, null     , null,  null,  null);
 
             Sort();
             foreach(var pbc in pbcs)

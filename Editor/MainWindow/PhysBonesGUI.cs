@@ -28,6 +28,18 @@ namespace lilAvatarUtils.MainWindow
         internal HashSet<VRCPhysBone> pbs = new HashSet<VRCPhysBone>();
         internal Dictionary<VRCPhysBoneCollider, VRCPhysBone[]> pbcs = new Dictionary<VRCPhysBoneCollider, VRCPhysBone[]>();
 
+        private static readonly string[] L_Name      = {"Name"            , "Object name. Clicking this will select the corresponding object in the Hierarchy window."};
+        private static readonly string[] L_Root      = {"Root Transform"  , "This is the root of the bone or transform that performs PhysBone calculations. Motion is applied to the transforms under this."};
+        private static readonly string[] L_Parent    = {"Parent"          , "Parent object of PhysBone. If the parent is the same, you may be able to reduce the number of components by unifying the components."};
+        private static readonly string[] L_MCType    = {"Multi Child Type", "How to determine orientation when there are multiple child bones and the orientation of the parent bone cannot be determined."};
+        private static readonly string[] L_Bones     = {"Bones"           , "The number of bones the sway is calculated for. The higher the number, the higher the cost."};
+        private static readonly string[] L_Colliders = {"Colliders"       , "The number of colliders to calculate the collision detection with this PhysBone."};
+        private static readonly string[] L_Collision = {"Collision"       , "The number of collision calculations. This number increases according to the number of bones and colliders, and the higher the number, the greater the load."};
+        private static readonly string[] L_ImType    = {"Immobile Type"   , "This is how to calculate Immobile."};
+        private static readonly string[] L_Allow     = {"Allow Collision" , "Whether or not to enable collisions with colliders other than those set by the component. It will collide with each player's hand."};
+        private static readonly string[] L_Grab      = {"Grabbing"        , "Whether or not to be able to grab PhysBone."};
+        private static readonly string[] L_Pose      = {"Posing"          , "Whether the PhysBone can be posed."};
+
         internal override void Draw(AvatarUtilsWindow window)
         {
             if(IsEmptyLibs()) return;
@@ -38,10 +50,10 @@ namespace lilAvatarUtils.MainWindow
             var rectTotal = GetShiftedRects();
             int sumBones = libs[indBones].items.Sum(item => (int)item);
             int sumCollisions = libs[indCollision].items.Sum(item => (int)item);
-            if(labelMasks[indName     ]) GUIUtils.LabelField(rectTotal[indName     ], "Total"                 , false);
-            if(labelMasks[indBones    ]) GUIUtils.LabelField(rectTotal[indBones    ], sumBones.ToString()     , false);
-            if(labelMasks[indColliders]) GUIUtils.LabelField(rectTotal[indColliders], pbcs.Count.ToString()   , false);
-            if(labelMasks[indCollision]) GUIUtils.LabelField(rectTotal[indCollision], sumCollisions.ToString(), false);
+            if(labelMasks[indName     ]) L10n    .LabelField(rectTotal[indName     ], "Total"                 );
+            if(labelMasks[indBones    ]) GUIUtils.LabelField(rectTotal[indBones    ], sumBones.ToString()     );
+            if(labelMasks[indColliders]) GUIUtils.LabelField(rectTotal[indColliders], pbcs.Count.ToString()   );
+            if(labelMasks[indCollision]) GUIUtils.LabelField(rectTotal[indCollision], sumCollisions.ToString());
 
             empName      = (string)libs[indName     ].emphasize;
             empRoot      = (string)libs[indRoot     ].emphasize;
@@ -69,18 +81,18 @@ namespace lilAvatarUtils.MainWindow
             #endif
 
             var transType = typeof(Transform);
-            //                                   items               label               rect                 isEdit type       scene  isMask emp           labs        empGUI empCon mainGUI
-            var names      = new TableProperties(new List<object>(), "Name"            , new Rect(0,0,200,0), false, null     , false, false, empName     , null      , null,  null,  null);
-            var roots      = new TableProperties(new List<object>(), "Root"            , new Rect(0,0,100,0), true , transType, true , false, empRoot     , null      , null,  null,  null);
-            var parents    = new TableProperties(new List<object>(), "Parent"          , new Rect(0,0,100,0), false, null     , false, false, empParent   , null      , null,  null,  null);
-            var mcTypes    = new TableProperties(new List<object>(), "Multi Child Type", new Rect(0,0,100,0), true , null     , false, true , empMCType   , mcLabs    , null,  null,  null);
-            var bones      = new TableProperties(new List<object>(), "Bones"           , new Rect(0,0, 40,0), false, null     , false, false, empBones    , null      , null,  null,  null);
-            var colliders  = new TableProperties(new List<object>(), "Colliders"       , new Rect(0,0, 50,0), false, null     , false, false, empColliders, null      , null,  null,  null);
-            var collisions = new TableProperties(new List<object>(), "Collision"       , new Rect(0,0, 50,0), false, null     , false, false, empCollision, null      , null,  null,  null);
-            var imTypes    = new TableProperties(new List<object>(), "Immobile Type"   , new Rect(0,0, 90,0), true , null     , false, true , empImType   , imTypeLabs, null,  null,  null);
-            var allows     = new TableProperties(new List<object>(), "Allow Collision" , new Rect(0,0, 90,0), true , null     , false, true , empAllow    , abTypeLabs, null,  null,  null);
-            var grabs      = new TableProperties(new List<object>(), "Grabbing"        , new Rect(0,0, 60,0), true , null     , false, true , empGrab     , abTypeLabs, null,  null,  null);
-            var poses      = new TableProperties(new List<object>(), "Posing"          , new Rect(0,0, 40,0), true , null     , false, true , empPose     , abTypeLabs, null,  null,  null);
+            //                                   items               label        rect                 isEdit type       scene  isMask emp           labs        empGUI empCon mainGUI
+            var names      = new TableProperties(new List<object>(), L_Name     , new Rect(0,0,200,0), false, null     , false, false, empName     , null      , null,  null,  null);
+            var roots      = new TableProperties(new List<object>(), L_Root     , new Rect(0,0,100,0), true , transType, true , false, empRoot     , null      , null,  null,  null);
+            var parents    = new TableProperties(new List<object>(), L_Parent   , new Rect(0,0,100,0), false, null     , false, false, empParent   , null      , null,  null,  null);
+            var mcTypes    = new TableProperties(new List<object>(), L_MCType   , new Rect(0,0,100,0), true , null     , false, true , empMCType   , mcLabs    , null,  null,  null);
+            var bones      = new TableProperties(new List<object>(), L_Bones    , new Rect(0,0, 40,0), false, null     , false, false, empBones    , null      , null,  null,  null);
+            var colliders  = new TableProperties(new List<object>(), L_Colliders, new Rect(0,0, 50,0), false, null     , false, false, empColliders, null      , null,  null,  null);
+            var collisions = new TableProperties(new List<object>(), L_Collision, new Rect(0,0, 50,0), false, null     , false, false, empCollision, null      , null,  null,  null);
+            var imTypes    = new TableProperties(new List<object>(), L_ImType   , new Rect(0,0, 90,0), true , null     , false, true , empImType   , imTypeLabs, null,  null,  null);
+            var allows     = new TableProperties(new List<object>(), L_Allow    , new Rect(0,0, 90,0), true , null     , false, true , empAllow    , abTypeLabs, null,  null,  null);
+            var grabs      = new TableProperties(new List<object>(), L_Grab     , new Rect(0,0, 60,0), true , null     , false, true , empGrab     , abTypeLabs, null,  null,  null);
+            var poses      = new TableProperties(new List<object>(), L_Pose     , new Rect(0,0, 40,0), true , null     , false, true , empPose     , abTypeLabs, null,  null,  null);
 
             Sort();
             foreach(var pb in pbs)
