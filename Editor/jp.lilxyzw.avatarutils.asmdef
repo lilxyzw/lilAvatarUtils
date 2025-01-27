@@ -1,7 +1,9 @@
 {
     "name": "jp.lilxyzw.avatarutils",
     "rootNamespace": "jp.lilxyzw.avatarutils",
-    "references": [],
+    "references": [
+        "jp.lilxyzw.avatarutils.docsgenerator"
+    ],
     "includePlatforms": [
         "Editor"
     ],

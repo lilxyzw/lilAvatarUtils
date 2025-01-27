@@ -37,8 +37,8 @@ namespace jp.lilxyzw.avatarutils
             => EditorGUILayout.ToggleLeft(G(key), value, options);
 
         // Other
-        public static int Toolbar(int selected, string[] texts, params GUILayoutOption[] options)
-            => GUILayout.Toolbar(selected, texts.Select(t => L(t)).ToArray(), options);
+        public static int Toolbar(int selected, string[][] texts, params GUILayoutOption[] options)
+            => GUILayout.Toolbar(selected, texts.Select(t => G(t)).ToArray(), options);
 
         public static bool DisplayDialog(string title, string message, string ok, string cancel)
             => EditorUtility.DisplayDialog(title, L(message), L(ok), L(cancel));

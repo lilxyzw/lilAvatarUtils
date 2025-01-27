@@ -50,31 +50,166 @@ msgstr "参照元"
 
 
 
+#: For Docs
+
+msgid "Name"
+msgstr "名前"
+
+msgid "Description"
+msgstr "説明"
+
+msgid "Property"
+msgstr "プロパティ"
+
+msgid "Menu Location"
+msgstr "メニューの場所"
+
+msgid "How to use"
+msgstr "使い方"
+
+
+
+#: README
+
+msgid "Avatar editing assistant"
+msgstr "アバター改変補助ツール"
+
+msgid "This is a package containing various avatar editing assistance tools."
+msgstr "様々なアバター編集補助ツールが入ったパッケージです。"
+
+msgid "Document"
+msgstr "ドキュメント"
+
+msgid "Home"
+msgstr "ホーム"
+
+msgid "Search"
+msgstr "検索"
+
+msgid "Display detailed list"
+msgstr "詳細リストを表示"
+
+msgid "Reset search"
+msgstr "検索条件を削除"
+
+msgid "Close search"
+msgstr "検索を閉じる"
+
+msgid "No results for"
+msgstr "見つかりませんでした。"
+
+msgid "to select"
+msgstr "選択"
+
+msgid "enter"
+msgstr "エンター"
+
+msgid "to navigate"
+msgstr "切り替え"
+
+msgid "up arrow"
+msgstr "上矢印"
+
+msgid "down arrow"
+msgstr "下矢印"
+
+msgid "to close"
+msgstr "閉じる"
+
+msgid "escape"
+msgstr "エスケープ"
+
+msgid "Updated at"
+msgstr "最終更新"
+
+msgid "Documents"
+msgstr "ドキュメント一覧"
+
+msgid "This is the documentation page for lilAvatarUtils."
+msgstr "lilAvatarUtilsのドキュメントページです。"
+
+
+
+#: Main
+
+msgid "Main Window"
+msgstr "メインウィンドウ"
+
+msgid "This is the main window of the tool. You can assign an avatar and view and edit data in each tab."
+msgstr "ツールのメインウィンドウです。チェックしたいアバターを割り当て、各タブでデータを確認・編集できます。"
+
+
+
 #: Tabs
 
 msgid "Textures"
 msgstr "テクスチャ"
 
+msgid "This is a list of all textures included in the avatar. Some properties can be edited, and the changed properties will be applied all at once by pressing the Apply button in the upper left."
+msgstr "アバターに含まれる全てのテクスチャの一覧です。一部プロパティは編集可能で、変更したプロパティは左上の適用ボタンを押すと一括で適用されます。"
+
+msgid "This tool is useful for identifying unnecessary textures or textures with excessive resolution to reduce the size of your avatar. For example, there are cases where the texture before modification remains on the material's luminescence or outline, which wastes VRAM, but with this tool you can replace the corresponding texture with the modified texture all at once. You can also efficiently reduce VRAM size by sorting the textures by VRAM capacity and changing the import settings."
+msgstr "不要なテクスチャや過剰な解像度のテクスチャを特定してアバターの軽量化を行うのに便利です。例えばマテリアルの発光や輪郭線に改変前のテクスチャ残っていてそれが無駄にVRAMを消費してしまうケースがありますが、このツールで該当テクスチャを一括で改変後のテクスチャに置き換えることができます。また、テクスチャをVRAM容量順に並べてインポート設定を変えることで効率的にVRAMサイズ削減作業を行うことができます。"
+
 msgid "Materials"
 msgstr "マテリアル"
+
+msgid "This is a list of all materials included in the avatar. Some properties can be edited, and the changed properties will be applied all at once by pressing the Apply button in the upper left."
+msgstr "アバターに含まれる全てのマテリアルの一覧です。一部プロパティは編集可能で、変更したプロパティは左上の適用ボタンを押すと一括で適用されます。"
+
+msgid "You can identify materials you forgot to replace and replace them all at once, and check the shader type and render queue to help solve avatar rendering problems. It can also be used as a tool to replace the original avatar materials all at once."
+msgstr "置き換え忘れたマテリアルの特定・一括置き換えをしたり、シェーダーの種類やレンダーキューを確認してアバターの描画のトラブルの解決に役立てたりできます。また、改変前のアバターのマテリアルを一括で置き換えるツールとしても利用できます。"
 
 msgid "Animations"
 msgstr "アニメーション"
 
+msgid "This is a list of all animations included in the avatar. You can also see what types of keyframes the animation contains."
+msgstr "アバターに含まれる全てのアニメーションの一覧です。アニメーションに含まれるキーフレームの種類も確認できます。"
+
+msgid "Problems that don't occur in the editor but occur in the game are often caused by animations, but if there are a lot of animations, it can take time to identify the cause. This tool lists all the animations included in the avatar and also displays the animation type, helping you identify the animation that is causing the problem."
+msgstr "エディタ上で発生せずゲーム上で発生するトラブルは多くの場合アニメーションが原因ですが、アニメーション数が多いと原因の特定に時間がかかります。このツールではアバターに含まれる全アニメーションを列挙し、さらにアニメーションの種類も表示することで原因となっているアニメーションを特定するのに役立ちます。"
+
 msgid "Renderers"
 msgstr "レンダラー"
+
+msgid "This is a list of all renderers included in the avatar. Some properties can be edited, and the changed properties will be applied all at once by pressing the Apply button in the upper left."
+msgstr "アバターに含まれる全てのレンダラーの一覧です。一部プロパティは編集可能で、変更したプロパティは左上の適用ボタンを押すと一括で適用されます。"
+
+msgid "You can check the difference in anchor overrides and root bone settings to resolve avatar lighting issues, or identify meshes with high polygon counts and material slots to help make your avatar lighter."
+msgstr "アンカーオーバライドやルートボーンの設定の差異を確認してアバターの明るさの問題を解決したり、ポリゴン数やマテリアルスロットの多いメッシュを特定してアバターの軽量化に役立てたりできます。"
 
 msgid "PhysBones"
 msgstr "PhysBone"
 
+msgid "This is a list of all PhysBones included in the avatar. Some properties can be edited, and the changed properties will be applied all at once by pressing the Apply button in the upper left."
+msgstr "アバターに含まれる全てのPhysBoneの一覧です。一部プロパティは編集可能で、変更したプロパティは左上の適用ボタンを押すと一括で適用されます。"
+
+msgid "It is useful for identifying PhysBone components that have a large impact on performance rank, and for discovering PhysBones that have similar root bones and settings and can be integrated."
+msgstr "パフォーマンスランクへの影響が大きいPhysBoneコンポーネントの特定を行ったり、ルートボーンや設定がほぼ共通で統合できそうなPhysBoneを発見するのに役立ちます。"
+
 msgid "PBColliders"
 msgstr "PBコライダー"
+
+msgid "This is a list of all PhysBone Colliders included in the avatar. Some properties can be edited, and the changed properties will be applied all at once by pressing the Apply button in the upper left."
+msgstr "アバターに含まれる全てのPhysBoneコライダーの一覧です。一部プロパティは編集可能で、変更したプロパティは左上の適用ボタンを押すと一括で適用されます。"
+
+msgid "This helps to identify the source of collider references and eliminate unnecessary colliders that are not referenced anywhere."
+msgstr "コライダーの参照元の特定や、どこからも参照されない無駄なコライダーの削減に役立ちます。"
 
 msgid "Lighting"
 msgstr "ライティング"
 
+msgid "This is a tool to check how your avatar looks in various environments. When you install VRCSDK, you can also check how your avatar looks when shaders are not applied due to safety."
+msgstr "様々な環境におけるアバターの見え方を確認するツールです。VRCSDK導入時はセーフティによってシェーダーが適用されなかった場合のアバターの見え方も確認することができます。"
+
+msgid "It is useful for checking the appearance of avatars under special lighting conditions that cannot be detected in the Unity default scene. It also allows you to check rendering problems that you cannot detect by yourself when safety is activated."
+msgstr "Unityデフォルトシーンでは気付けない特殊なライティング状況下でのアバターの見た目の確認に役立ちます。また、自分では気付けないセーフティ発動時の描画トラブルも確認できます。"
+
 msgid "Utils"
 msgstr "ツール"
+
+msgid "This tab contains miscellaneous utilities."
+msgstr "その他のツールをまとめたタブです。"
 
 
 
@@ -525,17 +660,26 @@ msgstr "VRChat上でセーフティが有効になった場合の見た目をシ
 msgid "Clean up Materials"
 msgstr "マテリアルのクリーンアップ"
 
+msgid "Delete any unnecessary properties that are not used by the assigned shader. It is recommended to delete any unnecessary texture allocations, as they may result in unnecessary textures being included in the avatar, making it larger in size."
+msgstr "割り当て中のシェーダーで使用されない不要なプロパティを削除します。不要なテクスチャ割り当てが残っていると不要なテクスチャがアバターに含まれて容量が大きくなってしまう場合があるため、削除を行うことをオススメします。"
+
 msgid "Removed unused properties on {0} materials."
 msgstr "{0}個のマテリアルから不要なプロパティを削除しました。"
 
 msgid "Clean up AnimatorControllers"
 msgstr "AnimatorControllerのクリーンアップ"
 
+msgid "Delete unnecessary sub-assets that are not referenced anywhere and are generated by editing the AnimatorController."
+msgstr "AnimatorControllerの編集によって生じたどこからも参照されない不要なサブアセットの削除を行います。"
+
 msgid "Removed unused sub-assets in {0} AnimatorControllers."
 msgstr "{0}個のAnimatorControllerから不要なサブアセットを削除しました。"
 
 msgid "Remove Missing Components"
 msgstr "Missingなコンポーネントを削除"
+
+msgid "Remove any missing components where a required script has not been imported or has been corrupted in some way."
+msgstr "前提となるスクリプトがインポートされていないか何らかの要因で破損したMissingなコンポーネントを削除します。"
 
 msgid "Removed {0} missing components."
 msgstr "{0}個のMissingなコンポーネントを削除しました。"

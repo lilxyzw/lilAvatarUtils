@@ -6,9 +6,15 @@ using UnityEngine;
 
 namespace jp.lilxyzw.avatarutils
 {
+    [Docs(T_Title,T_Description)][DocsHowTo(T_HowTo)]
     [Serializable]
     internal class MaterialsGUI : AbstractTabelGUI
     {
+        internal const string T_Title = "Materials";
+        internal const string T_Description = "This is a list of all materials included in the avatar. Some properties can be edited, and the changed properties will be applied all at once by pressing the Apply button in the upper left.";
+        internal const string T_HowTo = "You can identify materials you forgot to replace and replace them all at once, and check the shader type and render queue to help solve avatar rendering problems. It can also be used as a tool to replace the original avatar materials all at once.";
+        internal static readonly string[] T_TD = {T_Title, T_Description};
+
         public string empMats    = "";   private const int indMats    = 0;
         public string empRepMats = "";   private const int indRepMats = 1;
         public string empShaders = "";   private const int indShaders = 2;
@@ -16,10 +22,10 @@ namespace jp.lilxyzw.avatarutils
         public bool[] showReferences = {false};
         internal Dictionary<Material, MaterialData> mds = new Dictionary<Material, MaterialData>();
 
-        private static readonly string[] L_Mats    = {"Name"        , "Asset name. Clicking this will select the corresponding asset in the Project window."};
-        private static readonly string[] L_RepMats = {"Replace"     , "By specifying a different material here, you can replace all materials currently present on the avatar at once."};
-        private static readonly string[] L_Shaders = {"Shader"      , "The shader that the material is using."};
-        private static readonly string[] L_Queues  = {"Render Queue", "The rendering priority of the material. Smaller values ​​are rendered first. If a material that includes transparency is set to less than 2500, rendering problems may occur when it overlaps with the skybox. If it is set to 2501 or more, the lens effect will cause the material to lose focus and it will not be able to receive shadows. If a transparent material is set to an excessively low value (such as 2450 or less), it is very likely to cause problems with other materials being erased."};
+        [DocsField] private static readonly string[] L_Mats    = {"Name"        , "Asset name. Clicking this will select the corresponding asset in the Project window."};
+        [DocsField] private static readonly string[] L_RepMats = {"Replace"     , "By specifying a different material here, you can replace all materials currently present on the avatar at once."};
+        [DocsField] private static readonly string[] L_Shaders = {"Shader"      , "The shader that the material is using."};
+        [DocsField] private static readonly string[] L_Queues  = {"Render Queue", "The rendering priority of the material. Smaller values ​​are rendered first. If a material that includes transparency is set to less than 2500, rendering problems may occur when it overlaps with the skybox. If it is set to 2501 or more, the lens effect will cause the material to lose focus and it will not be able to receive shadows. If a transparent material is set to an excessively low value (such as 2450 or less), it is very likely to cause problems with other materials being erased."};
 
         internal override void Draw(AvatarUtils window)
         {

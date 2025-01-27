@@ -1,12 +1,29 @@
 ﻿using System;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
 namespace jp.lilxyzw.avatarutils
 {
+    [Docs("Main Window", "This is the main window of the tool. You can assign an avatar and view and edit data in each tab.")]
+    [DocsMenuLocation(MENU_PATH)]
     internal class AvatarUtils : EditorWindow
     {
         internal const string TEXT_WINDOW_NAME = "lilAvatarUtils";
+        private const string MENU_PATH = "Tools/lilAvatarUtils";
+        internal static readonly (Type,string[],EditorMode)[] TabTypes = {
+            (typeof(TexturesGUI),          TexturesGUI.T_TD,          EditorMode.Textures),
+            (typeof(MaterialsGUI),         MaterialsGUI.T_TD,         EditorMode.Materials),
+            (typeof(AnimationClipGUI),     AnimationClipGUI.T_TD,     EditorMode.Animations),
+            (typeof(RenderersGUI),         RenderersGUI.T_TD,         EditorMode.Renderers),
+            #if LIL_VRCSDK3_AVATARS
+            (typeof(PhysBonesGUI),         PhysBonesGUI.T_TD,         EditorMode.PhysBones),
+            (typeof(PhysBoneCollidersGUI), PhysBoneCollidersGUI.T_TD, EditorMode.PBColliders),
+            #endif
+            (typeof(LightingTestGUI),      LightingTestGUI.T_TD,      EditorMode.Lighting),
+            (typeof(UtilsGUI),             UtilsGUI.T_TD,             EditorMode.Utils),
+        };
+        private static string[][] L_EditorModeList = TabTypes.Select(t => t.Item2).ToArray();
 
         public EditorMode editorMode = EditorMode.Textures;
         public GameObject gameObject;
@@ -28,7 +45,7 @@ namespace jp.lilxyzw.avatarutils
         [NonSerialized] float prevNear = 0;
         [NonSerialized] float prevFar = 0;
 
-        [MenuItem("Tools/lilAvatarUtils")]
+        [MenuItem(MENU_PATH)]
         internal static void Init()
         {
             string windowName = $"{TEXT_WINDOW_NAME} {PackageJsonReader.GetVersion()}";
@@ -54,8 +71,7 @@ namespace jp.lilxyzw.avatarutils
 
             GameObjectSelectionGUI();
 
-            string[] sEditorModeList = Enum.GetNames(typeof(EditorMode));
-            editorMode = (EditorMode)L10n.Toolbar((int)editorMode, sEditorModeList);
+            editorMode = (EditorMode)L10n.Toolbar((int)editorMode, L_EditorModeList);
             switch (editorMode)
             {
                 case EditorMode.Textures: texturesGUI.Draw(this); break;

@@ -9,9 +9,15 @@ using VRC.Dynamics;
 
 namespace jp.lilxyzw.avatarutils
 {
+    [Docs(T_Title,T_Description)][DocsHowTo(T_HowTo)]
     [Serializable]
     internal class PhysBoneCollidersGUI : AbstractTabelGUI
     {
+        internal const string T_Title = "PBColliders";
+        internal const string T_Description = "This is a list of all PhysBone Colliders included in the avatar. Some properties can be edited, and the changed properties will be applied all at once by pressing the Apply button in the upper left.";
+        internal const string T_HowTo = "This helps to identify the source of collider references and eliminate unnecessary colliders that are not referenced anywhere.";
+        internal static readonly string[] T_TD = {T_Title, T_Description};
+
         public string empName   = ""; private const int indName   =  0;
         public string empRoot   = ""; private const int indRoot   =  1;
         public int    empRef    = 20;  private const int indRef   =  2;
@@ -26,16 +32,16 @@ namespace jp.lilxyzw.avatarutils
         internal bool[] showReferences = {false};
         internal Dictionary<VRCPhysBoneCollider, VRCPhysBone[]> pbcs = new Dictionary<VRCPhysBoneCollider, VRCPhysBone[]>();
 
-        private static readonly string[] L_Name   = {"Name"          , "Object name. Clicking this will select the corresponding object in the Hierarchy window."};
-        private static readonly string[] L_Root   = {"Root Transform", "The Transform used to calculate the collider position."};
-        private static readonly string[] L_Ref    = {"References"    , "The number of PhysBones referencing this collider."};
-        private static readonly string[] L_Shape  = {"Shape"         , "The shape of the collider."};
-        private static readonly string[] L_Radius = {"Radius"        , "The radius of the collider."};
-        private static readonly string[] L_Height = {"Height"        , "The height of the collider."};
-        private static readonly string[] L_Pos    = {"Position"      , "The offset of the collider's position from the root transform."};
-        private static readonly string[] L_Rot    = {"Rotation"      , "The amount of offset of the collider's rotation from the root bone."};
-        private static readonly string[] L_Inside = {"Inside"        , "Turning this on will act to push the PhysBone inside the collider."};
-        private static readonly string[] L_AsSphr = {"As Sphere"     , "When this is turned on, the shape of the collision detection for the PhysBone itself will be calculated as a sphere instead of a capsule."};
+        [DocsField] private static readonly string[] L_Name   = {"Name"          , "Object name. Clicking this will select the corresponding object in the Hierarchy window."};
+        [DocsField] private static readonly string[] L_Root   = {"Root Transform", "The Transform used to calculate the collider position."};
+        [DocsField] private static readonly string[] L_Ref    = {"References"    , "The number of PhysBones referencing this collider."};
+        [DocsField] private static readonly string[] L_Shape  = {"Shape"         , "The shape of the collider."};
+        [DocsField] private static readonly string[] L_Radius = {"Radius"        , "The radius of the collider."};
+        [DocsField] private static readonly string[] L_Height = {"Height"        , "The height of the collider."};
+        [DocsField] private static readonly string[] L_Pos    = {"Position"      , "The offset of the collider's position from the root transform."};
+        [DocsField] private static readonly string[] L_Rot    = {"Rotation"      , "The amount of offset of the collider's rotation from the root bone."};
+        [DocsField] private static readonly string[] L_Inside = {"Inside"        , "Turning this on will act to push the PhysBone inside the collider."};
+        [DocsField] private static readonly string[] L_AsSphr = {"As Sphere"     , "When this is turned on, the shape of the collision detection for the PhysBone itself will be calculated as a sphere instead of a capsule."};
 
         internal override void Draw(AvatarUtils window)
         {

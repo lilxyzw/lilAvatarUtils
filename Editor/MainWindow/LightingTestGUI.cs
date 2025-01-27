@@ -7,9 +7,15 @@ using Object = UnityEngine.Object;
 
 namespace jp.lilxyzw.avatarutils
 {
+    [Docs(T_Title,T_Description)][DocsHowTo(T_HowTo)]
     [Serializable]
     internal class LightingTestGUI
     {
+        internal const string T_Title = "Lighting";
+        internal const string T_Description = "This is a tool to check how your avatar looks in various environments. When you install VRCSDK, you can also check how your avatar looks when shaders are not applied due to safety.";
+        internal const string T_HowTo = "It is useful for checking the appearance of avatars under special lighting conditions that cannot be detected in the Unity default scene. It also allows you to check rendering problems that you cannot detect by yourself when safety is activated.";
+        internal static readonly string[] T_TD = {T_Title, T_Description};
+
         internal GameObject gameObject;
         private GameObject prevGameObject = null;
         private GameObject renderedGameObject = null;
@@ -36,12 +42,12 @@ namespace jp.lilxyzw.avatarutils
         public LightShadows lightShadows = LightShadows.None;
         public float reflectionIntensity = 0;
 
-        private static readonly string[] L_NoLight      = {"No light"     ,"There is no light, including ambient light."};
-        private static readonly string[] L_Overexposure = {"Overexposure" ,"It is illuminated by excessively bright directional light."};
-        private static readonly string[] L_InShadow     = {"In Shadow"    ,"The whole avatar is in shadow."};
-        private static readonly string[] L_SpotLight    = {"Spot Light"   ,"It is lit by one spotlight."};
-        private static readonly string[] L_3SpotLights  = {"3 Spot Lights","It is lit by three spotlights."};
-        private static readonly string[] L_Custom       = {"Custom"       ,"User can customize lighting."};
+        [DocsField] private static readonly string[] L_NoLight      = {"No light"     ,"There is no light, including ambient light."};
+        [DocsField] private static readonly string[] L_Overexposure = {"Overexposure" ,"It is illuminated by excessively bright directional light."};
+        [DocsField] private static readonly string[] L_InShadow     = {"In Shadow"    ,"The whole avatar is in shadow."};
+        [DocsField] private static readonly string[] L_SpotLight    = {"Spot Light"   ,"It is lit by one spotlight."};
+        [DocsField] private static readonly string[] L_3SpotLights  = {"3 Spot Lights","It is lit by three spotlights."};
+        [DocsField] private static readonly string[] L_Custom       = {"Custom"       ,"User can customize lighting."};
 
         private static readonly string[] L_Ambient    = {"Ambient"     , ""};
         private static readonly string[] L_MainLight  = {"Main Light"  , ""};
@@ -55,6 +61,7 @@ namespace jp.lilxyzw.avatarutils
 
         internal void Draw(AvatarUtils window)
         {
+            if(!gameObject) return;
             #if LIL_VRCSDK3_AVATARS
             if(isSafetyOn != L10n.ToggleLeft(L_SimulateSafetyEnabled, isSafetyOn))
             {

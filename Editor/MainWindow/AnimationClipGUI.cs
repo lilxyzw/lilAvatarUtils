@@ -9,9 +9,15 @@ using UnityEngine;
 
 namespace jp.lilxyzw.avatarutils
 {
+    [Docs(T_Title,T_Description)][DocsHowTo(T_HowTo)]
     [Serializable]
     internal class AnimationClipGUI : AbstractTabelGUI
     {
+        internal const string T_Title = "Animations";
+        internal const string T_Description = "This is a list of all animations included in the avatar. You can also see what types of keyframes the animation contains.";
+        internal const string T_HowTo = "Problems that don't occur in the editor but occur in the game are often caused by animations, but if there are a lot of animations, it can take time to identify the cause. This tool lists all the animations included in the avatar and also displays the animation type, helping you identify the animation that is causing the problem.";
+        internal static readonly string[] T_TD = {T_Title, T_Description};
+
         public string empClips              = ""; private const int indClips            = 0;
         public int    empHumanoids          = 2 ; private const int indHumanoid         = 1;
         public int    empBlendShapes        = 2 ; private const int indBlendShape       = 2;
@@ -24,15 +30,15 @@ namespace jp.lilxyzw.avatarutils
         public bool[] showReferences = {false};
         internal Dictionary<AnimationClip, AnimationClipData> acds = new Dictionary<AnimationClip, AnimationClipData>();
 
-        private static readonly string[] L_Clips             = {"Name"             , "Asset name. Clicking this will select the corresponding asset in the Project window."};
-        private static readonly string[] L_Humanoids         = {"Humanoid"         , "Whether the animation includes humanoid manipulation."};
-        private static readonly string[] L_BlendShapes       = {"BlendShape"       , "Whether the animation includes blendshape manipulation."};
-        private static readonly string[] L_ToggleActives     = {"Object Active"    , "Whether the animation includes toggling objects."};
-        private static readonly string[] L_ToggleEnableds    = {"Component Enable" , "Whether the animation includes toggling components."};
-        private static readonly string[] L_Transforms        = {"Transform"        , "Whether the animation includes transform manipulation."};
-        private static readonly string[] L_MaterialReplaces  = {"Material Replace" , "Whether the animation includes material replacement."};
-        private static readonly string[] L_MaterialPropertys = {"Material Property", "Whether the animation includes material property manipulation."};
-        private static readonly string[] L_Others            = {"Others"           , "Whether the animation includes any other actions."};
+        [DocsField] private static readonly string[] L_Clips             = {"Name"             , "Asset name. Clicking this will select the corresponding asset in the Project window."};
+        [DocsField] private static readonly string[] L_Humanoids         = {"Humanoid"         , "Whether the animation includes humanoid manipulation."};
+        [DocsField] private static readonly string[] L_BlendShapes       = {"BlendShape"       , "Whether the animation includes blendshape manipulation."};
+        [DocsField] private static readonly string[] L_ToggleActives     = {"Object Active"    , "Whether the animation includes toggling objects."};
+        [DocsField] private static readonly string[] L_ToggleEnableds    = {"Component Enable" , "Whether the animation includes toggling components."};
+        [DocsField] private static readonly string[] L_Transforms        = {"Transform"        , "Whether the animation includes transform manipulation."};
+        [DocsField] private static readonly string[] L_MaterialReplaces  = {"Material Replace" , "Whether the animation includes material replacement."};
+        [DocsField] private static readonly string[] L_MaterialPropertys = {"Material Property", "Whether the animation includes material property manipulation."};
+        [DocsField] private static readonly string[] L_Others            = {"Others"           , "Whether the animation includes any other actions."};
 
         internal override void Draw(AvatarUtils window)
         {

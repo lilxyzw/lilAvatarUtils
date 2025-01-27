@@ -9,9 +9,15 @@ using VRC.Dynamics;
 
 namespace jp.lilxyzw.avatarutils
 {
+    [Docs(T_Title,T_Description)][DocsHowTo(T_HowTo)]
     [Serializable]
     internal class PhysBonesGUI : AbstractTabelGUI
     {
+        internal const string T_Title = "PhysBones";
+        internal const string T_Description = "This is a list of all PhysBones included in the avatar. Some properties can be edited, and the changed properties will be applied all at once by pressing the Apply button in the upper left.";
+        internal const string T_HowTo = "It is useful for identifying PhysBone components that have a large impact on performance rank, and for discovering PhysBones that have similar root bones and settings and can be integrated.";
+        internal static readonly string[] T_TD = {T_Title, T_Description};
+
         public string empName = "";     private const int indName      =  0;
         public string empRoot = "";     private const int indRoot      =  1;
         public string empParent = "";   private const int indParent    =  2;
@@ -27,17 +33,17 @@ namespace jp.lilxyzw.avatarutils
         internal HashSet<VRCPhysBone> pbs = new HashSet<VRCPhysBone>();
         internal Dictionary<VRCPhysBoneCollider, VRCPhysBone[]> pbcs = new Dictionary<VRCPhysBoneCollider, VRCPhysBone[]>();
 
-        private static readonly string[] L_Name      = {"Name"            , "Object name. Clicking this will select the corresponding object in the Hierarchy window."};
-        private static readonly string[] L_Root      = {"Root Transform"  , "This is the root of the bone or transform that performs PhysBone calculations. Motion is applied to the transforms under this."};
-        private static readonly string[] L_Parent    = {"Parent"          , "Parent object of PhysBone. If the parent is the same, you may be able to reduce the number of components by unifying the components."};
-        private static readonly string[] L_MCType    = {"Multi Child Type", "How to determine orientation when there are multiple child bones and the orientation of the parent bone cannot be determined."};
-        private static readonly string[] L_Bones     = {"Bones"           , "The number of bones the sway is calculated for. The higher the number, the higher the cost."};
-        private static readonly string[] L_Colliders = {"Colliders"       , "The number of colliders to calculate the collision detection with this PhysBone."};
-        private static readonly string[] L_Collision = {"Collision"       , "The number of collision calculations. This number increases according to the number of bones and colliders, and the higher the number, the greater the load."};
-        private static readonly string[] L_ImType    = {"Immobile Type"   , "This is how to calculate Immobile."};
-        private static readonly string[] L_Allow     = {"Allow Collision" , "Whether or not to enable collisions with colliders other than those set by the component. It will collide with each player's hand."};
-        private static readonly string[] L_Grab      = {"Grabbing"        , "Whether or not to be able to grab PhysBone."};
-        private static readonly string[] L_Pose      = {"Posing"          , "Whether the PhysBone can be posed."};
+        [DocsField] private static readonly string[] L_Name      = {"Name"            , "Object name. Clicking this will select the corresponding object in the Hierarchy window."};
+        [DocsField] private static readonly string[] L_Root      = {"Root Transform"  , "This is the root of the bone or transform that performs PhysBone calculations. Motion is applied to the transforms under this."};
+        [DocsField] private static readonly string[] L_Parent    = {"Parent"          , "Parent object of PhysBone. If the parent is the same, you may be able to reduce the number of components by unifying the components."};
+        [DocsField] private static readonly string[] L_MCType    = {"Multi Child Type", "How to determine orientation when there are multiple child bones and the orientation of the parent bone cannot be determined."};
+        [DocsField] private static readonly string[] L_Bones     = {"Bones"           , "The number of bones the sway is calculated for. The higher the number, the higher the cost."};
+        [DocsField] private static readonly string[] L_Colliders = {"Colliders"       , "The number of colliders to calculate the collision detection with this PhysBone."};
+        [DocsField] private static readonly string[] L_Collision = {"Collision"       , "The number of collision calculations. This number increases according to the number of bones and colliders, and the higher the number, the greater the load."};
+        [DocsField] private static readonly string[] L_ImType    = {"Immobile Type"   , "This is how to calculate Immobile."};
+        [DocsField] private static readonly string[] L_Allow     = {"Allow Collision" , "Whether or not to enable collisions with colliders other than those set by the component. It will collide with each player's hand."};
+        [DocsField] private static readonly string[] L_Grab      = {"Grabbing"        , "Whether or not to be able to grab PhysBone."};
+        [DocsField] private static readonly string[] L_Pose      = {"Posing"          , "Whether the PhysBone can be posed."};
 
         internal override void Draw(AvatarUtils window)
         {
