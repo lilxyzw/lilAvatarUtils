@@ -23,7 +23,7 @@ namespace jp.lilxyzw.avatarutils
         private GameObject renderedSafetyGameObject = null;
         #endif
         private GameObject gameObjectMainLight = null;
-        private List<GameObject> gameObjectSubLights = new List<GameObject>();
+        private List<GameObject> gameObjectSubLights = new();
         private GameObject gameObjectCube = null;
 
         private PreviewRenderUtility preview = null;
@@ -34,13 +34,14 @@ namespace jp.lilxyzw.avatarutils
 
         public bool isSafetyOn = false;
         public bool isMenuOpened = false;
-        public Color colorAmbient = new Color(0.75f, 0.58f, 0.49f);
+        public Color colorAmbient = new(0.75f, 0.58f, 0.49f);
         public Color colorDirectional = Color.black;
         public Color colorSpot0 = Color.black;
         public Color colorSpot1 = Color.black;
         public Color colorSpot2 = Color.black;
         public LightShadows lightShadows = LightShadows.None;
         public float reflectionIntensity = 0;
+        internal AvatarUtils m_window;
 
         [DocsField] private static readonly string[] L_NoLight      = {"No light"     ,"There is no light, including ambient light."};
         [DocsField] private static readonly string[] L_Overexposure = {"Overexposure" ,"It is illuminated by excessively bright directional light."};
@@ -59,7 +60,7 @@ namespace jp.lilxyzw.avatarutils
 
         private static readonly string[] L_SimulateSafetyEnabled = {"Simulate safety enabled", "This simulates the appearance when safety is enabled on VRChat. Since the implementation of VRChat is unknown, it may not be reproduced completely."};
 
-        internal void Draw(AvatarUtils window)
+        internal void Draw()
         {
             if(!gameObject) return;
             #if LIL_VRCSDK3_AVATARS
@@ -79,7 +80,7 @@ namespace jp.lilxyzw.avatarutils
             }
             #endif
 
-            var rect = EditorGUILayout.GetControlRect(GUILayout.MaxWidth(window.position.width), GUILayout.MaxHeight(window.position.height));
+            var rect = EditorGUILayout.GetControlRect(GUILayout.MaxWidth(m_window.position.width), GUILayout.MaxHeight(m_window.position.height));
             if(rect.width < 32 || rect.height < 32) return;
             float width = Mathf.Round(rect.width/3-4);
             float height = Mathf.Round(rect.height/2-4);
@@ -99,7 +100,7 @@ namespace jp.lilxyzw.avatarutils
 
             InitializePreviewScene();
 
-            if(gameObjectCube == null)
+            if(!gameObjectCube)
             {
                 gameObjectCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 gameObjectCube.transform.position = gameObject.transform.position;
@@ -107,7 +108,7 @@ namespace jp.lilxyzw.avatarutils
                 preview.AddSingleGO(gameObjectCube);
             }
 
-            if(gameObjectMainLight == null)
+            if(!gameObjectMainLight)
             {
                 gameObjectMainLight = new GameObject("Main Light", typeof(Light));
                 var mainLightComponent = gameObjectMainLight.GetComponent<Light>();
@@ -126,9 +127,9 @@ namespace jp.lilxyzw.avatarutils
             if(
                 gameObjectSubLights == null ||
                 gameObjectSubLights.Count != 3 ||
-                gameObjectSubLights[0] == null ||
-                gameObjectSubLights[1] == null ||
-                gameObjectSubLights[2] == null
+                !gameObjectSubLights[0] ||
+                !gameObjectSubLights[1] ||
+                !gameObjectSubLights[2]
             )
             {
                 gameObjectSubLights = new List<GameObject>();
@@ -165,7 +166,7 @@ namespace jp.lilxyzw.avatarutils
             subLight2.color = new Color(0.8f,0.8f,0.8f,1.0f);
 
             var sceneView = SceneView.lastActiveSceneView;
-            if(sceneView != null && sceneView.camera != null)
+            if(sceneView && sceneView.camera)
             {
                 var sceneCamera = sceneView.camera;
                 preview.camera.transform.position = sceneCamera.transform.position;
@@ -287,7 +288,7 @@ namespace jp.lilxyzw.avatarutils
 
         internal void Set(bool forceUpdate)
         {
-            if(gameObject != null && (prevGameObject != gameObject || renderedGameObject == null || forceUpdate))
+            if(gameObject && (prevGameObject != gameObject || !renderedGameObject || forceUpdate))
             {
 
                 prevGameObject = gameObject;
@@ -388,7 +389,7 @@ namespace jp.lilxyzw.avatarutils
 
         private void SafeDestroy(Object obj)
         {
-            if(obj != null) Object.DestroyImmediate(obj);
+            if(obj) Object.DestroyImmediate(obj);
         }
 
         private void SetPreviewRenderSettings()
@@ -415,12 +416,12 @@ namespace jp.lilxyzw.avatarutils
         private Material GetSafetyMaterial(Material material)
         {
             if(
-                material == null ||
-                material.shader != null && material.shader.name.StartsWith("VRChat/")
+                !material ||
+                material.shader && material.shader.name.StartsWith("VRChat/")
             ) return material;
 
             var tag = material.GetTag("VRCFallback", true);
-            if(string.IsNullOrEmpty(tag) && material.shader != null) tag = material.shader.name.Replace("Hidden","");
+            if(string.IsNullOrEmpty(tag) && material.shader) tag = material.shader.name.Replace("Hidden","");
 
             var materialFallback = new Material(TagToSafetyShader(tag));
             materialFallback.CopyPropertiesFromMaterial(material);

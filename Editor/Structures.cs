@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.Animations;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace jp.lilxyzw.avatarutils
 {
     internal class TextureData
     {
-        internal Dictionary<Material, MaterialData> mds;
         internal TextureType type;
         internal long memorySize;
         internal long vramSize;
@@ -39,15 +36,8 @@ namespace jp.lilxyzw.avatarutils
         CustomRenderTexture
     }
 
-    internal class MaterialData
-    {
-        internal HashSet<GameObject> gameObjects;
-        internal Dictionary<AnimationClip, AnimationClipData> acds;
-    }
-
     internal class AnimationClipData
     {
-        internal Dictionary<RuntimeAnimatorController, AnimatorData> ads;
         internal bool hasHumanoid = false;
         internal bool hasBlendShape = false;
         internal bool hasToggleActive = false;
@@ -56,11 +46,5 @@ namespace jp.lilxyzw.avatarutils
         internal bool hasMaterialReplace = false;
         internal bool hasMaterialProperty = false;
         internal bool hasOther = false;
-    }
-
-    internal class AnimatorData
-    {
-        internal HashSet<GameObject> gameObjects;
-        internal HashSet<(AnimatorState,AnimatorControllerLayer)> states;
     }
 }

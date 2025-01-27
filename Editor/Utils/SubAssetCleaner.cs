@@ -24,7 +24,7 @@ namespace jp.lilxyzw.avatarutils
             var path = AssetDatabase.GetAssetPath(obj);
             while(true)
             {
-                var assets = AssetDatabase.LoadAllAssetsAtPath(path).Where(asset => asset != null);
+                var assets = AssetDatabase.LoadAllAssetsAtPath(path).Where(asset => asset);
                 var usedAssetsTemp = new HashSet<Object>();
                 foreach(var asset in assets)
                 {
@@ -32,7 +32,7 @@ namespace jp.lilxyzw.avatarutils
                     var prop = so.GetIterator();
                     while(prop.Next(true))
                     {
-                        if(prop.propertyType == SerializedPropertyType.ObjectReference && prop.objectReferenceValue != null)
+                        if(prop.propertyType == SerializedPropertyType.ObjectReference && prop.objectReferenceValue)
                         {
                             usedAssetsTemp.Add(prop.objectReferenceValue);
                         }

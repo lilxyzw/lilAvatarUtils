@@ -30,7 +30,7 @@ namespace jp.lilxyzw.avatarutils
         public int    empAsSphr = 0;  private const int indAsSphr =  9;
 
         internal bool[] showReferences = {false};
-        internal Dictionary<VRCPhysBoneCollider, VRCPhysBone[]> pbcs = new Dictionary<VRCPhysBoneCollider, VRCPhysBone[]>();
+        internal HashSet<VRCPhysBoneCollider> pbcs;
 
         [DocsField] private static readonly string[] L_Name   = {"Name"          , "Object name. Clicking this will select the corresponding object in the Hierarchy window."};
         [DocsField] private static readonly string[] L_Root   = {"Root Transform", "The Transform used to calculate the collider position."};
@@ -43,12 +43,12 @@ namespace jp.lilxyzw.avatarutils
         [DocsField] private static readonly string[] L_Inside = {"Inside"        , "Turning this on will act to push the PhysBone inside the collider."};
         [DocsField] private static readonly string[] L_AsSphr = {"As Sphere"     , "When this is turned on, the shape of the collision detection for the PhysBone itself will be calculated as a sphere instead of a capsule."};
 
-        internal override void Draw(AvatarUtils window)
+        internal override void Draw()
         {
             if(IsEmptyLibs()) return;
 
             if(showReferences.Length != libs[0].items.Count) showReferences = Enumerable.Repeat(false, libs[0].items.Count).ToArray();
-            base.Draw(window);
+            base.Draw();
 
             GUIUtils.DrawLine();
             UpdateRects();
@@ -75,9 +75,7 @@ namespace jp.lilxyzw.avatarutils
 
                 EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                 L10n.LabelField(L_ReferencedFrom);
-                var pbc = (VRCPhysBoneCollider)libs[indName].items[count];
-                var pbs = pbcs[pbc];
-                foreach(var pb in pbs) GUIUtils.LabelFieldWithSelection(pb);
+                ReferencesGUI((VRCPhysBoneCollider)libs[indName].items[count]);
                 GUILayout.EndVertical();
                 GUILayout.EndHorizontal();
             }
@@ -104,16 +102,16 @@ namespace jp.lilxyzw.avatarutils
             Sort();
             foreach(var pbc in pbcs)
             {
-                names  .items.Add(pbc.Key                                );
-                roots  .items.Add(pbc.Key.rootTransform                  );
-                refs   .items.Add(pbc.Value.Length                       );
-                shapes .items.Add(pbc.Key.shapeType                      );
-                radiuss.items.Add(pbc.Key.radius                         );
-                heights.items.Add(pbc.Key.height                         );
-                poss   .items.Add(pbc.Key.position.ToString()            );
-                rots   .items.Add(pbc.Key.rotation.eulerAngles.ToString());
-                insides.items.Add(pbc.Key.insideBounds                   );
-                asSphrs.items.Add(pbc.Key.bonesAsSpheres                 );
+                names  .items.Add(pbc                                );
+                roots  .items.Add(pbc.rootTransform                  );
+                refs   .items.Add(m_window.refs[pbc].Count           );
+                shapes .items.Add(pbc.shapeType                      );
+                radiuss.items.Add(pbc.radius                         );
+                heights.items.Add(pbc.height                         );
+                poss   .items.Add(pbc.position.ToString()            );
+                rots   .items.Add(pbc.rotation.eulerAngles.ToString());
+                insides.items.Add(pbc.insideBounds                   );
+                asSphrs.items.Add(pbc.bonesAsSpheres                 );
             }
 
             libs = new []{
@@ -134,22 +132,22 @@ namespace jp.lilxyzw.avatarutils
         {
             switch(sortIndex)
             {
-                case indName   : pbcs = pbcs.Sort(pb => pb.Key.name                   , isDescending); break;
-                case indRoot   : pbcs = pbcs.Sort(pb => pb.Key.rootTransform.GetName(), isDescending); break;
-                case indRef    : pbcs = pbcs.Sort(pb => pb.Value.Length               , isDescending); break;
-                case indShape  : pbcs = pbcs.Sort(pb => pb.Key.shapeType              , isDescending); break;
-                case indRadius : pbcs = pbcs.Sort(pb => pb.Key.radius                 , isDescending); break;
-                case indHeight : pbcs = pbcs.Sort(pb => pb.Key.height                 , isDescending); break;
-                case indPos    : pbcs = pbcs.Sort(pb => pb.Key.position.ToString()    , isDescending); break;
-                case indRot    : pbcs = pbcs.Sort(pb => pb.Key.rotation.ToString()    , isDescending); break;
-                case indInside : pbcs = pbcs.Sort(pb => pb.Key.insideBounds           , isDescending); break;
-                case indAsSphr : pbcs = pbcs.Sort(pb => pb.Key.bonesAsSpheres         , isDescending); break;
+                case indName   : pbcs = pbcs.Sort(pb => pb.name                   , isDescending); break;
+                case indRoot   : pbcs = pbcs.Sort(pb => pb.rootTransform.GetName(), isDescending); break;
+                case indRef    : pbcs = pbcs.Sort(pb => m_window.refs[pb].Count   , isDescending); break;
+                case indShape  : pbcs = pbcs.Sort(pb => pb.shapeType              , isDescending); break;
+                case indRadius : pbcs = pbcs.Sort(pb => pb.radius                 , isDescending); break;
+                case indHeight : pbcs = pbcs.Sort(pb => pb.height                 , isDescending); break;
+                case indPos    : pbcs = pbcs.Sort(pb => pb.position.ToString()    , isDescending); break;
+                case indRot    : pbcs = pbcs.Sort(pb => pb.rotation.ToString()    , isDescending); break;
+                case indInside : pbcs = pbcs.Sort(pb => pb.insideBounds           , isDescending); break;
+                case indAsSphr : pbcs = pbcs.Sort(pb => pb.bonesAsSpheres         , isDescending); break;
             }
         }
 
         protected override void SortLibs()
         {
-            SortLibs(pbcs.Keys.ToArray());
+            SortLibs(pbcs.ToArray());
         }
 
         protected override void ApplyModification()

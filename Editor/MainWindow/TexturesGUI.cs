@@ -33,7 +33,10 @@ namespace jp.lilxyzw.avatarutils
         public int    empReads   = 0;       private const int indReads   = 15;
 
         internal bool[] showReferences = {false};
-        internal Dictionary<Texture, TextureData> tds = new Dictionary<Texture, TextureData>();
+        internal Dictionary<Texture, TextureData> tds;
+        public bool showNonMaterial = false;
+
+        private static readonly string[] L_ShowNonMaterial = {"Display textures used other than materials", ""};
 
         [DocsField] private static readonly string[] L_Names   = {"Name"                 , "Asset name. Clicking this will select the corresponding asset in the Project window."};
         [DocsField] private static readonly string[] L_Reps    = {"Replace"              , "If you specify a different texture here, you can replace that texture for all materials present on the avatar at once."};
@@ -52,12 +55,11 @@ namespace jp.lilxyzw.avatarutils
         [DocsField] private static readonly string[] L_Streams = {"Mip Streaming"        , "Whether to enable Mip Streaming. This reduces VRAM consumption by loading only the mipmaps (reduced textures) required according to the camera position."};
         [DocsField] private static readonly string[] L_Reads   = {"Read/Write"           , "This setting allows scripts to access textures. Copying textures for script access doubles the RAM consumption, so it is recommended to turn this setting off if not required."};
 
-        internal override void Draw(AvatarUtils window)
+        internal override void Draw()
         {
             if(IsEmptyLibs()) return;
 
-            if(showReferences.Length != libs[0].items.Count) showReferences = Enumerable.Repeat(false, libs[0].items.Count).ToArray();
-            base.Draw(window);
+            base.Draw();
 
             GUIUtils.DrawLine();
             UpdateRects();
@@ -84,6 +86,14 @@ namespace jp.lilxyzw.avatarutils
             empReads   = (int   )libs[indReads  ].emphasize;
         }
 
+        protected override void ButtonEx(Rect position)
+        {
+            EditorGUI.BeginChangeCheck();
+            showNonMaterial = L10n.ToggleLeft(position, L_ShowNonMaterial, showNonMaterial);
+            if(EditorGUI.EndChangeCheck()) Set();
+            if(showReferences.Length != libs[0].items.Count) showReferences = Enumerable.Repeat(false, libs[0].items.Count).ToArray();
+        }
+
         protected override void LineGUIEx(int count)
         {
             showReferences[count] = GUIUtils.Foldout(new Rect(libs[0].rect.x - 16, libs[0].rect.y, 16, libs[0].rect.height), showReferences[count]);
@@ -95,73 +105,19 @@ namespace jp.lilxyzw.avatarutils
                 EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                 L10n.LabelField(L_ReferencedFrom);
                 var tex = (Texture)libs[indNames].items[count];
-                var td = tds[tex];
-                foreach(KeyValuePair<Material, MaterialData> md in td.mds)
-                {
-                    GUIUtils.LabelFieldWithSelection(md.Key);
-                    EditorGUI.indentLevel++;
-                    if(md.Value.gameObjects != null)
-                    {
-                        foreach(GameObject obj in md.Value.gameObjects)
-                        {
-                            GUIUtils.LabelFieldWithSelection(obj);
-                        }
-                    }
-                    if(md.Value.acds != null)
-                    {
-                        foreach(KeyValuePair<AnimationClip, AnimationClipData> acd in md.Value.acds)
-                        {
-                            GUIUtils.LabelFieldWithSelection(acd.Key);
-                            EditorGUI.indentLevel++;
-                            foreach(KeyValuePair<RuntimeAnimatorController, AnimatorData> ad in acd.Value.ads)
-                            {
-                                GUIUtils.LabelFieldWithSelection(ad.Key);
-                                EditorGUI.indentLevel++;
-                                foreach(GameObject obj in ad.Value.gameObjects)
-                                {
-                                    GUIUtils.LabelFieldWithSelection(obj);
-                                }
-                                EditorGUI.indentLevel--;
-                            }
-                            EditorGUI.indentLevel--;
-                        }
-                    }
-                    EditorGUI.indentLevel--;
-                }
+                ReferencesGUI(tex);
 
                 if(GUIUtils.UnchangeButton(L10n.G("Remove references", "")) && L10n.DisplayDialog(AvatarUtils.TEXT_WINDOW_NAME, "Are you sure you want to remove it?", "Yes", "Cancel"))
                 {
-                    foreach(KeyValuePair<Material, MaterialData> md in td.mds)
+                    if(!m_window.refs.TryGetValue(tex, out var parents) || parents.Count == 0) return;
+                    foreach(var parent in parents)
                     {
-                        if(md.Key == null) continue;
-                        RemoveTextureReference(md.Key, tex);
+                        ObjectHelper.RemoveReferences(parent, tex);
                     }
-                    TextureAnalyzer.Analyze(gameObject, out tds);
                     Set();
                 }
                 GUILayout.EndVertical();
                 GUILayout.EndHorizontal();
-            }
-        }
-
-        private void RemoveTextureReference(Material m, Texture tex)
-        {
-            var so = new SerializedObject(m);
-            so.Update();
-            var props = so.FindProperty("m_SavedProperties").FindPropertyRelative("m_TexEnvs");
-            for(int i = 0; i < props.arraySize; i++)
-            {
-                var texprop = props.GetArrayElementAtIndex(i).FindPropertyRelative("second").FindPropertyRelative("m_Texture");
-                if(texprop.objectReferenceValue == tex)
-                {
-                    texprop.objectReferenceValue = null;
-                }
-            }
-            so.ApplyModifiedProperties();
-
-            if(m.parent != null)
-            {
-                RemoveTextureReference(m.parent, tex);
             }
         }
 
@@ -193,7 +149,9 @@ namespace jp.lilxyzw.avatarutils
             var reads   = new TableProperties(new List<object>(), L_Reads  , new Rect(0,0, 70,0), true , null, false, true , empReads  , null    , null      , null      , null);
 
             Sort();
-            foreach(var td in tds)
+            var tds2 = tds.ToArray();
+            if(!showNonMaterial) tds2 = tds2.Where(kv => m_window.refs[kv.Key].Any(r => r is Material)).ToArray();
+            foreach(var td in tds2)
             {
                 switch(td.Key)
                 {
@@ -330,23 +288,10 @@ namespace jp.lilxyzw.avatarutils
                 var rep = libs[indReps].items[count] as Texture;
                 if(tex != rep)
                 {
-                    var td = tds[tex];
-                    foreach(var material in td.mds.Keys)
-                    using(var so = new SerializedObject(material))
-                    using(var iter = so.FindProperty("m_SavedProperties").FindPropertyRelative("m_TexEnvs"))
-                    using(var end = iter.Copy())
+                    if(!m_window.refs.TryGetValue(tex, out var parents) || parents.Count == 0) return;
+                    foreach(var parent in parents)
                     {
-                        end.Next(false);
-                        var enterChildren = true;
-                        while(iter.Next(enterChildren) && !SerializedProperty.EqualContents(iter, end))
-                        {
-                            enterChildren = iter.propertyType != SerializedPropertyType.String;
-                            if(iter.propertyType == SerializedPropertyType.ObjectReference && iter.objectReferenceValue && iter.objectReferenceValue == tex)
-                            {
-                                iter.objectReferenceValue = rep;
-                            }
-                        }
-                        so.ApplyModifiedProperties();
+                        ObjectHelper.ReplaceReferences(parent, tex, rep);
                     }
                 }
             }

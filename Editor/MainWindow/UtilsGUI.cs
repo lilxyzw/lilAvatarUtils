@@ -21,13 +21,14 @@ namespace jp.lilxyzw.avatarutils
         [DocsField] private static readonly string[] L_RemoveMissingComponents    = {"Remove Missing Components"   , "Remove any missing components where a required script has not been imported or has been corrupted in some way."};
 
         internal GameObject gameObject;
+        internal AvatarUtils m_window;
 
-        internal void Draw(AvatarUtils window)
+        internal void Draw()
         {
-            if(gameObject == null) return;
+            if(!gameObject) return;
             if(L10n.Button(L_CleanUpMaterials))
             {
-                var cleanedMaterials = MaterialCleaner.RemoveUnusedProperties(window.materialsGUI.mds.Keys);
+                var cleanedMaterials = MaterialCleaner.RemoveUnusedProperties(m_window.materialsGUI.mds);
                 L10n.DisplayDialog(
                     AvatarUtils.TEXT_WINDOW_NAME,
                     "Removed unused properties on {0} materials.",
@@ -37,12 +38,7 @@ namespace jp.lilxyzw.avatarutils
             }
             if(L10n.Button(L_CleanUpAnimatorControllers))
             {
-                var controllers = new HashSet<RuntimeAnimatorController>(
-                    gameObject.GetBuildComponents<Animator>().Select(a => a.runtimeAnimatorController)
-                );
-
-                var scaned = new HashSet<UnityEngine.Object>();
-                controllers.UnionWith(gameObject.GetComponentsInChildren<MonoBehaviour>(true).SelectMany(c => ObjectHelper.GetReferenceFromObject<RuntimeAnimatorController>(scaned, c)));
+                var controllers = m_window.refs.Where(kv => kv.Key is RuntimeAnimatorController).Select(kv => kv.Key as RuntimeAnimatorController);
 
                 var cleanedControllers = SubAssetCleaner.RemoveUnusedSubAssets(controllers.Where(ac => ac is AnimatorController));
                 L10n.DisplayDialog(

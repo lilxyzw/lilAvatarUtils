@@ -215,6 +215,9 @@ msgstr "その他のツールをまとめたタブです。"
 
 #: Textures
 
+msgid "Display textures used other than materials"
+msgstr "マテリアル以外で使われているテクスチャも表示"
+
 msgid "If you specify a different texture here, you can replace that texture for all materials present on the avatar at once."
 msgstr "ここに別のテクスチャを指定すると、アバターに存在する全マテリアルの該当テクスチャを一括で置き換えることができます。"
 

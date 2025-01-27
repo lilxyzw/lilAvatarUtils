@@ -106,13 +106,7 @@ namespace jp.lilxyzw.avatarutils
                 case TextureFormat.RGBA64: bit = 64; break;
                 default: return 0;
             }
-            if(isVRAM)
-            {
-                for(int i = 1; i < bit; i *= 2)
-                {
-                    if(bit < i) bit = i;
-                }
-            }
+            if(isVRAM) bit = Mathf.NextPowerOfTwo((int)bit);
             return bit;
         }
 

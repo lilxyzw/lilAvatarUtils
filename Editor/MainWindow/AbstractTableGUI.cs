@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -24,23 +26,22 @@ namespace jp.lilxyzw.avatarutils
         protected bool isModified = false;
         protected bool isDescending = true;
         protected int sortIndex = -1;
-        protected Vector2 scrollPosition = new Vector2(0,0);
+        protected Vector2 scrollPosition = new(0,0);
         protected Rect rectBase;
         protected delegate bool LineGUIOverride(int count, bool[] emphasizes);
         protected LineGUIOverride lineGUIOverride = null;
 
         private int rectModifyIndex = -1;
         private Event m_event;
-        private AvatarUtils m_window;
+        internal AvatarUtils m_window;
         private float tableWidth = 0;
         private bool isScrolling = false;
         private int selectedLine = -1;
 
-        internal virtual void Draw(AvatarUtils window)
+        internal virtual void Draw()
         {
             if(IsEmptyLibs()) return;
             m_event = Event.current;
-            m_window = window;
 
             if(m_event.type == EventType.MouseDown) isScrolling = true;
             if(m_event.type == EventType.MouseUp)   isScrolling = false;
@@ -61,7 +62,7 @@ namespace jp.lilxyzw.avatarutils
             GUI.enabled = isModified;
             var rectButtons = EditorGUILayout.GetControlRect();
             var rectButton1 = new Rect(rectButtons.x, rectButtons.y, 100, rectButtons.height);
-            var rectButton2 = new Rect(rectButton1.xMax + GUI_SPACE_WIDTH, rectButton1.y, 100, rectButtons.height);
+            var rectButton2 = new Rect(rectButton1.xMax + GUI_SPACE_WIDTH, rectButtons.y, 100, rectButtons.height);
             if(L10n.Button(rectButton1, "Apply"))
             {
                 ApplyModification();
@@ -73,6 +74,10 @@ namespace jp.lilxyzw.avatarutils
                 Set();
             }
             GUI.enabled = true;
+
+            var rectButton3 = new Rect(rectButton2.xMax + GUI_SPACE_WIDTH, rectButtons.y, 100, rectButtons.height);
+            rectButton3.xMax = rectButtons.xMax;
+            ButtonEx(rectButton3);
 
             var rect = EditorGUILayout.GetControlRect();
             libs[0].rect = new Rect(
@@ -216,7 +221,7 @@ namespace jp.lilxyzw.avatarutils
                         default         : emphasizes[i] = false; break;
                     }
                 }
-                else if(obj is Object o && o == null)
+                else if(obj is Object o && !o)
                 {
                     emphasizes[i] = FilterString("None", (string)libs[i].emphasize);
                 }
@@ -277,6 +282,10 @@ namespace jp.lilxyzw.avatarutils
             LineGUIEx(count);
             EditorGUILayout.EndVertical();
             if(EditorGUI.EndChangeCheck()) isModified = true;
+        }
+
+        protected virtual void ButtonEx(Rect position)
+        {
         }
 
         protected virtual void LineGUIEx(int count)
@@ -376,6 +385,89 @@ namespace jp.lilxyzw.avatarutils
                 case int val    : libs[i].emphasize = EditorGUI.IntField(rect, val); break;
                 case string val : libs[i].emphasize = EditorGUI.TextField(rect, val); break;
             }
+        }
+
+        internal void ReferencesGUI(Object obj)
+        {
+            if(!m_window.refs.TryGetValue(obj, out var parents) || parents.Count == 0) return;
+            foreach(var parent in parents)
+            {
+                GUIByType(parent);
+                EditorGUI.indentLevel++;
+                ReferencesGUIInternal(new HashSet<Object>(), parent);
+                EditorGUI.indentLevel--;
+            }
+        }
+
+        private void ReferencesGUIInternal(HashSet<Object> showed, Object obj)
+        {
+            if(!m_window.refs.TryGetValue(obj, out var parents) || parents.Count == 0) return;
+            foreach(var parent in parents)
+            {
+                if(!showed.Add(parent)) continue;
+                GUIByType(parent);
+                EditorGUI.indentLevel++;
+                ReferencesGUIInternal(showed, parent);
+                EditorGUI.indentLevel--;
+            }
+        }
+
+        private void GUIByType(Object obj)
+        {
+            if(obj is AnimatorState || obj is AnimatorStateMachine)
+            {
+                var machine = GetParent<AnimatorStateMachine>(new HashSet<Object>(), obj);
+                var controller = GetParent<AnimatorController>(new HashSet<Object>(), obj);
+                if(machine && controller) LabelFieldWithSelection(controller, machine, obj);
+                else GUIUtils.LabelFieldWithSelection(obj);
+            }
+            else
+            {
+                GUIUtils.LabelFieldWithSelection(obj);
+            }
+        }
+
+        private T GetParent<T>(HashSet<Object> visited, Object obj) where T : Object
+        {
+            if(!obj || !visited.Add(obj) || !m_window.refs.TryGetValue(obj, out var parents) || parents.Count == 0) return obj as T;
+            var first = parents.Select(p => GetParent<T>(visited, p)).FirstOrDefault(p => p);
+            return first ? first : obj as T;
+        }
+
+        private static void LabelFieldWithSelection(RuntimeAnimatorController controller, AnimatorStateMachine machine, Object target, bool hilight = false)
+        {
+            Rect rect = EditorGUI.IndentedRect(EditorGUILayout.GetControlRect());
+            GUIStyle style;
+            if(hilight) style = GUIUtils.styleRed;
+            else        style = EditorStyles.label;
+            GUIContent content = EditorGUIUtility.ObjectContent(target, target.GetType());
+            content.text = $"{target.name} ({target.GetType().Name})";
+            content.tooltip = AssetDatabase.GetAssetPath(target);
+
+            var sizeCopy = EditorGUIUtility.GetIconSize();
+            EditorGUIUtility.SetIconSize(new Vector2(rect.height-2, rect.height-2));
+            if(GUIUtils.UnchangeButton(rect, content, style) && target)
+            {
+                Selection.activeObject = controller;
+                if(controller is AnimatorController ac)
+                {
+                    var index = 0;
+                    foreach(var l in ac.layers)
+                    {
+                        if(l.stateMachine == machine)
+                        {
+                            var type = typeof(UnityEditor.Graphs.AnimationCurveTypeConverter).Assembly.GetType("UnityEditor.Graphs.AnimatorControllerTool");
+                            var window = EditorWindow.GetWindow(type);
+                            type.GetProperty("selectedLayerIndex", BindingFlags.Public | BindingFlags.Instance).SetValue(window, index);
+                            break;
+                        }
+                        index++;
+                    }
+                }
+                Selection.activeObject = target;
+                EditorGUIUtility.PingObject(target);
+            }
+            EditorGUIUtility.SetIconSize(sizeCopy);
         }
     }
 

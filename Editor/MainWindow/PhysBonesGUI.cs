@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Dynamics.PhysBone.Components;
 using VRC.Dynamics;
@@ -30,8 +29,8 @@ namespace jp.lilxyzw.avatarutils
         public int empGrab = 0;         private const int indGrab      =  9;
         public int empPose = 0;         private const int indPose      = 10;
 
-        internal HashSet<VRCPhysBone> pbs = new HashSet<VRCPhysBone>();
-        internal Dictionary<VRCPhysBoneCollider, VRCPhysBone[]> pbcs = new Dictionary<VRCPhysBoneCollider, VRCPhysBone[]>();
+        internal HashSet<VRCPhysBone> pbs;
+        internal HashSet<VRCPhysBoneCollider> pbcs;
 
         [DocsField] private static readonly string[] L_Name      = {"Name"            , "Object name. Clicking this will select the corresponding object in the Hierarchy window."};
         [DocsField] private static readonly string[] L_Root      = {"Root Transform"  , "This is the root of the bone or transform that performs PhysBone calculations. Motion is applied to the transforms under this."};
@@ -45,10 +44,10 @@ namespace jp.lilxyzw.avatarutils
         [DocsField] private static readonly string[] L_Grab      = {"Grabbing"        , "Whether or not to be able to grab PhysBone."};
         [DocsField] private static readonly string[] L_Pose      = {"Posing"          , "Whether the PhysBone can be posed."};
 
-        internal override void Draw(AvatarUtils window)
+        internal override void Draw()
         {
             if(IsEmptyLibs()) return;
-            base.Draw(window);
+            base.Draw();
 
             GUIUtils.DrawLine();
             UpdateRects();
@@ -168,14 +167,14 @@ namespace jp.lilxyzw.avatarutils
 
         private Transform GetRoot(VRCPhysBone pb)
         {
-            if(pb.rootTransform != null) return pb.rootTransform;
-            else                         return pb.transform;
+            if(pb.rootTransform) return pb.rootTransform;
+            else                 return pb.transform;
         }
 
         private Dictionary<int, HashSet<Transform>> GetPBTransforms(VRCPhysBone pb, bool ignoreRoot)
         {
             var root = pb.transform;
-            if(pb.rootTransform != null) root = pb.rootTransform;
+            if(pb.rootTransform) root = pb.rootTransform;
             var ignores = pb.ignoreTransforms;
             var transforms = new Dictionary<int, HashSet<Transform>>
             {

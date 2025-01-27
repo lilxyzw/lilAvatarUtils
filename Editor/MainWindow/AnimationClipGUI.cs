@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using UnityEditor;
-using UnityEditor.Animations;
 using UnityEngine;
 
 namespace jp.lilxyzw.avatarutils
@@ -28,7 +25,7 @@ namespace jp.lilxyzw.avatarutils
         public int    empMaterialPropertys  = 2 ; private const int indMaterialProperty = 7;
         public int    empOthers             = 2 ; private const int indOther            = 8;
         public bool[] showReferences = {false};
-        internal Dictionary<AnimationClip, AnimationClipData> acds = new Dictionary<AnimationClip, AnimationClipData>();
+        internal Dictionary<AnimationClip, AnimationClipData> acds;
 
         [DocsField] private static readonly string[] L_Clips             = {"Name"             , "Asset name. Clicking this will select the corresponding asset in the Project window."};
         [DocsField] private static readonly string[] L_Humanoids         = {"Humanoid"         , "Whether the animation includes humanoid manipulation."};
@@ -40,12 +37,12 @@ namespace jp.lilxyzw.avatarutils
         [DocsField] private static readonly string[] L_MaterialPropertys = {"Material Property", "Whether the animation includes material property manipulation."};
         [DocsField] private static readonly string[] L_Others            = {"Others"           , "Whether the animation includes any other actions."};
 
-        internal override void Draw(AvatarUtils window)
+        internal override void Draw()
         {
             if(IsEmptyLibs()) return;
 
             if(showReferences.Length != libs[0].items.Count) showReferences = Enumerable.Repeat(false, libs[0].items.Count).ToArray();
-            base.Draw(window);
+            base.Draw();
 
             empClips              = (string)libs[indClips           ].emphasize;
             empHumanoids          = (int   )libs[indHumanoid        ].emphasize;
@@ -68,60 +65,10 @@ namespace jp.lilxyzw.avatarutils
 
                 EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                 L10n.LabelField(L_ReferencedFrom);
-                var acd = acds[(AnimationClip)libs[indClips].items[count]];
-                foreach(var ad in acd.ads)
-                {
-                    foreach(var state in ad.Value.states)
-                    {
-                        LabelFieldWithSelection(ad.Key, state.Item2, state.Item1);
-                    }
-                    EditorGUI.indentLevel++;
-                    foreach(var obj in ad.Value.gameObjects)
-                    {
-                        GUIUtils.LabelFieldWithSelection(obj);
-                    }
-                    EditorGUI.indentLevel--;
-                }
+                ReferencesGUI((AnimationClip)libs[indClips].items[count]);
                 GUILayout.EndVertical();
                 GUILayout.EndHorizontal();
             }
-        }
-
-        private static void LabelFieldWithSelection(RuntimeAnimatorController controller, AnimatorControllerLayer layer, AnimatorState state, bool hilight = false)
-        {
-            Rect rect = EditorGUI.IndentedRect(EditorGUILayout.GetControlRect());
-            GUIStyle style;
-            if(hilight) style = GUIUtils.styleRed;
-            else        style = EditorStyles.label;
-            GUIContent content = EditorGUIUtility.ObjectContent(state, state.GetType());
-            content.tooltip = AssetDatabase.GetAssetPath(state);
-            if(!string.IsNullOrEmpty(content.tooltip)) content.text = Path.GetFileName(content.tooltip) + " -> " + layer.name + " -> " + state.name;
-            if(AssetDatabase.IsSubAsset(state)) content.text = state.name;
-
-            var sizeCopy = EditorGUIUtility.GetIconSize();
-            EditorGUIUtility.SetIconSize(new Vector2(rect.height-2, rect.height-2));
-            if(GUIUtils.UnchangeButton(rect, content, style) && state != null)
-            {
-                Selection.activeObject = controller;
-                if(controller is AnimatorController ac)
-                {
-                    var index = 0;
-                    foreach(var l in ac.layers)
-                    {
-                        if(l.stateMachine == layer.stateMachine)
-                        {
-                            var type = typeof(UnityEditor.Graphs.AnimationCurveTypeConverter).Assembly.GetType("UnityEditor.Graphs.AnimatorControllerTool");
-                            var window = EditorWindow.GetWindow(type);
-                            type.GetProperty("selectedLayerIndex", BindingFlags.Public | BindingFlags.Instance).SetValue(window, index);
-                            break;
-                        }
-                        index++;
-                    }
-                }
-                Selection.activeObject = state;
-                EditorGUIUtility.PingObject(state);
-            }
-            EditorGUIUtility.SetIconSize(sizeCopy);
         }
 
         internal override void Set()

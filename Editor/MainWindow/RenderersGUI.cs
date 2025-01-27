@@ -34,9 +34,9 @@ namespace jp.lilxyzw.avatarutils
         public int    empVectors    = 0;        private const int indVectors    = 14;
         public int    empOcclusions = 0;        private const int indOcclusions = 15;
 
-        internal HashSet<SkinnedMeshRenderer> smrs = new HashSet<SkinnedMeshRenderer>();
-        internal HashSet<(MeshRenderer,MeshFilter)> mrs = new HashSet<(MeshRenderer,MeshFilter)>();
-        internal HashSet<ParticleSystemRenderer> psrs = new HashSet<ParticleSystemRenderer>();
+        internal HashSet<SkinnedMeshRenderer> smrs;
+        internal HashSet<(MeshRenderer,MeshFilter)> mrs;
+        internal HashSet<ParticleSystemRenderer> psrs;
         private int assetType = -1;
 
         [DocsField] private static readonly string[] L_Names      = {"Name"                 , "Object name. Clicking this will select the corresponding object in the Hierarchy window."};
@@ -56,11 +56,11 @@ namespace jp.lilxyzw.avatarutils
         [DocsField] private static readonly string[] L_Vectors    = {"Motion Vector"        , "Whether to output motion vectors, used for post-processing such as motion blur."};
         [DocsField] private static readonly string[] L_Occlusions = {"Dynamic Occlusion"    , "If the mesh is hidden by other static objects, culling will be performed and rendering will be skipped. It is usually recommended to turn it on for better performance, but turn it off if you want to use special effects such as displaying objects hidden by walls."};
 
-        internal override void Draw(AvatarUtils window)
+        internal override void Draw()
         {
             if(IsEmptyLibs()) return;
             assetType = -1;
-            base.Draw(window);
+            base.Draw();
 
             GUIUtils.DrawLine();
             UpdateRects();

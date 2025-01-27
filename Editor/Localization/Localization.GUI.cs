@@ -36,6 +36,9 @@ namespace jp.lilxyzw.avatarutils
         public static bool ToggleLeft(string[] key, bool value, params GUILayoutOption[] options)
             => EditorGUILayout.ToggleLeft(G(key), value, options);
 
+        public static bool ToggleLeft(Rect rect, string[] key, bool value)
+            => EditorGUI.ToggleLeft(rect, G(key), value);
+
         // Other
         public static int Toolbar(int selected, string[][] texts, params GUILayoutOption[] options)
             => GUILayout.Toolbar(selected, texts.Select(t => G(t)).ToArray(), options);
