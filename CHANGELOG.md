@@ -4,9 +4,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2025-01-28
+
+### Added
+- Supports localization
+
+### Changed
+- Move the menu path to `Tools/lilAvatarUtils`
+- Automatically update avatar information when changes are applied
+- The window will remain even after restarting Unity
+- Change namespace
+- Changes to avatar analysis method
+
+### Fixed
+- Error when sorting renderers with no meshes
+
 ## [1.3.0] - 2024-09-30
 
-## Added
+### Added
 - PBColliders tab
 - Texture replace
 
@@ -18,7 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.2.0] - 2024-08-24
 
-## Added
+### Added
 - Animation tab
 
 ### Fixed
@@ -30,7 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.0] - 2023-12-31
 
-## Added
+### Added
 - Support for ModularAvatarMergeAnimator  by nekobako (#9)
 - Show asset extension (#8)
 
