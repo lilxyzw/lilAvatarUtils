@@ -16,7 +16,7 @@ namespace jp.lilxyzw.avatarutils
         private static HashSet<string> queue = new();
         private static Type[] types;
 
-        [MenuItem("Help/lilAvatarUtils/Generate Docs")]
+        [MenuItem("Help/DocsGenerator/lilAvatarUtils")]
         private static void Generate()
         {
             var sceneView = SceneView.lastActiveSceneView;
