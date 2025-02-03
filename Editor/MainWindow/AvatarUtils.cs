@@ -13,6 +13,7 @@ namespace jp.lilxyzw.avatarutils
     {
         internal const string TEXT_WINDOW_NAME = "lilAvatarUtils";
         private const string MENU_PATH = "Tools/lilAvatarUtils";
+        private const string MENU_PATH_TEXTURE_REPORT = "GameObject/lilAvatarUtils/Texture Report";
         internal static readonly (Type,string[],EditorMode)[] TabTypes = {
             (typeof(TexturesGUI),          TexturesGUI.T_TD,          EditorMode.Textures),
             (typeof(MaterialsGUI),         MaterialsGUI.T_TD,         EditorMode.Materials),
@@ -48,12 +49,28 @@ namespace jp.lilxyzw.avatarutils
         [NonSerialized] float prevNear = 0;
         [NonSerialized] float prevFar = 0;
 
-        [MenuItem(MENU_PATH)]
-        internal static void Init()
+        private static AvatarUtils GetWindowInstance()
         {
             string windowName = $"{TEXT_WINDOW_NAME} {PackageJsonReader.GetVersion()}";
-            var window = (AvatarUtils)GetWindow(typeof(AvatarUtils), false, windowName);
+            return GetWindow<AvatarUtils>(false, windowName);
+        }
+
+        [MenuItem(MENU_PATH)]
+        internal static void Init() => GetWindowInstance().Show();
+
+        [MenuItem(MENU_PATH_TEXTURE_REPORT, false, 21)]
+        internal static void AnalyzeAvatar()
+        {
+            var window = GetWindowInstance();
+            window.gameObject = Selection.activeGameObject;
+            window.Analyze();
             window.Show();
+        }
+
+        [MenuItem(MENU_PATH_TEXTURE_REPORT, true, 21)]
+        internal static bool CheckObject()
+        {
+            return Selection.activeGameObject != null;
         }
 
         internal void OnGUI()
