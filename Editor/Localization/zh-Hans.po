@@ -390,7 +390,7 @@ msgid "Anchor Override"
 msgstr "锚点覆盖"
 
 msgid "This is the reference point when calculating lighting. It is recommended to set it the same for all meshes in one avatar, as it can cause different brightnesses for each mesh. It is used to calculate light probes and reflection probes."
-msgstr "计算光照时的参考位置。如果同一Avatar的不同网格设置为不同锚点覆盖，当处于光照变化剧烈的位置时，不同网格的会有不同亮度，因此建议将同一Avatar的网格的锚点覆盖设置为相同值。该设置用于光照探针和反射探针计算。"
+msgstr "计算光照时的参考位置。如果同一Avatar的不同网格设置为不同锚点覆盖，当处于光照变化剧烈的位置时不同网格会有不同亮度，因此建议将同一Avatar的网格的锚点覆盖设置为相同值。该设置用于光照探针和反射探针计算。"
 
 msgid "Root Bone"
 msgstr "根骨骼"
