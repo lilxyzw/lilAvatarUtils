@@ -1,0 +1,691 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh-Hans\n"
+
+
+
+#: Common
+
+msgid "Yes"
+msgstr "是"
+
+msgid "No"
+msgstr "否"
+
+msgid "Cancel"
+msgstr "取消"
+
+msgid "OK"
+msgstr "确认"
+
+msgid "Apply"
+msgstr "应用"
+
+msgid "Revert"
+msgstr "恢复"
+
+msgid "Filters"
+msgstr "筛选"
+
+msgid "Nothing found. Please turn off the filter or change the conditions."
+msgstr "没有找到任何资产。请尝试关闭或修改筛选条件。"
+
+msgid "Name"
+msgstr "名称"
+
+msgid "Asset name. Clicking this will select the corresponding asset in the Project window."
+msgstr "资产名称。单击将在项目窗口中选择相应的资产。"
+
+msgid "Object name. Clicking this will select the corresponding object in the Hierarchy window."
+msgstr "对象名称。单击将在层级窗口中选择相应的对象。"
+
+msgid "Replace"
+msgstr "替换"
+
+msgid "Referenced from"
+msgstr "引用来源"
+
+
+
+#: For Docs
+
+msgid "Name"
+msgstr "名称"
+
+msgid "Description"
+msgstr "描述"
+
+msgid "Property"
+msgstr "属性"
+
+msgid "Menu Location"
+msgstr "菜单位置"
+
+msgid "How to use"
+msgstr "使用方法"
+
+
+
+#: README
+
+msgid "Avatar editing assistant"
+msgstr "Avatar辅助编辑工具"
+
+msgid "This is a package containing various avatar editing assistance tools."
+msgstr "这是一个包含各种Avatar编辑辅助工具的软件包。"
+
+msgid "Document"
+msgstr "文档"
+
+msgid "Home"
+msgstr "主页"
+
+msgid "Search"
+msgstr "搜索"
+
+msgid "Display detailed list"
+msgstr "显示详细列表"
+
+msgid "Reset search"
+msgstr "重置搜索条件"
+
+msgid "Close search"
+msgstr "关闭搜索"
+
+msgid "No results for"
+msgstr "没有搜索结果"
+
+msgid "to select"
+msgstr "选择"
+
+msgid "enter"
+msgstr "进入"
+
+msgid "to navigate"
+msgstr "导航"
+
+msgid "up arrow"
+msgstr "上箭头"
+
+msgid "down arrow"
+msgstr "下箭头"
+
+msgid "to close"
+msgstr "关闭"
+
+msgid "escape"
+msgstr "escape"
+
+msgid "Updated at"
+msgstr "最后更新"
+
+msgid "Documents"
+msgstr "文档目录"
+
+msgid "This is the documentation page for lilAvatarUtils."
+msgstr "这是lilAvatarUtils的所有文档"
+
+
+
+#: Main
+
+msgid "Main Window"
+msgstr "主窗口"
+
+msgid "This is the main window of the tool. You can assign an avatar and view and edit data in each tab."
+msgstr "该工具的主窗口。指定Avatar后，可以在各个选项卡中分别查看和编辑各种设置。"
+
+
+
+#: Tabs
+
+msgid "Textures"
+msgstr "纹理"
+
+msgid "This is a list of all textures included in the avatar. Some properties can be edited, and the changed properties will be applied all at once by pressing the Apply button in the upper left."
+msgstr "Avatar引用的所有纹理的列表。部分属性可以编辑，使用左上角的“应用”按钮可一次性应用所有更改。"
+
+msgid "This tool is useful for identifying unnecessary textures or textures with excessive resolution to reduce the size of your avatar. For example, there are cases where the texture before modification remains on the material's luminescence or outline, which wastes VRAM, but with this tool you can replace the corresponding texture with the modified texture all at once. You can also efficiently reduce VRAM size by sorting the textures by VRAM capacity and changing the import settings."
+msgstr "该工具可以找出不必要或分辨率过高的纹理，以用来减小Avatar的打包大小。例如，使用新纹理替换材质的主色后，原始纹理可能还残留在发光或轮廓设置上，这会导致显存（VRAM）的浪费。使用该工具，您可以一次性将所有相同纹理替换为新的纹理。您还可以按显存容量对纹理进行排序，通过修改显存占用较高的纹理的导入设置来有效地降低显存占用。"
+
+msgid "Materials"
+msgstr "材质"
+
+msgid "This is a list of all materials included in the avatar. Some properties can be edited, and the changed properties will be applied all at once by pressing the Apply button in the upper left."
+msgstr "Avatar引用的所有材质。部分属性可以编辑，使用左上角的“应用”按钮后将一次性应用所有修改。"
+
+msgid "You can identify materials you forgot to replace and replace them all at once, and check the shader type and render queue to help solve avatar rendering problems. It can also be used as a tool to replace the original avatar materials all at once."
+msgstr "该工具可以用来找出修改Avatar时忘记替换而残留的材质，也可以检查着色器类型或渲染队列以解决Avatar渲染问题。它还可以用来一键替换Avatar的所有材质。"
+
+msgid "Animations"
+msgstr "动画"
+
+msgid "This is a list of all animations included in the avatar. You can also see what types of keyframes the animation contains."
+msgstr "Avatar引用的所有动画。也可以用来查看动画包含哪些类型的关键帧。"
+
+msgid "Problems that don't occur in the editor but occur in the game are often caused by animations, but if there are a lot of animations, it can take time to identify the cause. This tool lists all the animations included in the avatar and also displays the animation type, helping you identify the animation that is causing the problem."
+msgstr "只发生在游戏中而Unity编辑器内无法复现的错误通常是由动画引起的。但如果动画太多，可能要花费大量时间来寻找原因。此工具列出了所有被 Avatar 引用的动画并显示其动画类型，方便寻找导致问题的动画。"
+
+msgid "Renderers"
+msgstr "Renderer"
+
+msgid "This is a list of all renderers included in the avatar. Some properties can be edited, and the changed properties will be applied all at once by pressing the Apply button in the upper left."
+msgstr "Avatar中的所有的Renderer。部分属性可以编辑，使用左上角的“应用”按钮可一次性应用所有更改。"
+
+msgid "You can check the difference in anchor overrides and root bone settings to resolve avatar lighting issues, or identify meshes with high polygon counts and material slots to help make your avatar lighter."
+msgstr "你可以检查光照锚点覆盖或根骨骼设置的差异以解决角色光照问题，也可以找出具有高三角形数和材质槽数的网格以优化模型性能。"
+
+msgid "PhysBones"
+msgstr "PhysBone"
+
+msgid "This is a list of all PhysBones included in the avatar. Some properties can be edited, and the changed properties will be applied all at once by pressing the Apply button in the upper left."
+msgstr "Avatar中所有的PhysBone。部分属性可以编辑，使用左上角的“应用”按钮可一次性应用所有更改。"
+
+msgid "It is useful for identifying PhysBone components that have a large impact on performance rank, and for discovering PhysBones that have similar root bones and settings and can be integrated."
+msgstr "该工具可以用来找出对性能等级影响较大的PhysBone，也可以用来找出具有相似设置可以合并的PhysBone。"
+
+msgid "PBColliders"
+msgstr "PBColliders"
+
+msgid "This is a list of all PhysBone Colliders included in the avatar. Some properties can be edited, and the changed properties will be applied all at once by pressing the Apply button in the upper left."
+msgstr "Avatar中的所有PhysBone Collider。部分属性可以编辑，使用左上角的“应用”按钮可一次性应用所有更改。"
+
+msgid "This helps to identify the source of collider references and eliminate unnecessary colliders that are not referenced anywhere."
+msgstr "用于找出谁在引用PhysBone Collider，方便移除没有被任何PhysBone引用的未使用的Collider。"
+
+msgid "Lighting"
+msgstr "光照"
+
+msgid "This is a tool to check how your avatar looks in various environments. When you install VRCSDK, you can also check how your avatar looks when shaders are not applied due to safety."
+msgstr "检查Avatar在不同光照环境中外观的工具。如果安装了VRCSDK，也可以检查游戏中因安全设置关闭自定义着色器时的Avatar外观。"
+
+msgid "It is useful for checking the appearance of avatars under special lighting conditions that cannot be detected in the Unity default scene. It also allows you to check rendering problems that you cannot detect by yourself when safety is activated."
+msgstr "用于检查在无法在Unity默认场景中观察到的特殊光照条件下Avatar的外观。还能用于检查由于安全设置，关闭自定义着色器时的渲染问题。"
+
+msgid "Utils"
+msgstr "实用工具"
+
+msgid "This tab contains miscellaneous utilities."
+msgstr "一些杂项实用工具。"
+
+
+
+#: Textures
+
+msgid "Display textures used other than materials"
+msgstr "显示材质以外使用的纹理"
+
+msgid "If you specify a different texture here, you can replace that texture for all materials present on the avatar at once."
+msgstr "如果在这里指定不同的纹理，可以一次性替换掉Avatar上所有材质中引用的该纹理。"
+
+msgid "Type"
+msgstr "类型"
+
+msgid "The type of texture. Generally, Texture2D is used."
+msgstr "纹理类型。一般是Texture2D。"
+
+msgid "VRAM Size"
+msgstr "VRAM大小"
+
+msgid "The amount of VRAM used when textures are loaded. It is desirable to adjust this value so that it is as small as possible."
+msgstr "加载纹理时使用的VRAM大小。应调整纹理设置使该值尽可能小。"
+
+msgid "Resolution"
+msgstr "分辨率"
+
+msgid "The texture resolution on Unity. The smaller the resolution, the smaller the VRAM size, so it is recommended to set it as small as possible without noticeable artifacts."
+msgstr "Unity导入的纹理分辨率。分辨率越小，VRAM消耗越少，因此建议保证纹理质量同时使其尽可能的小。"
+
+msgid "Max Resolution"
+msgstr "最大分辨率"
+
+msgid "The maximum vertical or horizontal size of the texture resolution. The image will be scaled down on import to be smaller than this value while preserving as much of the image's aspect ratio as possible. The resolution of the original image file is not changed, so you can revert it to a larger setting."
+msgstr "纹理的最大垂直和水平分辨率。导入时，图像将在保留的宽高比的同时适当缩小以小于该值。原始图像文件的分辨率不会改变，因此可以无损地将其恢复为更高的分辨率。"
+
+msgid "Compression"
+msgstr "压缩质量"
+
+msgid "This sets the quality of the texture after compression. The higher the setting, the clearer the texture will be at the expense of the compression rate. However, if the texture contains transparency, it will be clearer without any change in VRAM size due to the compression format."
+msgstr "压缩后纹理的质量。压缩质量越高，纹理越清晰，但打包后下载大小会增加。开启压缩时，不同压缩质量不会改变消耗的VRAM大小。"
+
+msgid "Format"
+msgstr "格式"
+
+msgid "The texture format. This varies depending on whether transparency is enabled and the compression settings."
+msgstr "纹理格式。取决于压缩设置以及是否启用了透明度。"
+
+msgid "Crunch Compression"
+msgstr "Crunch压缩"
+
+msgid "Whether or not to use crunch compression. For DXT or ETC formats only, crunch compression can reduce file size at the expense of image quality. However, the VRAM size does not change, so the load does not change. Also, even if you do not use crunch compression, compression is applied to the entire avatar data, so the change is not as large as it seems. If you want to reduce the avatar size, it is more effective to lower the texture resolution."
+msgstr "是否使用Crunch压缩。仅适用于DXT或ETC格式。Crunch压缩可以以牺牲图像质量为代价减小文件大小，但不会改变加载时VRAM消耗的大小。此外，即使您不使用Crunch压缩，打包时Unity也会对Avatar的所有数据进行压缩，所以下载体积变化并不像看起来那么大。如果您想降低Avatar大小，降低纹理分辨率可能更有效。"
+
+msgid "Compression Quality"
+msgstr "Crunch压缩质量"
+
+msgid "Texture quality after crunch compression. The higher the setting, the more beautiful the texture will be at the expense of compression rate."
+msgstr "Crunch压缩后的纹理质量。质量越高，纹理越清晰，但会牺牲压缩率"
+
+msgid "sRGB"
+msgstr "sRGB"
+
+msgid "This setting determines whether to apply inverse gamma correction to textures. Generally, textures with color information (such as albedo and emission) are set to sRGB, and textures with numerical information (such as smoothness and masks) are set to non-sRGB. Please set it appropriately, as the appearance will change depending on whether the project's color space is Linear or Gamma (depending on the avatar's display environment)."
+msgstr "是否对纹理应用逆伽马校正。通常，具有颜色信息（如主色或发光）的纹理应设置为sRGB，而具有数值信息（如平滑度或遮罩）的纹理应设置为非sRGB。依赖于项目的色彩空间是Linear还是Gamma，外观会发生变化（取决于Avatar所处显示环境），因此请按需设置。""
+
+msgid "Alpha Source"
+msgstr "Alpha源"
+
+msgid "This is the source from which Unity generates the alpha channel of a texture."
+msgstr "Unity生成纹理Alpha通道的源。"
+
+msgid "Alpha Is Transparency"
+msgstr "Alpha是透明度"
+
+msgid "Extends the color channels of transparent textures outward to avoid blackening of transparent areas. Set this to off if you want to use the color channels as is."
+msgstr "扩展透明纹理的色彩通道，避免透明区域变黑。如果想要直接使用色彩通道，请将其设置为关闭。"
+
+msgid "MipMap"
+msgstr "MipMap"
+
+msgid "Whether to generate mipmaps. It is generally recommended to turn it off, but if the texture is used in the vertex shader (such as for masking outlines), turning it off can reduce VRAM size by 33%."
+msgstr "是否生成MipMap。通常建议打开它，但如果纹理用于顶点着色器（例如用于轮廓遮罩），关闭它可以将VRAM大小减少33%。"
+
+msgid "Mip Streaming"
+msgstr "Mip流式加载"
+
+msgid "Whether to enable Mip Streaming. This reduces VRAM consumption by loading only the mipmaps (reduced textures) required according to the camera position."
+msgstr "是否启用Mip流式加载。该功能通过仅加载根据相机位置所需的Mipmap级别来减少VRAM消耗。（VRCSDK要求如果开启MipMap，必须同时开启Mip流式加载）"
+
+msgid "Read/Write"
+msgstr "读/写"
+
+msgid "This setting allows scripts to access textures. Copying textures for script access doubles the RAM consumption, so it is recommended to turn this setting off if not required."
+msgstr "允许脚本访问该纹理。为脚本访问复制纹理会加倍内存消耗，因此如果不需要，建议关闭此设置。"
+
+msgid "Total"
+msgstr "总计"
+
+msgid "Remove references"
+msgstr "移除引用"
+
+
+
+#: Materials
+
+msgid "By specifying a different material here, you can replace all materials currently present on the avatar at once."
+msgstr "在此处分别设置不同的材质，可以一次性替换掉当前Avatar上所有的材质。"
+
+msgid "Shader"
+msgstr "着色器"
+
+msgid "The shader that the material is using."
+msgstr "该材质使用的着色器"
+
+msgid "Render Queue"
+msgstr "渲染队列"
+
+msgid "The rendering priority of the material. Smaller values ​​are rendered first. If a material that includes transparency is set to less than 2500, rendering problems may occur when it overlaps with the skybox. If it is set to 2501 or more, the lens effect will cause the material to lose focus and it will not be able to receive shadows. If a transparent material is set to an excessively low value (such as 2450 or less), it is very likely to cause problems with other materials being erased."
+msgstr "材质的渲染优先级。较小的值先渲染。如果透明材质设置为小于2500，当它与天空盒重叠时可能会出现渲染问题。如果设置为2501或更高，镜头开启虚化时将无法在该材质上对焦，且该材质无法接收阴影。如果透明材质设置为过低的值（如 2450或更低），很可能产生其他材质被擦除的问题。"
+
+
+
+#: Animations
+
+msgid "Humanoid"
+msgstr "Humanoid动画"
+
+msgid "Whether the animation includes humanoid manipulation."
+msgstr "是否包含人形肌肉动画。"
+
+msgid "BlendShape"
+msgstr "BlendShape动画"
+
+msgid "Whether the animation includes blendshape manipulation."
+msgstr "是否包含BlendShape动画"
+
+msgid "Object Active"
+msgstr "Object开关"
+
+msgid "Whether the animation includes toggling objects."
+msgstr "是否包含GameObject开关动画。"
+
+msgid "Component Enable"
+msgstr "组件开关"
+
+msgid "Whether the animation includes toggling components."
+msgstr "是否包含组件开关动画。"
+
+msgid "Transform"
+msgstr "Transform动画"
+
+msgid "Whether the animation includes transform manipulation."
+msgstr "是否包含Transform动画。"
+
+msgid "Material Replace"
+msgstr "材质切换"
+
+msgid "Whether the animation includes material replacement."
+msgstr "是否包含材质切换动画。"
+
+msgid "Material Property"
+msgstr "材质属性动画"
+
+msgid "Whether the animation includes material property manipulation."
+msgstr "是否包含材质属性动画"
+
+msgid "Others"
+msgstr "其它"
+
+msgid "Whether the animation includes any other actions."
+msgstr "是否包含其它操作的动画"
+
+
+
+#: Renderers
+
+msgid "Anchor Override"
+msgstr "锚点覆盖"
+
+msgid "This is the reference point when calculating lighting. It is recommended to set it the same for all meshes in one avatar, as it can cause different brightnesses for each mesh. It is used to calculate light probes and reflection probes."
+msgstr "计算光照时的参考位置。如果同一Avatar的不同网格设置为不同锚点覆盖，当处于光照变化剧烈的位置时，不同网格的会有不同亮度，因此建议将同一Avatar的网格的锚点覆盖设置为相同值。该设置用于光照探针和反射探针计算。"
+
+msgid "Root Bone"
+msgstr "根骨骼"
+
+msgid "The bone or transform that is the origin of the mesh. Bounds move according to this transform. It may also affect shader calculations."
+msgstr "作为网格原点的Transform。网格边界随着该Transform移动。它还会影响着色器计算。"
+
+msgid "Bounds"
+msgstr "边界"
+
+msgid "This is the volume used to determine if a mesh is outside the range of the screen or lights. If the mesh does not fit within this range, the mesh that should be in the screen may suddenly disappear or the light may suddenly become dark, so you need to set it appropriately."
+msgstr "用来确定网格是否在屏幕或灯光范围之外的盒子。如果网格不在这个范围内，镜头中网格可能会突然消失，亮度可能会突然变暗，因此需要正确地设置。"
+
+msgid "BlendShapes"
+msgstr "BlendShape"
+
+msgid "The number of BlendShapes for the mesh. The larger the number, the larger the mesh size will be."
+msgstr "网格的BlendShape数量。数量越多，网格资源大小就越高。"
+
+msgid "The number of material slots for the mesh. The larger this number is, the larger the rendering load will be."
+msgstr "网格的材质槽数量。数量越多，渲染负载就越高。"
+
+msgid "Polys"
+msgstr "多边形数"
+
+msgid "The number of polygons in the mesh. The larger this number is, the higher the load on the geometry shader and tessellation will be."
+msgstr "网格的多边形的数量。数量越多，几何着色器和曲面细分着色器的负载就越高。"
+
+msgid "Vertices"
+msgstr "顶点数"
+
+msgid "The number of vertices in the mesh. The larger this number is, the higher the load on the vertex shader and deformation by bones and blendshapes will be."
+msgstr "网格的顶点数量。数量越多，顶点着色器以及网格的骨骼和BlendShape变形的负载就越高。"
+
+msgid "Quality"
+msgstr "质量"
+
+msgid "This is the number of bones that can operate one vertex. The larger the number, the more calculations will be required, which may result in poorer performance. Basically, this is set to Auto, and if you want to limit it, it is recommended to change the model import settings."
+msgstr "控制单个顶点的骨骼数量。数量越多，所需的计算越多，可能会导致性能下降。一般设置为自动，如果需要限制它，建议更改模型导入设置。"
+
+msgid "Update When Offscreen"
+msgstr "离屏时更新"
+
+msgid "If this is on, bounds will be calculated even if the mesh is off screen. This setting is off by default to reduce the load."
+msgstr "如果该选项开启，即使网格在屏幕外也会计算边界。此设置默认关闭以减少负载。"
+
+msgid "Cast Shadows"
+msgstr "投射阴影"
+
+msgid "Whether the mesh casts shadows on other objects."
+msgstr "网格是否在其他物体上投射阴影。"
+
+msgid "Receive Shadows"
+msgstr "接收阴影"
+
+msgid "Whether the mesh receives shadows from other objects."
+msgstr "网格是否接收来自其他物体的阴影。"
+
+msgid "Light Probes"
+msgstr "光照探针"
+
+msgid "How to calculate light probes."
+msgstr "如何计算光照探针。"
+
+msgid "Reflection Probes"
+msgstr "反射探针"
+
+msgid "How to calculate reflection probes."
+msgstr "如何计算反射探针。"
+
+msgid "Motion Vector"
+msgstr "蒙皮运动矢量"
+
+msgid "Whether to output motion vectors, used for post-processing such as motion blur."
+msgstr "是否输出运动矢量，用于后处理如运动模糊。"
+
+msgid "Dynamic Occlusion"
+msgstr "动态遮挡"
+
+msgid "If the mesh is hidden by other static objects, culling will be performed and rendering will be skipped. It is usually recommended to turn it on for better performance, but turn it off if you want to use special effects such as displaying objects hidden by walls."
+msgstr "如果网格被其他静态物体遮挡，网格将被剔除并跳过渲染。通常建议开启以提高性能，但如果你想实现物体不被墙壁遮挡的特殊效果，则应关闭。"
+
+
+
+#: PhysBones
+
+msgid "Root Transform"
+msgstr "Root Transform"
+
+msgid "This is the root of the bone or transform that performs PhysBone calculations. Motion is applied to the transforms under this."
+msgstr "这是PhysBone的根节点，用于执行PhysBone计算。在此之下的Transform会应用PhysBone运动。"
+
+msgid "Parent"
+msgstr "父级"
+
+msgid "Parent object of PhysBone. If the parent is the same, you may be able to reduce the number of components by unifying the components."
+msgstr "PhysBone的父对象。如果父对象相同，合并PhysBone组件或许能PhysBone组件的使用数量。"
+
+msgid "Multi Child Type"
+msgstr "Multi Child Type"
+
+msgid "How to determine orientation when there are multiple child bones and the orientation of the parent bone cannot be determined."
+msgstr "存在多个子骨骼且无法确定父骨骼的方向时如何确定方向。"
+
+msgid "Bones"
+msgstr "骨骼数"
+
+msgid "The number of bones the sway is calculated for. The higher the number, the higher the cost."
+msgstr "需要计算摆动的骨骼数。数量越多，负载越高。"
+
+msgid "Colliders"
+msgstr "Collider数"
+
+msgid "The number of colliders to calculate the collision detection with this PhysBone."
+msgstr "该PhysBone碰撞检测计算引用的PhysBone Collider数量。"
+
+msgid "Collision"
+msgstr "碰撞计算次数"
+
+msgid "The number of collision calculations. This number increases according to the number of bones and colliders, and the higher the number, the greater the load."
+msgstr "碰撞计算的次数。碰撞计算次数随骨骼和PhysBone Collider数量的增加而增加，次数越多，负载越高。"
+
+msgid "Immobile Type"
+msgstr "Immobile Type"
+
+msgid "This is how to calculate Immobile."
+msgstr "如何计算PhysBone的Immobile属性。"
+
+msgid "Allow Collision"
+msgstr "Allow Collision"
+
+msgid "Whether or not to enable collisions with colliders other than those set by the component. It will collide with each player's hand."
+msgstr "是否启用与除该PhysBone设置的PhysBone Collider之外的碰撞体发生碰撞，例如，玩家的手。"
+
+msgid "Grabbing"
+msgstr "Grabbing"
+
+msgid "Whether or not to be able to grab PhysBone."
+msgstr "能否抓取PhysBone。"
+
+msgid "Posing"
+msgstr "Posing"
+
+msgid "Whether the PhysBone can be posed."
+msgstr "能否固定PhysBone。"
+
+
+
+#: PBColliders
+
+msgid "The Transform used to calculate the collider position."
+msgstr "用于计算PhysBone Collider位置的Transform。"
+
+msgid "References"
+msgstr "被引用数"
+
+msgid "The number of PhysBones referencing this collider."
+msgstr "引用该PhysBone Collider的PhysBone的数量。"
+
+msgid "Shape"
+msgstr "形状"
+
+msgid "The shape of the collider."
+msgstr "PhysBone Collider的形状"
+
+msgid "Radius"
+msgstr "半径"
+
+msgid "The radius of the collider."
+msgstr "PhysBone Collider的半径"
+
+msgid "Height"
+msgstr "高度"
+
+msgid "The height of the collider."
+msgstr "PhysBone Collider的高度"
+
+msgid "Position"
+msgstr "位置"
+
+msgid "The offset of the collider's position from the root transform."
+msgstr "PhysBone Collider相对Root Transform的位置偏移量。"
+
+msgid "Rotation"
+msgstr "旋转"
+
+msgid "The amount of offset of the collider's rotation from the root bone."
+msgstr "PhysBone Collider相对Root Transform的旋转偏移量。"
+
+msgid "Inside"
+msgstr "Inside"
+
+msgid "Turning this on will act to push the PhysBone inside the collider."
+msgstr "若开启该选项，PhysBone将会被推入PhysBone Collider内部。"
+
+msgid "As Sphere"
+msgstr "As Sphere"
+
+msgid "When this is turned on, the shape of the collision detection for the PhysBone itself will be calculated as a sphere instead of a capsule."
+msgstr "若开启该选项，PhysBone本身的碰撞检测形状将被计算为球体而不是胶囊体。"
+
+
+
+#: Lighting
+
+msgid "No light"
+msgstr "无光"
+
+msgid "There is no light, including ambient light."
+msgstr "没有光源，也没有环境光"
+
+msgid "Overexposure"
+msgstr "曝光过度"
+
+msgid "It is illuminated by excessively bright directional light."
+msgstr "被过亮的定向光照亮。"
+
+msgid "In Shadow"
+msgstr "阴影中"
+
+msgid "The whole avatar is in shadow."
+msgstr "整个Avatar处于阴影中。"
+
+msgid "Spot Light"
+msgstr "聚光灯"
+
+msgid "It is lit by one spotlight."
+msgstr "被 1 个聚光灯照亮"
+
+msgid "3 Spot Lights"
+msgstr "3 个聚光灯"
+
+msgid "It is lit by three spotlights."
+msgstr "被 1 个聚光灯照亮"
+
+msgid "Custom"
+msgstr "自定义"
+
+msgid "User can customize lighting."
+msgstr "用户可以自定义光照效果"
+
+msgid "Ambient"
+msgstr "环境光"
+
+msgid "Main Light"
+msgstr "主光源"
+
+msgid "Spot Light 1"
+msgstr "聚光灯 1"
+
+msgid "Spot Light 2"
+msgstr "聚光灯 2"
+
+msgid "Spot Light 3"
+msgstr "聚光灯 3"
+
+msgid "Shadows"
+msgstr "阴影"
+
+msgid "Reflection"
+msgstr "反射"
+
+msgid "Simulate safety enabled"
+msgstr "模拟着色器安全回退"
+
+msgid "This simulates the appearance when safety is enabled on VRChat. Since the implementation of VRChat is unknown, it may not be reproduced completely."
+msgstr "模拟在VRChat中关闭自定义着色器或启用备用着色器时的外观。由于VRChat的实现方式未知，可能无法完全模拟。"
+
+
+
+#: Tabs
+
+msgid "Clean up Materials"
+msgstr "清理所有材质"
+
+msgid "Delete any unnecessary properties that are not used by the assigned shader. It is recommended to delete any unnecessary texture allocations, as they may result in unnecessary textures being included in the avatar, making it larger in size."
+msgstr "删除材质中未使用的属性。建议清理材质中不必要的纹理引用，这些纹理尽管不会被使用，但仍然会让你的Avatar体积变大。"
+
+msgid "Removed unused properties on {0} materials."
+msgstr "删除了 {0} 个未使用的属性。"
+
+msgid "Clean up AnimatorControllers"
+msgstr "清理所有Animator Controller"
+
+msgid "Delete unnecessary sub-assets that are not referenced anywhere and are generated by editing the AnimatorController."
+msgstr "删除没有在任何地方引用的，由编辑Animator Controller产生的无用子资产。"
+
+msgid "Removed unused sub-assets in {0} AnimatorControllers."
+msgstr "删除了Animator Controller中 {0} 个未使用的子资产。"
+
+msgid "Remove Missing Components"
+msgstr "删除所有脚本缺失的组件"
+
+msgid "Remove any missing components where a required script has not been imported or has been corrupted in some way."
+msgstr "移除任何缺失的组件。当组件所需的脚本未导入或因为某些原因损坏时，就会产生“Missing Component”。"
+
+msgid "Removed {0} missing components."
+msgstr "删除了 {0} 个缺失的组件"
