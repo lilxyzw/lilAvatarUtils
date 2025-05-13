@@ -216,7 +216,7 @@ msgstr "一些杂项实用工具。"
 #: Textures
 
 msgid "Display textures used other than materials"
-msgstr "显示材质以外使用的纹理"
+msgstr "显示材质以外被引用的纹理"
 
 msgid "If you specify a different texture here, you can replace that texture for all materials present on the avatar at once."
 msgstr "如果在这里指定不同的纹理，可以一次性替换掉Avatar上所有材质中引用的该纹理。"
