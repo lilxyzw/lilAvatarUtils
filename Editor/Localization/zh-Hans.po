@@ -176,7 +176,7 @@ msgid "This is a list of all renderers included in the avatar. Some properties c
 msgstr "Avatar 中的所有的 Renderer。部分属性可以编辑，使用左上角的“应用”按钮可一次性应用所有更改。"
 
 msgid "You can check the difference in anchor overrides and root bone settings to resolve avatar lighting issues, or identify meshes with high polygon counts and material slots to help make your avatar lighter."
-msgstr "你可以检查光照锚点覆盖或根骨骼设置的差异以解决角色光照问题，也可以找出具有高三角面数和材质槽数的网格以优化 Avatar 性能。"
+msgstr "你可以检查光照锚点覆盖或根骨骼设置的差异以解决角色光照问题，也可以找出具有高三角面数和高材质槽数的网格以优化 Avatar 性能。"
 
 msgid "PhysBones"
 msgstr "PhysBone"
@@ -219,13 +219,13 @@ msgid "Display textures used other than materials"
 msgstr "显示所有纹理（也包括被其他杂项引用的）"
 
 msgid "If you specify a different texture here, you can replace that texture for all materials present on the avatar at once."
-msgstr "如果在这里指定不同的纹理，可以一次性替换掉 Avatar 上所有材质中引用的纹理。"
+msgstr "如果在这里指定不同的纹理，那么可以一次性替换掉 Avatar 上所有材质中引用的该纹理。"
 
 msgid "Type"
 msgstr "类型"
 
 msgid "The type of texture. Generally, Texture2D is used."
-msgstr "纹理类型。一般是Texture2D。"
+msgstr "纹理类型。一般是 Texture2D。"
 
 msgid "VRAM Size"
 msgstr "VRAM大小"
