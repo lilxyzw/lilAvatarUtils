@@ -476,6 +476,13 @@ namespace jp.lilxyzw.avatarutils
             {
                 return Shader.Find("Legacy Shaders/VertexLit");
             }
+            if(tag.Contains("toonstandard"))
+            {
+                var shader = default(Shader);
+                if(tag.Contains("outline")) shader = Shader.Find("VRChat/Mobile/Toon Standard (Outline)");
+                else                        shader = Shader.Find("VRChat/Mobile/Toon Standard");
+                if(shader != null) return shader;
+            }
             return Shader.Find("Standard");
         }
         #endif
