@@ -423,8 +423,14 @@ namespace jp.lilxyzw.avatarutils
             var tag = material.GetTag("VRCFallback", true);
             if(string.IsNullOrEmpty(tag) && material.shader) tag = material.shader.name.Replace("Hidden","");
 
-            var materialFallback = new Material(TagToSafetyShader(tag));
-            materialFallback.CopyPropertiesFromMaterial(material);
+            var materialFallbackCopy = new Material(TagToSafetyShader(tag));
+            materialFallbackCopy.CopyPropertiesFromMaterial(material);
+
+            // Properties copied via CopyPropertiesFromMaterial remain incomplete until the scene is saved.
+            // Creating a new material instance ensures all properties are correctly applied.
+            var materialFallback = new Material(materialFallbackCopy);
+            Object.DestroyImmediate(materialFallbackCopy);
+
             materialFallback.renderQueue = materialFallback.shader.renderQueue;
             if(tag.Contains("DoubleSided")) materialFallback.SetInt("_Cull", 0);
             else                            materialFallback.SetInt("_Cull", 2);
