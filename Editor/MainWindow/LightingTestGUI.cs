@@ -423,8 +423,7 @@ namespace jp.lilxyzw.avatarutils
             var tag = material.GetTag("VRCFallback", true);
             if(string.IsNullOrEmpty(tag) && material.shader) tag = material.shader.name.Replace("Hidden","");
 
-            var safetyShader = TagToSafetyShader(tag);
-            var materialFallback = new Material(safetyShader);
+            var materialFallback = new Material(TagToSafetyShader(tag));
             materialFallback.CopyPropertiesFromMaterial(material);
             materialFallback.renderQueue = materialFallback.shader.renderQueue;
             if(tag.Contains("DoubleSided")) materialFallback.SetInt("_Cull", 0);
@@ -434,11 +433,6 @@ namespace jp.lilxyzw.avatarutils
             {
                 materialFallback.SetShaderPassEnabled(pass, true);
             }
-
-            // Workaround: After calling CopyPropertiesFromMaterial(), the material may appear visually incorrect.
-            // Reassigning material.shader (even to the same) forces Unity to refresh the internal state.
-            // https://discussions.unity.com/t/copypropertiesfrommaterial-corrupts-material-in-play-mode/693156/4
-            materialFallback.shader = safetyShader;
 
             return materialFallback;
         }
