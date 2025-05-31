@@ -52,6 +52,14 @@ namespace jp.lilxyzw.avatarutils
                 }
             }
             so.ApplyModifiedProperties();
+
+            // Handle Material Variant references for texture removal
+            # if UNITY_2022_1_OR_NEWER
+            if (parent is Material material && material.parent != null && target is Texture tex)
+            {
+                RemoveTextureFromMaterialVariant(material, tex);
+            }
+            #endif
         }
 
         internal static void ReplaceReferences(Object parent, Object from, Object to)
@@ -68,7 +76,62 @@ namespace jp.lilxyzw.avatarutils
                 }
             }
             so.ApplyModifiedProperties();
+
+            // Handle Material Variant references for texture replacement
+            #if UNITY_2022_1_OR_NEWER
+            if (parent is Material material && material.parent != null && from is Texture fromTex && to is Texture toTex)
+            {
+                ReplaceTextureInMaterialVariant(material, fromTex, toTex);
+            }
+            #endif
         }
+
+        #if UNITY_2022_1_OR_NEWER
+        private static void RemoveTextureFromMaterialVariant(Material material, Texture tex)
+        {
+            ProcessMaterialVariantTexture(material, tex, null);
+        }
+
+        private static void ReplaceTextureInMaterialVariant(Material material, Texture from, Texture to)
+        {
+            ProcessMaterialVariantTexture(material, from, to);
+        }
+
+        private static void ProcessMaterialVariantTexture(Material material, Texture from, Texture to)
+        {
+            // Create a flattened material to check all properties including inherited ones
+            var flattened = new Material(material);
+            flattened.parent = null;
+
+            using var flattenedSO = new SerializedObject(flattened);
+            var flattenedProps = flattenedSO.FindProperty("m_SavedProperties")?.FindPropertyRelative("m_TexEnvs");
+
+            if (flattenedProps == null)
+            {
+                Object.DestroyImmediate(flattened);
+                return;
+            }
+
+            // Check if the texture exists in the flattened material (including inherited properties)
+            for (int i = 0; i < flattenedProps.arraySize; i++)
+            {
+                var flattenedTexProp = flattenedProps.GetArrayElementAtIndex(i)?.FindPropertyRelative("second")?.FindPropertyRelative("m_Texture");
+                if (flattenedTexProp?.objectReferenceValue != from)
+                    continue;
+
+                // Found the texture in flattened material, now set it explicitly in the variant
+                var propertyName = flattenedProps.GetArrayElementAtIndex(i)?.FindPropertyRelative("first")?.stringValue;
+                if (string.IsNullOrEmpty(propertyName))
+                    continue;
+
+                // Set the texture property explicitly on the variant material
+                // This will override the inherited value (to=null for removal, to=newTexture for replacement)
+                material.SetTexture(propertyName, to);
+            }
+
+            Object.DestroyImmediate(flattened);
+        }
+        #endif
 
         // Sort
         internal static HashSet<T> Sort<T, TP>(this HashSet<T> src, Func<T, TP> func, bool isDescending)

@@ -57,6 +57,39 @@ namespace jp.lilxyzw.avatarutils
                     GetReferenceFromObject(refs, iter.objectReferenceValue, obj);
                 }
             }
+
+            #if UNITY_2022_1_OR_NEWER
+            // Handle Material Variant references
+            if(obj is Material material && material.parent != null)
+            {
+                GetMaterialVariantReferences(refs, material, obj);
+            }
+            #endif
         }
+
+        #if UNITY_2022_1_OR_NEWER
+        private static void GetMaterialVariantReferences(Dictionary<Object, HashSet<Object>> refs, Material material, Object parent)
+        {
+            // Create a flattened material to get all properties including those from parent
+            var flattened = new Material(material);
+            flattened.parent = null;
+
+            using var so = new SerializedObject(flattened);
+            var props = so.FindProperty("m_SavedProperties")?.FindPropertyRelative("m_TexEnvs");
+            if (props != null)
+            {
+                for (int i = 0; i < props.arraySize; i++)
+                {
+                    var texprop = props.GetArrayElementAtIndex(i)?.FindPropertyRelative("second")?.FindPropertyRelative("m_Texture");
+                    if (texprop?.objectReferenceValue is Texture tex)
+                    {
+                        GetReferenceFromObject(refs, tex, parent);
+                    }
+                }
+            }
+
+            Object.DestroyImmediate(flattened);
+        }
+        #endif
     }
 }
