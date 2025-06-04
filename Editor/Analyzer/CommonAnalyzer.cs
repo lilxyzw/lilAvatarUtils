@@ -18,7 +18,7 @@ namespace jp.lilxyzw.avatarutils
 
         private static void GetReferenceFromObject(Dictionary<Object, HashSet<Object>> refs, Object obj, Object parent)
         {
-            if(!obj ||
+            if (!obj ||
                 obj is AnimatorTransitionBase ||
                 obj is GameObject go && go.IsEditorOnly() ||
                 obj is Component c && c.IsEditorOnly()) return;
@@ -57,6 +57,9 @@ namespace jp.lilxyzw.avatarutils
                     GetReferenceFromObject(refs, iter.objectReferenceValue, obj);
                 }
             }
+
+            // 何故かSerializedObject経由でマテリアルのm_Parentが見れないので特別措置
+            if (obj is Material m) GetReferenceFromObject(refs, m.parent, obj);
         }
     }
 }
