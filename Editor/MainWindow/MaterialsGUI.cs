@@ -40,10 +40,23 @@ namespace jp.lilxyzw.avatarutils
             empQueues  = (int   )libs[indQueues].emphasize;
         }
 
+        protected override void LineGUI(int count)
+        {
+            var mat = libs[indRepMats].items[count];
+            base.LineGUI(count);
+            if (mat != libs[indRepMats].items[count])
+            {
+                var newMat = libs[indRepMats].items[count] as Material;
+                if (!newMat) return;
+                libs[indQueues].items[count] = newMat.renderQueue;
+                libs[indShaders].items[count] = newMat.shader;
+            }
+        }
+
         protected override void LineGUIEx(int count)
         {
             showReferences[count] = GUIUtils.Foldout(new Rect(libs[0].rect.x - 16, libs[0].rect.y, 16, libs[0].rect.height), showReferences[count]);
-            if(showReferences[count])
+            if (showReferences[count])
             {
                 EditorGUILayout.BeginHorizontal();
                 GUILayout.Space(20);
