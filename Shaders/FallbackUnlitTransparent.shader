@@ -3,7 +3,6 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _Cull ("_Cull", Int) = 2
     }
     SubShader
     {
@@ -11,7 +10,6 @@
 
         Pass
         {
-            Cull [_Cull]
             ZWrite Off
             Blend SrcAlpha OneMinusSrcAlpha
             CGPROGRAM
