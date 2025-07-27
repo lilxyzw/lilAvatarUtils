@@ -432,16 +432,8 @@ namespace jp.lilxyzw.avatarutils
             Object.DestroyImmediate(materialFallbackCopy);
 
             materialFallback.renderQueue = materialFallback.shader.renderQueue;
-            if(tag.Contains("DoubleSided"))
-            {
-                materialFallback.SetInt("_Cull", 0);
-                materialFallback.SetInt("_Culling", 0);
-            }
-            else
-            {
-                materialFallback.SetInt("_Cull", 2);
-                materialFallback.SetInt("_Culling", 2);
-            }
+            if(tag.Contains("DoubleSided")) materialFallback.SetInt("_Cull", 0);
+            else                            materialFallback.SetInt("_Cull", 2);
 
             foreach (var pass in new string[] { "Always", "ForwardBase", "ForwardAdd", "Deferred", "ShadowCaster", "MotionVectors", "Vertex", "VertexLMRGBM", "VertexLM", "Meta" })
             {
