@@ -12,13 +12,13 @@ namespace jp.lilxyzw.avatarutils
         {
             var refs = new Dictionary<Object, HashSet<Object>>();
             foreach(var o in gameObject.GetComponentsInChildren<Component>(true))
-                GetReferenceFromObject(refs, o, null);
+                GetReferenceFromObject(refs, null, o, null);
             return refs;
         }
 
-        private static void GetReferenceFromObject(Dictionary<Object, HashSet<Object>> refs, Object obj, Object parent)
+        private static void GetReferenceFromObject(Dictionary<Object, HashSet<Object>> refs, HashSet<string> scannedMaterialProperties, Object obj, Object parent)
         {
-            if(!obj ||
+            if (!obj ||
                 obj is AnimatorTransitionBase ||
                 obj is GameObject go && go.IsEditorOnly() ||
                 obj is Component c && c.IsEditorOnly()) return;
@@ -47,16 +47,43 @@ namespace jp.lilxyzw.avatarutils
             ) return;
 
             using var so = new SerializedObject(obj);
-            using var iter = so.GetIterator();
             var enterChildren = true;
-            while(iter.Next(enterChildren))
+
+            // Material
+            if (obj is Material m)
             {
-                enterChildren = iter.propertyType != SerializedPropertyType.String;
-                if(iter.propertyType == SerializedPropertyType.ObjectReference && iter.name != "m_CorrespondingSourceObject")
+                scannedMaterialProperties ??= new();
+                using var texs = so.FindProperty("m_SavedProperties.m_TexEnvs");
+                var size = texs.arraySize;
+                for (int i = 0; i < size; i++)
                 {
-                    GetReferenceFromObject(refs, iter.objectReferenceValue, obj);
+                    var data = texs.GetArrayElementAtIndex(i);
+                    var name = data.FindPropertyRelative("first").stringValue;
+                    if (scannedMaterialProperties.Add(name))
+                    {
+                        using var tex = data.FindPropertyRelative("second.m_Texture");
+                        GetReferenceFromObject(refs, scannedMaterialProperties, tex.objectReferenceValue, obj);
+                    }
+                }
+
+                // 何故かSerializedObject経由でマテリアルのm_Parentが見れないので特別措置
+                GetReferenceFromObject(refs, scannedMaterialProperties, m.parent, obj);
+                return;
+            }
+            else
+            {
+                // 一般Object
+                using var iter = so.GetIterator();
+                while (iter.Next(enterChildren))
+                {
+                    enterChildren = iter.propertyType != SerializedPropertyType.String;
+                    if (iter.propertyType == SerializedPropertyType.ObjectReference && iter.name != "m_CorrespondingSourceObject")
+                    {
+                        GetReferenceFromObject(refs, scannedMaterialProperties, iter.objectReferenceValue, obj);
+                    }
                 }
             }
+
         }
     }
 }

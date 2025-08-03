@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.1] - 2025-08-02
+
+### Fixed
+- Material parent textures are not excluded if they are overridden
+
+## [2.1.0] - 2025-07-27
+
+### Added
+- Supports Toon Standard fallback
+
+### Changed
+- Match the current VRChat specifications, which do not allow Unlit Shaders to be cut off
+
+### Fixed
+- Scanning material parents
+- Overwrite the render queue of the replaced material
+
 ## [2.0.0] - 2025-01-28
 
 ### Added
