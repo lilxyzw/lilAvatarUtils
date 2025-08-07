@@ -126,7 +126,7 @@ msgid "Documents"
 msgstr "文档目录"
 
 msgid "This is the documentation page for lilAvatarUtils."
-msgstr "这是lilAvatarUtils的所有文档"
+msgstr "这是 lilAvatarUtils 的所有文档"
 
 
 
@@ -136,7 +136,7 @@ msgid "Main Window"
 msgstr "主窗口"
 
 msgid "This is the main window of the tool. You can assign an avatar and view and edit data in each tab."
-msgstr "该工具的主窗口。指定Avatar后，可以在各个选项卡中分别查看和编辑各种设置。"
+msgstr "该工具的主窗口。指定 Avatar 后，可以在各个选项卡中分别查看和编辑各种设置。"
 
 
 
@@ -149,7 +149,7 @@ msgid "This is a list of all textures included in the avatar. Some properties ca
 msgstr "Avatar 引用的所有纹理的列表。部分属性可以编辑，使用左上角的“应用”按钮可一次性应用所有更改。"
 
 msgid "This tool is useful for identifying unnecessary textures or textures with excessive resolution to reduce the size of your avatar. For example, there are cases where the texture before modification remains on the material's luminescence or outline, which wastes VRAM, but with this tool you can replace the corresponding texture with the modified texture all at once. You can also efficiently reduce VRAM size by sorting the textures by VRAM capacity and changing the import settings."
-msgstr "该工具可以找出不必要或分辨率过高的纹理，以用来减小 Avatar 的打包大小。例如，使用新纹理替换材质的主色后，原始纹理可能还残留在发光或轮廓设置上，这会导致显存（VRAM）的浪费。使用该工具，您可以一次性将所有相同纹理替换为新的纹理。您还可以按显存容量对纹理进行排序，通过修改显存占用较高的纹理的导入设置来有效地降低显存占用。"
+msgstr "该工具可以找出不必要或分辨率过高的纹理，以用来减小 Avatar 的打包大小。例如，使用新纹理替换材质的主色后，原始纹理可能还残留在发光或轮廓设置上，这会导致显存（VRAM）的浪费。使用该工具，您可以一次性将所有相同纹理替换为新的纹理。您还可以按显存占用对纹理进行排序，通过修改显存占用较高的纹理的导入设置来有效地降低显存占用。"
 
 msgid "Materials"
 msgstr "材质"
@@ -164,7 +164,7 @@ msgid "Animations"
 msgstr "动画"
 
 msgid "This is a list of all animations included in the avatar. You can also see what types of keyframes the animation contains."
-msgstr "Avatar引用的所有动画。也可以用来查看动画包含哪些类型的关键帧。"
+msgstr "Avatar 引用的所有动画。也可以用来查看动画包含哪些类型的关键帧。"
 
 msgid "Problems that don't occur in the editor but occur in the game are often caused by animations, but if there are a lot of animations, it can take time to identify the cause. This tool lists all the animations included in the avatar and also displays the animation type, helping you identify the animation that is causing the problem."
 msgstr "只发生在游戏中，但在编辑器内无法复现的错误通常是由动画引起的。如果动画太多，可能要花费大量时间来寻找原因。此工具列出了所有被 Avatar 引用的动画并显示其类型，方便寻找导致问题的动画。"
@@ -216,7 +216,7 @@ msgstr "一些很杂但某些情况下很有用的工具。"
 #: Textures
 
 msgid "Display textures used other than materials"
-msgstr "显示所有纹理（也包括被其他杂项引用的）"
+msgstr "显示所有纹理（包含未被材质引用，但是被菜单、插件组件等杂项引用的纹理）"
 
 msgid "If you specify a different texture here, you can replace that texture for all materials present on the avatar at once."
 msgstr "如果在这里指定不同的纹理，那么可以一次性替换掉 Avatar 上所有材质中引用的该纹理。"
@@ -228,7 +228,7 @@ msgid "The type of texture. Generally, Texture2D is used."
 msgstr "纹理类型。一般是 Texture2D。"
 
 msgid "VRAM Size"
-msgstr "VRAM大小"
+msgstr "VRAM 大小"
 
 msgid "The amount of VRAM used when textures are loaded. It is desirable to adjust this value so that it is as small as possible."
 msgstr "加载纹理时占用的 VRAM 大小。应调整纹理设置使该值尽可能小。"
@@ -276,7 +276,7 @@ msgid "This setting determines whether to apply inverse gamma correction to text
 msgstr "是否对纹理应用逆伽马校正。通常，具有颜色信息（如主色或发光）的纹理应设置为sRGB，而具有数值信息（如平滑度或遮罩）的纹理应设置为非sRGB。这取决于项目的色彩空间是 Linear 还是 Gamma，外观会发生变化（取决于 Avatar 所处显示环境），因此请按需设置。""
 
 msgid "Alpha Source"
-msgstr "Alpha源"
+msgstr "Alpha 源"
 
 msgid "This is the source from which Unity generates the alpha channel of a texture."
 msgstr "Unity 生成纹理 Alpha 通道的源。"
@@ -297,13 +297,13 @@ msgid "Mip Streaming"
 msgstr "Mip 流式加载"
 
 msgid "Whether to enable Mip Streaming. This reduces VRAM consumption by loading only the mipmaps (reduced textures) required according to the camera position."
-msgstr "是否启用 Mip 流式加载。该功能通过仅加载根据相机位置所需的 Mipmap 级别来减少 VRAM 消耗。（VRCSDK 要求如果开启 MipMap，必须同时开启 Mip 流式加载）"
+msgstr "是否启用 Mip 流式加载。该功能通过仅加载根据相机位置所需的 Mipmap 级别来减少 VRAM 消耗。（VRCSDK 要求，开启 MipMap 必须同时开启 Mip 流式加载）"
 
 msgid "Read/Write"
 msgstr "读/写"
 
 msgid "This setting allows scripts to access textures. Copying textures for script access doubles the RAM consumption, so it is recommended to turn this setting off if not required."
-msgstr "允许脚本访问该纹理。为脚本访问复制纹理会加倍内存消耗，因此如果不需要，建议关闭此设置。"
+msgstr "允许脚本访问该纹理。为脚本访问而复制纹理会加倍内存消耗，因此如果不需要，建议关闭此设置。"
 
 msgid "Total"
 msgstr "总计"
@@ -328,7 +328,7 @@ msgid "Render Queue"
 msgstr "渲染队列"
 
 msgid "The rendering priority of the material. Smaller values ​​are rendered first. If a material that includes transparency is set to less than 2500, rendering problems may occur when it overlaps with the skybox. If it is set to 2501 or more, the lens effect will cause the material to lose focus and it will not be able to receive shadows. If a transparent material is set to an excessively low value (such as 2450 or less), it is very likely to cause problems with other materials being erased."
-msgstr "材质的渲染优先级。较小的值先渲染。如果透明材质设置为小于 2500，当它与天空盒重叠时可能会出现渲染问题。如果设置为 2501 或更高，镜头开启虚化时将无法在该材质上对焦，且该材质无法接收阴影。如果透明材质设置为过低的值（如 2450 或更低），很可能产生该材质被其他材质擦除（变得不可见）的问题。"
+msgstr "材质的渲染优先级。较小的值先渲染。如果透明材质设置为小于 2500，当它与天空盒重叠时可能会出现渲染问题。如果设置为 2501 或更高，镜头开启虚化时将无法在该材质上对焦，且该材质无法接收阴影。如果透明材质设置为过低的值（如 2450 或更低），很可能产生该材质擦除其它材质（使其变得不可见）的问题。"
 
 
 
@@ -414,7 +414,7 @@ msgid "The number of material slots for the mesh. The larger this number is, the
 msgstr "网格的材质槽数量。数量越多，渲染负载就越高。"
 
 msgid "Polys"
-msgstr "多边形数"
+msgstr "面数"
 
 msgid "The number of polygons in the mesh. The larger this number is, the higher the load on the geometry shader and tessellation will be."
 msgstr "网格的多边形的数量。数量越多，几何着色器和曲面细分着色器的负载就越高。"
@@ -423,7 +423,7 @@ msgid "Vertices"
 msgstr "顶点数"
 
 msgid "The number of vertices in the mesh. The larger this number is, the higher the load on the vertex shader and deformation by bones and blendshapes will be."
-msgstr "网格的顶点数量。数量越多，顶点着色器以及网格的骨骼和BlendShape变形的负载就越高。"
+msgstr "网格的顶点数量。数量越多，顶点着色器以及网格的骨骼和 BlendShape 变形的负载就越高。"
 
 msgid "Quality"
 msgstr "质量"
@@ -584,13 +584,13 @@ msgid "Inside"
 msgstr "Inside"
 
 msgid "Turning this on will act to push the PhysBone inside the collider."
-msgstr "若开启该选项，PhysBone将会被推入PhysBone Collider内部。"
+msgstr "若开启该选项，PhysBone 将会被推入 PhysBone Collider 内部。"
 
 msgid "As Sphere"
 msgstr "As Sphere"
 
 msgid "When this is turned on, the shape of the collision detection for the PhysBone itself will be calculated as a sphere instead of a capsule."
-msgstr "若开启该选项，PhysBone本身的碰撞检测形状将被计算为球体而不是胶囊体。"
+msgstr "若开启该选项，PhysBone 本身的碰撞检测形状将被计算为球体而不是胶囊体。"
 
 
 
@@ -664,16 +664,16 @@ msgstr "模拟在 VRChat 中启用备用着色器时的外观。由于 VRChat �
 #: Tabs
 
 msgid "Clean up Materials"
-msgstr "清理所有材质"
+msgstr "清理所有材质未使用属性"
 
 msgid "Delete any unnecessary properties that are not used by the assigned shader. It is recommended to delete any unnecessary texture allocations, as they may result in unnecessary textures being included in the avatar, making it larger in size."
-msgstr "删除材质中未使用的属性。建议清理材质中不必要的纹理引用，这些纹理尽管不会被使用，但仍然会让你的Avatar体积变大。"
+msgstr "清理材质中未使用的属性。建议清理材质中不必要的纹理引用，这些纹理尽管不会被使用，但仍然会让你的 Avatar 体积变大。"
 
 msgid "Removed unused properties on {0} materials."
-msgstr "删除了 {0} 个未使用的属性。"
+msgstr "清理了 {0} 个未使用的属性。"
 
 msgid "Clean up AnimatorControllers"
-msgstr "清理所有 Animator Controller"
+msgstr "清理所有 Animator Controller 未引用的子资产"
 
 msgid "Delete unnecessary sub-assets that are not referenced anywhere and are generated by editing the AnimatorController."
 msgstr "删除没有在任何地方被引用的，由编辑 Animator Controller 产生的无用子资产。"
@@ -682,10 +682,10 @@ msgid "Removed unused sub-assets in {0} AnimatorControllers."
 msgstr "删除了 Animator Controller 中 {0} 个未使用的子资产。"
 
 msgid "Remove Missing Components"
-msgstr "删除所有脚本缺失的组件"
+msgstr "移除所有缺失脚本的组件"
 
 msgid "Remove any missing components where a required script has not been imported or has been corrupted in some way."
 msgstr "移除任何缺失的组件。当组件所需的脚本未导入或因为某些原因损坏时，就会产生“Missing Component”。"
 
 msgid "Removed {0} missing components."
-msgstr "删除了 {0} 个缺失的组件"
+msgstr "移除了 {0} 个缺失的组件"
