@@ -467,6 +467,9 @@ msgstr "Motion Vector"
 msgid "Whether to output motion vectors, used for post-processing such as motion blur."
 msgstr "モーションベクトルを出力するかどうかの設定です。モーションブラーなどのポストプロセスに使用されます。"
 
+msgid "Dynamic Occlusion"
+msgstr "Dynamic Occlusion"
+
 msgid "If the mesh is hidden by other static objects, culling will be performed and rendering will be skipped. It is usually recommended to turn it on for better performance, but turn it off if you want to use special effects such as displaying objects hidden by walls."
 msgstr "メッシュが静的な他オブジェクトによって隠れている場合にカリングを行い描画をスキップします。パフォーマンスをよくするために通常はオンにすることが推奨されますが、壁に隠れているオブジェクトを表示するなど特殊効果を使用したい場合にはオフにします。"
 
