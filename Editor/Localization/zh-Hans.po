@@ -417,7 +417,7 @@ msgid "Polys"
 msgstr "面数"
 
 msgid "The number of polygons in the mesh. The larger this number is, the higher the load on the geometry shader and tessellation will be."
-msgstr "网格的多边形的数量。数量越多，几何着色器和曲面细分着色器的负载就越高。"
+msgstr "网格的三角面数量。数量越多，几何着色器和曲面细分着色器的负载就越高。"
 
 msgid "Vertices"
 msgstr "顶点数"
