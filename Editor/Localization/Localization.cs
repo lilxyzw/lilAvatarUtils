@@ -26,7 +26,7 @@ namespace jp.lilxyzw.avatarutils
 
         internal static string[] GetLanguages()
         {
-            return languages ??= Directory.GetFiles(localizationFolder).Where(f => f.EndsWith(".po")).Select(f => Path.GetFileNameWithoutExtension(f)).ToArray();
+            return languages ??= Directory.GetFiles(localizationFolder).Where(f => f.EndsWith(".po")).Select(f => Path.GetFileNameWithoutExtension(f)).Where(f => !f.StartsWith(".")).ToArray();
         }
 
         internal static string[] GetLanguageNames()
